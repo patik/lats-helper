@@ -7,7 +7,9 @@
 // ==/UserScript==
 
 (function () {
-    var path = document.location.pathname,
+    var path = document.location.pathname
+                .replace(/\b\/Timesheet\//, '')
+                .replace(/\.aspx$/, ''),
 
         /**
          * Storage API (proxy for `localStorage`)
@@ -389,7 +391,6 @@
             // Simple proxy for the storage proxy
             store = {
                 save: function(val) {
-                    console.info('! storing prefs: ', val);
                     return storage.set('subTaskSettings', val);
                 },
                 retrieve: function() {
@@ -520,9 +521,6 @@
                 bFound = false,
                 targetCluster, targetAgency;
 
-            console.clear();
-            console.warn('New choice: ' + prefName + ' ' + (name ? name : '[none]'));
-
             // Update setting
             subTaskSettings[prefName] = name;
             store.save(subTaskSettings);
@@ -548,7 +546,6 @@
                     });
 
                     if (!bFound) {
-                        console.warn("Remove agency preference since it's invalid [A]");
                         // Remove agency preference since it's invalid
                         targetAgency = '';
 
@@ -576,13 +573,11 @@
 
                 // See if an acceptable cluster is already selected
                 if (targetCluster.indexOf(clusterMenu.options[clusterMenu.selectedIndex].innerHTML) === -1) {
-                    console.info('correct cluster was NOT selected (instead of ', targetCluster, ' it was ', clusterMenu.options[clusterMenu.selectedIndex].innerHTML, ')');
 
                     // Find the target option and select it
                     bFound = false;
                     [].slice.call(clusterMenu.options).forEach(function (opt) {
                         if (!bFound && targetCluster.indexOf(opt.innerHTML) !== -1) {
-                            // console.log('selecting cluster option: ', opt);
                             // Stop at the first one found, I guess
                             bFound = true;
                             targetCluster = opt.innerHTML;
@@ -595,7 +590,6 @@
                     }
                 }
                 else {
-                    console.info('Valid cluster was already selected');
                     // This just chooses the currently-selected cluster from the array of valid choices so `targetCluster` is just a string
                     targetCluster = targetCluster[targetCluster.indexOf(clusterMenu.options[clusterMenu.selectedIndex].innerHTML)];
                 }
@@ -664,7 +658,6 @@
             });
 
             // Select the preferred indices (add one to compensate for the dummy option)
-            console.info('selecting ', clusterMenu.options[selectedIndices[0] + 1], ' and ', agencyMenu.options[selectedIndices[1] + 1]);
             clusterMenu.options[selectedIndices[0] + 1].setAttribute('selected', 'selected');
             agencyMenu.options[selectedIndices[1] + 1].setAttribute('selected', 'selected');
 
@@ -696,7 +689,6 @@
                 });
 
                 if (!bFound) {
-                    console.warn("Remove agency preference since it's invalid [B]");
                     // Remove agency preference since it's invalid
                     targetAgency = '';
 
@@ -721,7 +713,6 @@
                 matchPattern = new RegExp('^\\w{3}_(\\w{3}_)?' + targetAgency + '_');
             }
 
-            console.log('cluster: ' + targetCluster + ', agency: ' + targetAgency + ', matchPattern: ', matchPattern);
 
             list = document.createElement('ul');
             list.style.cssText = 'list-style: none outside none;';
@@ -731,19 +722,16 @@
                     li;
 
                 if (ignorePattern.test(text)) {
-                    console.log('Ignoring: ', text);
                     return false;
                 }
 
                 // Test against user prefs
                 if (matchPattern) {
                     if (!matchPattern.test(text)) {
-                        // console.log('Skipping unmatched item: ', text);
                         return false;
                     }
                     else {
-                        // console.log('Found a match: ', text);
-                        //TODO: gray out the cluster/agency portion. It's too confusing to simply strip it because many options begin with some other ABC_ prefix that looks like an agency or cluster code.
+                        //TODO: grey out the cluster/agency portion. It's too confusing to simply strip it because many options begin with some other ABC_ prefix that looks like an agency or cluster code.
                         // text = text.replace(matchPattern, '');
                     }
                 }
@@ -845,13 +833,13 @@
     //////////////////////////////
 
     // Run the appropriate module
-    if (path === '/Timesheet/MyTimesheet.aspx') {
+    if (path === 'MyTimesheet') {
         Timesheet();
     }
-    else if (path === '/Timesheet/SubTasks.aspx') {
+    else if (path === 'SubTasks') {
         SubTasks();
     }
-    else if (path === '/Timesheet/TDS.aspx') {
+    else if (path === 'TDS') {
         TDS();
     }
 }());
