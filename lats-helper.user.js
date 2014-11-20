@@ -2,8 +2,8 @@
 // @name           LATS Helper
 // @namespace      http://patik.com/code/
 // @include        https://oftlats.cma.com/*
-// @version        1.0.3
-// @updated        2014-11-17
+// @version        1.0.4
+// @updated        2014-11-20
 // ==/UserScript==
 
 (function () {
@@ -799,7 +799,7 @@
 
         function init() {
             // Increase the table size
-            addStyle('#ctl00_ContentPlaceHolder1_pnlTDSData { width: 782px !important; height: 450px !important; }');
+            addStyle('#ctl00_ContentPlaceHolder1_pnlTDSData { width: 782px !important; height: auto !important; }');
             // Smaller task names
             addStyle('td[colspan="14"] span { font-size: 12px; font-weight: normal !important; }');
             // Bigger sub-task names
@@ -817,7 +817,6 @@
             if (!styleElem) {
                 styleElem = document.createElement('style');
                 styleElem.type = 'text/css';
-                styleElem.id = 'ui-style-sheet';
                 document.documentElement.appendChild(styleElem);
             }
 
