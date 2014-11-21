@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           LATS Helper
-// @namespace      http://patik.com/code/
+// @namespace      https://chrome.google.com/webstore/detail/lats-helper/jmkgmheopekejeiondjdokbdckkeikeh?hl=en
 // @include        https://oftlats.cma.com/*
 // @version        1.0.5
 // @updated        2014-11-21
