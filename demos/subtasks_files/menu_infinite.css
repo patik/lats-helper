@@ -1,0 +1,42 @@
+
+
+	/* --[[ Main Expand Icons ]]-- */
+	#imenus0 .imeam span,#imenus0 .imeamj span {background-image:url(../../Images/sample3_main_arrow.gif); width:7px; height:5px; left:-7px; top:5px; background-repeat:no-repeat;background-position:top left;}
+	#imenus0 li:hover .imeam span,#imenus0 li a.iactive .imeamj span {background-image:url(../../Images/sample3_main_arrow.gif); background-repeat:no-repeat;background-position:top left;}
+
+
+	/* --[[ Sub Expand Icons ]]-- */
+	#imenus0 ul .imeas span,#imenus0 ul .imeasj span {background-image:url(../../Images/sample3_sub_arrow.gif); width:5px; height:7px; left:-5px; top:3px; background-repeat:no-repeat;background-position:top left;}
+	#imenus0 ul li:hover .imeas span,#imenus0 ul li a.iactive .imeasj span {background-image:url(../../Images/sample3_sub_arrow.gif); background-repeat:no-repeat;background-position:top left; }
+
+
+	/* --[[ Main Container ]]-- */
+	#imouter0 {height:18px; background-color:#efefef; border-style:solid; border-color:#6a6a6a; border-width:1px; padding:0px; margin:0px;}
+
+
+	/* --[[ Sub Container ]]-- */
+	#imenus0 li ul {background-color:#efefef; border-style:solid; border-color:#6a6a6a; border-width:1px; padding:5px; margin:4px 0px 0px;}
+
+
+	/* --[[ Main Items ]]-- */
+	#imenus0 li a, #imenus0 .imctitle {color:#333333; text-align:left; font-family:Arial; font-size:12px; font-weight:normal; text-decoration:underline; border-right-style:solid ; border-color:#ffffff; border-width:1px; padding:1px 6px;}
+
+		/* [hover] - These settings must be duplicated for IE compatibility.*/
+		#imenus0 li:hover>a {background-color:#efefef; text-decoration:underline; }
+		#imenus0 li a.ihover, .imde imenus0 a:hover {background-color:#efefef; text-decoration:underline; }
+
+		/* [active] */
+		#imenus0 li a.iactive {}
+
+
+	/* --[[ Sub Items ]]-- */
+	#imenus0 ul a, #imenus0 .imsubc li .imctitle  {color:#555555; text-align:left; font-size:11px; font-weight:normal; text-decoration:none; border-style:none; border-color:#000000; border-width:1px; padding:1px 5px; }
+
+		/* [hover] - These settings must be duplicated for IE comptatibility.*/
+		#imenus0 ul li:hover>a {color:#000000; text-decoration:underline; }
+		#imenus0 ul li a.ihover {color:#000000; text-decoration:underline; }
+
+		/* [active] */
+		#imenus0 ul li a.iactive {background-color:#ffffff; }
+
+
