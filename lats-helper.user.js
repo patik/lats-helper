@@ -2,14 +2,14 @@
 // @name           LATS Helper
 // @namespace      http://patik.com/code/
 // @include        https://oftlats.cma.com/*
-// @version        1.0.4
-// @updated        2014-11-20
+// @version        1.0.5
+// @updated        2014-11-21
 // ==/UserScript==
 
 (function () {
     var path = document.location.pathname
-                .replace(/\b\/Timesheet\//, '')
-                .replace(/\.aspx$/, ''),
+                .replace(/\/Timesheet\//, '')
+                .replace(/\.aspx.+/, ''),
 
         /**
          * Storage API (proxy for `localStorage`)
