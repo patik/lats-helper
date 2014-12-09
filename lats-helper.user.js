@@ -2,14 +2,14 @@
 // @name           LATS Helper
 // @namespace      https://chrome.google.com/webstore/detail/lats-helper/jmkgmheopekejeiondjdokbdckkeikeh?hl=en
 // @include        https://oftlats.cma.com/*
-// @version        1.0.5
-// @updated        2014-11-21
+// @version        1.0.6
+// @updated        2014-12-09
 // ==/UserScript==
 
 (function () {
     var path = document.location.pathname
                 .replace(/\/Timesheet\//, '')
-                .replace(/\.aspx.+/, ''),
+                .replace(/\.aspx.*/, ''),
 
         /**
          * Storage API (proxy for `localStorage`)
