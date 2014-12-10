@@ -2,8 +2,8 @@
 // @name           LATS Helper
 // @namespace      https://chrome.google.com/webstore/detail/lats-helper/jmkgmheopekejeiondjdokbdckkeikeh?hl=en
 // @include        https://oftlats.cma.com/*
-// @version        1.0.6
-// @updated        2014-12-09
+// @version        1.0.7
+// @updated        2014-12-10
 // ==/UserScript==
 
 (function () {
@@ -794,16 +794,45 @@
         init();
     } // end SubTasks
 
+    /**
+     * TDS module
+     */
     function TDS () {
         var styleElem;
 
         function init() {
             // Increase the table size
-            addStyle('#ctl00_ContentPlaceHolder1_pnlTDSData { width: 782px !important; height: auto !important; }');
+            addStyle('#ctl00_ContentPlaceHolder1_pnlTDSData' +
+                '{ width: 782px !important; height: auto !important; }');
+
             // Smaller task names
-            addStyle('td[colspan="14"] span { font-size: 12px; font-weight: normal !important; }');
+            addStyle('td[colspan="14"] span' +
+                '{ font-size: 12px; font-weight: normal !important; }');
+
             // Bigger sub-task names
-            addStyle('td[colspan="14"] a { display: block; font-size: 16px; font-weight: bold; color: #039; }');
+            addStyle('td[colspan="14"] a' +
+                '{ display: block; font-size: 16px; font-weight: bold; color: #039; }');
+
+            // Better table colors
+            addStyle('tr[style="background-color:#CCCCCC;"]' +
+                '{ background-color: #fff !important; }');
+            addStyle('tr[style="background-color:#CCCCCC;"] td' +
+                '{ border-top: 1px solid #aaa; }');
+
+            // Blank out weekends
+            addStyle('#ctl00_ContentPlaceHolder1_TDSData tbody tr td:nth-child(4),' +
+                    '#ctl00_ContentPlaceHolder1_TDSData tbody tr td:nth-child(5),' +
+                    '#ctl00_ContentPlaceHolder1_TDSData tbody tr td:nth-child(11),' +
+                    '#ctl00_ContentPlaceHolder1_TDSData tbody tr td:nth-child(12),' +
+                    '#ctl00_ContentPlaceHolder1_HeaderDisplay tbody tr td:nth-child(4),' +
+                    '#ctl00_ContentPlaceHolder1_HeaderDisplay tbody tr td:nth-child(5),' +
+                    '#ctl00_ContentPlaceHolder1_HeaderDisplay tbody tr td:nth-child(11),' +
+                    '#ctl00_ContentPlaceHolder1_HeaderDisplay tbody tr td:nth-child(12),' +
+                    '#ctl00_ContentPlaceHolder1_FooterDisplay tbody tr td:nth-child(4),' +
+                    '#ctl00_ContentPlaceHolder1_FooterDisplay tbody tr td:nth-child(5),' +
+                    '#ctl00_ContentPlaceHolder1_FooterDisplay tbody tr td:nth-child(11),' +
+                    '#ctl00_ContentPlaceHolder1_FooterDisplay tbody tr td:nth-child(12)' +
+                    '{ opacity: 0.25; }');
         }
 
         /**
