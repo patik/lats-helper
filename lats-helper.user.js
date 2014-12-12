@@ -809,6 +809,21 @@
             addStyle('td[colspan="14"] span' +
                 '{ font-size: 12px; font-weight: normal !important; }');
 
+            // Subdued task names
+            addStyle(
+                '#ctl00_ContentPlaceHolder1_TDSData tr:nth-child(2n+1) {' +
+                    'font-weight: normal;' +
+                    'font-size: 12px;' +
+                '}'
+            );
+
+            // Pull task names to the left by hiding the empty cell in front of them
+            addStyle(
+                '#ctl00_ContentPlaceHolder1_TDSData tr td[style="width:50px;"]:first-of-type {' +
+                    'display: none;' +
+                '}'
+            );
+
             // Bigger sub-task names
             addStyle('td[colspan="14"] a' +
                 '{ display: block; font-size: 16px; font-weight: bold; color: #039; }');
