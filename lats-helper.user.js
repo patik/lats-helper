@@ -2,14 +2,27 @@
 // @name           LATS Helper
 // @namespace      https://chrome.google.com/webstore/detail/lats-helper/jmkgmheopekejeiondjdokbdckkeikeh?hl=en
 // @include        https://oftlats.cma.com/*
-// @version        1.0.7
-// @updated        2014-12-10
+// @version        1.0.8
+// @updated        2014-12-23
 // ==/UserScript==
 
 (function () {
     var path = document.location.pathname
                 .replace(/\/Timesheet\//, '')
                 .replace(/\.aspx.*/, ''),
+
+        /**
+         * Searches for matching elements
+         * Array version of `querySelectorAll` but as an array
+         * @param   {String}  selector  CSS-style selector
+         * @param   {Element}  node     Optional element to search within
+         * @return  {Array}             Array of matched elements
+         */
+        query = function(selector, node) {
+            node = node || document;
+
+            return Array.prototype.slice.call(node.querySelectorAll(selector));
+        },
 
         /**
          * Storage API (proxy for `localStorage`)
@@ -95,6 +108,11 @@
         function init() {
             var i, label, input, buttonWrapper, closeButton;
 
+            // Make sure it's not an approval screen
+            if (document.getElementById('ctl00_ContentPlaceHolder1_btnApprove')) {
+                return;
+            }
+
             // Get periods from local store
             getStoredPeriods();
 
@@ -168,6 +186,12 @@
             closeButton.setAttribute('tabindex', '1');
             closeButton.style.cssText = 'float: right;';
             buttonWrapper.appendChild(closeButton);
+
+            // Make all input fields updateable (normally, future dates are readonly)
+            query('#ctl00_ContentPlaceHolder1_TimesheetGridTable input[readonly="readonly"][type="text"]')
+                .forEach(function(input){
+                    input.removeAttribute('readonly');
+                });
         }
 
         // Teardown UI
