@@ -2,8 +2,9 @@
 // @name           LATS Helper
 // @namespace      https://chrome.google.com/webstore/detail/lats-helper/jmkgmheopekejeiondjdokbdckkeikeh?hl=en
 // @include        https://oftlats.cma.com/*
-// @version        1.0.8
-// @updated        2014-12-23
+// @include        https://*.lats.ny.gov/*
+// @version        1.0.9
+// @updated        2015-04-01
 // ==/UserScript==
 
 (function () {
@@ -67,6 +68,7 @@
         };
 
     // https://oftlats.cma.com/Timesheet/MyTimesheet.aspx?from=8
+    // https://time01.lats.ny.gov/Timesheet/MyTimesheet.aspx?from=8
 
     /////////////////////////
     // Timesheet Auto-fill //
@@ -195,12 +197,12 @@
         }
 
         // Teardown UI
-        function onCloseButtonClick(evt) {
+        function onCloseButtonClick(/* evt */) {
             // Remove the UI
             controls.parentNode.removeChild(controls);
         }
 
-        function getStoredPeriods(storedPeriods) {
+        function getStoredPeriods(/* storedPeriods */) {
             var local = storage.get('periods');
 
             // Update cache with stored value
@@ -449,8 +451,7 @@
          * Initializes module and the UI
          */
         function init() {
-            var storedSettings = store.retrieve(),
-                selectedIndices = [-1, -1];
+            var storedSettings = store.retrieve();
 
             // Read stored settings
             if (storedSettings) {
@@ -541,7 +542,6 @@
             var select = evt.target,
                 prefName = select.id.replace(/Menu$/, ''),
                 name = select.options[select.selectedIndex].value,
-                selectIndex = -1,
                 bFound = false,
                 targetCluster, targetAgency;
 

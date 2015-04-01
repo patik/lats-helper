@@ -1,11 +1,14 @@
 {
     "manifest_version": 2,
     "name": "LATS Helper",
-    "version": "1.0.7",
+    "version": "1.0.9",
     "description": "LATS helper utilities",
     "content_scripts": [
         {
-            "matches": ["https://oftlats.cma.com/*"],
+            "matches": [
+                "https://oftlats.cma.com/*",
+                "https://*.lats.ny.gov/*"
+            ],
             "js": ["lats-helper.user.js"],
             "run_at": "document_end"
         }
