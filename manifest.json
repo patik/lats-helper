@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "LATS Helper",
-    "version": "1.0.9",
+    "version": "1.0.10",
     "description": "LATS helper utilities",
     "content_scripts": [
         {
