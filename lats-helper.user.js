@@ -3,8 +3,8 @@
 // @namespace      https://chrome.google.com/webstore/detail/lats-helper/jmkgmheopekejeiondjdokbdckkeikeh?hl=en
 // @include        https://oftlats.cma.com/*
 // @include        https://*.lats.ny.gov/*
-// @version        1.0.9
-// @updated        2015-04-01
+// @version        1.0.10
+// @updated        2015-05-11
 // ==/UserScript==
 
 (function () {
@@ -342,7 +342,7 @@
             }
         }
 
-        function onButtonClick(evt) {
+        function onButtonClick( /* evt */ ) {
             fillInValues();
         }
 
@@ -838,13 +838,6 @@
                 '#ctl00_ContentPlaceHolder1_TDSData tr:nth-child(2n+1) {' +
                     'font-weight: normal;' +
                     'font-size: 12px;' +
-                '}'
-            );
-
-            // Pull task names to the left by hiding the empty cell in front of them
-            addStyle(
-                '#ctl00_ContentPlaceHolder1_TDSData tr td[style="width:50px;"]:first-of-type {' +
-                    'display: none;' +
                 '}'
             );
 
