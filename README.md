@@ -1,8 +1,6 @@
 # LATS Helper
 
-Chrome extension and user script
-
-**Cleans up LATS timesheets making them easier to use**
+A Chrome extension that cleans up LATS timesheets and makes them easier to use
 
 ## Installation
 
