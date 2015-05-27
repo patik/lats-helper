@@ -3,8 +3,8 @@
 // @namespace      https://chrome.google.com/webstore/detail/lats-helper/jmkgmheopekejeiondjdokbdckkeikeh?hl=en
 // @include        https://oftlats.cma.com/*
 // @include        https://*.lats.ny.gov/*
-// @version        1.0.10
-// @updated        2015-05-11
+// @version        1.0.11
+// @updated        2015-05-27
 // ==/UserScript==
 
 (function () {
@@ -456,6 +456,15 @@
             // Read stored settings
             if (storedSettings) {
                 subTaskSettings = storedSettings;
+            }
+
+            // Check if a task was just added
+            if (document.querySelectorAll('#ctl00_ContentPlaceHolder1_UpdatePanel2, [name="ctl00$ContentPlaceHolder1$btnClose"]').length > 1 && document.getElementById('ctl00_ContentPlaceHolder1_UpdatePanel2').innerHTML.indexOf('Sub Task was successfully added.') !== -1) {
+                // Auto-close popup
+                document.querySelector('[name="ctl00$ContentPlaceHolder1$btnClose"]').click();
+
+                // Don't do any more costly rendering since the popup will now close
+                return true;
             }
 
             // Container for controls
