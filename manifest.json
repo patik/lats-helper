@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "LATS Helper",
     "version": "1.0.12",
-    "description": "LATS helper utilities",
+    "description": "Makes filling in your LATS timesheet and TDS easier",
     "content_scripts": [
         {
             "matches": [
