@@ -102,6 +102,18 @@
                     // ,alternates: ['4|3:30PM','11|3:30PM']
                 }
             };
+        var timeSheetSettings = {
+                onlyBlankDays: true
+            };
+        // Simple proxy for the storage proxy
+        var store = {
+                save: function (val) {
+                    return storage.set('timeSheetSettings', val);
+                },
+                retrieve: function () {
+                    return storage.get('timeSheetSettings');
+                }
+            };
         var controls;
         var button;
 
@@ -112,12 +124,24 @@
             var i;
             var label;
             var input;
+            var flagWrapper;
             var buttonWrapper;
             var closeButton;
+            var storedSettings = store.retrieve();
 
             // Make sure it's not an approval screen
             if (document.getElementById('ctl00_ContentPlaceHolder1_btnApprove')) {
                 return;
+            }
+
+            // Read stored settings
+            if (storedSettings) {
+                timeSheetSettings = storedSettings;
+            }
+            else {
+                // Save settings for next time
+                // This will also fill in any new options introduced since the user last used the extension
+                store.save(timeSheetSettings);
             }
 
             // Get periods from local store
@@ -135,6 +159,10 @@
                                      'box-shadow: 1px 1px 4px #555;';
             controls.innerHTML = '<p><strong>Autofill timesheet</strong></p>';
             document.body.appendChild(controls);
+
+            /////////////////
+            // Time inputs //
+            /////////////////
 
             // Add inputs
             for (i in periods) {
@@ -166,6 +194,48 @@
                     controls.appendChild(document.createElement('br'));
                 }
             }
+
+            ///////////
+            // Flags //
+            ///////////
+
+            // Flags wrapper
+            flagWrapper = document.createElement('div');
+            flagWrapper.style.cssText = 'margin: 10px auto 0 auto;' +
+                                          'overflow: hidden';
+            controls.appendChild(flagWrapper);
+
+            // "Only bank days" flag, check box
+            input = document.createElement('input');
+            input.type = 'checkbox';
+            input.id = 'onlyBlankDays';
+            input.addEventListener('change', onOnlyBlankDaysClick);
+            input.setAttribute('tabindex', '1');
+            input.style.cssText = 'float: left;' +
+                                   'color: #fff;' +
+                                   'border-color: #4cae4c;';
+
+            // Set check box checked state
+            if (timeSheetSettings.onlyBlankDays) {
+                input.setAttribute('checked', 'checked');
+            }
+
+            flagWrapper.appendChild(input);
+
+            // "Only bank days" flag, label
+            label = document.createElement('label');
+            label.setAttribute('for', 'onlyBlankDays');
+            label.setAttribute('tabindex', '1');
+            label.innerHTML = 'Only fill in days with no entries';
+            label.style.cssText = 'display: inline-block;' +
+                                  'font-size: 12px;' +
+                                  'width: 200px;' +
+                                  'height: 22px;';
+            flagWrapper.appendChild(label);
+
+            /////////////
+            // Buttons //
+            /////////////
 
             // Button wrapper
             buttonWrapper = document.createElement('div');
@@ -238,7 +308,7 @@
         }
 
         // Format the value
-        function onPeriodBlur(evt) {
+        function onPeriodBlur (evt) {
             var input = evt.target;
             var id = input.id;
             var val = formatTime(input.value);
@@ -255,7 +325,7 @@
             }
         }
 
-        function formatTime(val) {
+        function formatTime (val) {
             var hhmmPattern = /^(\d+)\:(\d\d)\s*(\w+)?$/; // HH:MM
             var noColonPattern = /^(\d{3,4})\s*(\w+)?$/;  // HMM or HMM
             var shorthandPattern = /^(\d{1,2})\s*([ap])?m?$/; // HHpm (which equates to HH:00 PM)
@@ -344,7 +414,7 @@
             }
         }
 
-        function changePeriod(id, val) {
+        function changePeriod (id, val) {
             if (periods.hasOwnProperty(id) && val) {
                 periods[id].val = val;
 
@@ -352,12 +422,18 @@
             }
         }
 
-        function onButtonClick( /* evt */ ) {
+        function onButtonClick ( /* evt */ ) {
             fillInValues();
         }
 
+        function onOnlyBlankDaysClick (evt) {
+            // Update setting
+            timeSheetSettings.onlyBlankDays = evt.target.checked;
+            store.save(timeSheetSettings);
+        }
+
         // Populate the fields on the page
-        function fillInValues() {
+        function fillInValues () {
             var i;
             var j;
             var id;
@@ -366,12 +442,9 @@
             i = dayNums.length;
             while (i--) {
                 // Make sure the day is completely empty so we don't overwrite any user-entered values
-                if (!isDayBlank(dayNums[i])) {
-                    console.warn('Skipping day ' + dayNums[i] + ' which is not completely blank');
+                if (timeSheetSettings.onlyBlankDays && !isDayBlank(dayNums[i])) {
                     continue;
                 }
-
-                console.info('Filling in day ' + dayNums[i] + ' which is completely blank');
 
                 // Loop through stored values
                 for (j in periods) {
@@ -418,7 +491,6 @@
             // Loop through stored values
             for (j in periods) {
                 id = 'ctl00_ContentPlaceHolder1_TSData' + j + 'DArr' + day;
-                console.log('Checking ID "' + id + '": ', document.getElementById(id));
 
                 // Check for a value
                 if (document.getElementById(id).value.trim().length) {
@@ -494,12 +566,7 @@
          * Initializes module and the UI
          */
         function init() {
-            var storedSettings = store.retrieve();
-
-            // Read stored settings
-            if (storedSettings) {
-                subTaskSettings = storedSettings;
-            }
+            var storedSettings;
 
             // Check if a task was just added
             if (document.querySelectorAll('#ctl00_ContentPlaceHolder1_UpdatePanel2, [name="ctl00$ContentPlaceHolder1$btnClose"]').length > 1 && document.getElementById('ctl00_ContentPlaceHolder1_UpdatePanel2').innerHTML.indexOf('Sub Task was successfully added.') !== -1) {
@@ -508,6 +575,18 @@
 
                 // Don't do any more costly rendering since the popup will now close
                 return true;
+            }
+
+            // Read stored settings
+            storedSettings = store.retrieve();
+
+            if (storedSettings) {
+                subTaskSettings = storedSettings;
+            }
+            else {
+                // Save default settings for next time
+                // This will also fill in any new options introduced since the user last used the extension
+                store.save(subTaskSettings);
             }
 
             // Container for controls
