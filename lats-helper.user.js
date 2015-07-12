@@ -3,39 +3,39 @@
 // @namespace      https://chrome.google.com/webstore/detail/lats-helper/jmkgmheopekejeiondjdokbdckkeikeh?hl=en
 // @include        https://oftlats.cma.com/*
 // @include        https://*.lats.ny.gov/*
-// @version        1.0.11
-// @updated        2015-05-27
+// @version        1.0.12
+// @updated        2015-07-10
 // ==/UserScript==
 
 (function () {
     var path = document.location.pathname
                 .replace(/\/Timesheet\//, '')
-                .replace(/\.aspx.*/, ''),
+                .replace(/\.aspx.*/, '');
 
-        /**
-         * Searches for matching elements
-         * Array version of `querySelectorAll` but as an array
-         * @param   {String}  selector  CSS-style selector
-         * @param   {Element}  node     Optional element to search within
-         * @return  {Array}             Array of matched elements
-         */
-        query = function(selector, node) {
+    /**
+     * Searches for matching elements
+     * Array version of `querySelectorAll` but as an array
+     * @param   {String}  selector  CSS-style selector
+     * @param   {Element}  node     Optional element to search within
+     * @return  {Array}             Array of matched elements
+     */
+    var query = function (selector, node) {
             node = node || document;
 
             return Array.prototype.slice.call(node.querySelectorAll(selector));
-        },
+        };
 
-        /**
-         * Storage API (proxy for `localStorage`)
-         * @type  {Object}
-         */
-        storage = {
+    /**
+     * Storage API (proxy for `localStorage`)
+     * @type  {Object}
+     */
+    var storage = {
             /**
              * Retrieve a value from storage
              * @param   {String}  key  Key name
              * @return  {Object}       Value, converted from a string
              */
-            get: function(key) {
+            get: function (key) {
                 var value = localStorage.getItem(key),
                     convertedValue;
 
@@ -58,7 +58,7 @@
              * @param  {String}  key    Key name
              * @param  {Mixed}  value   Value, must be a string or a JSON-friendly object
              */
-            set: function(key, value) {
+            set: function (key, value) {
                 if (typeof value !== 'string') {
                     value = JSON.stringify(value);
                 }
@@ -77,13 +77,13 @@
     /**
      * Timesheet module
      */
-    function Timesheet() {
-        var // Days:   R  F  M  T  W  R  F   M   T   W
-            dayNums = [0, 1, 4, 5, 6, 7, 8, 11, 12, 13],
-            periods = {
+    var Timesheet = function Timesheet () {
+        // Days:       R  F  M  T  W  R  F   M   T   W
+        var dayNums = [0, 1, 4, 5, 6, 7, 8, 11, 12, 13];
+        var periods = {
                 MorningIn: {
                     label: 'Day in:',
-                    val: ''
+                    val: '',
                     // ,alternates: ['4|7:30AM','11|7:30AM'] // Mondays
                 },
                 LunchOut: {
@@ -101,14 +101,19 @@
                     val: ''
                     // ,alternates: ['4|3:30PM','11|3:30PM']
                 }
-            },
-            controls, button;
+            };
+        var controls;
+        var button;
 
         /**
          * Initalize module and UI
          */
         function init() {
-            var i, label, input, buttonWrapper, closeButton;
+            var i;
+            var label;
+            var input;
+            var buttonWrapper;
+            var closeButton;
 
             // Make sure it's not an approval screen
             if (document.getElementById('ctl00_ContentPlaceHolder1_btnApprove')) {
@@ -191,7 +196,7 @@
 
             // Make all input fields updateable (normally, future dates are readonly)
             query('#ctl00_ContentPlaceHolder1_TimesheetGridTable input[readonly="readonly"][type="text"]')
-                .forEach(function(input){
+                .forEach(function (input){
                     input.removeAttribute('readonly');
                 });
         }
@@ -217,25 +222,26 @@
 
         // Store the value as it's typed
         function onPeriodKeyup(evt) {
-            var input = evt.target,
-                id = input.id,
-                val = formatTime(input.value);
+            var input = evt.target;
+            var id = input.id;
+            var val = formatTime(input.value);
 
             if (val) {
-                // Store the value
+                // Store the value if it's valid
                 changePeriod(id, val);
                 input.style.borderColor = 'green';
             }
             else {
+                // Let the user know the value is not (yet) in a valid format
                 input.style.borderColor = 'maroon';
             }
         }
 
         // Format the value
         function onPeriodBlur(evt) {
-            var input = evt.target,
-                id = input.id,
-                val = formatTime(input.value);
+            var input = evt.target;
+            var id = input.id;
+            var val = formatTime(input.value);
 
             if (val) {
                 // Format the input field
@@ -250,10 +256,14 @@
         }
 
         function formatTime(val) {
-            var hhmmPattern = /^(\d+)\:(\d\d)\s*(\w+)?$/,  // HH:MM
-                noColonPattern = /^(\d{3,4})\s*(\w+)?$/, // HMM or HMM
-                shorthandPattern = /^(\d{1,2})\s*([ap])?m?$/,
-                parts, hour, hourNum, minute, suffix;
+            var hhmmPattern = /^(\d+)\:(\d\d)\s*(\w+)?$/; // HH:MM
+            var noColonPattern = /^(\d{3,4})\s*(\w+)?$/;  // HMM or HMM
+            var shorthandPattern = /^(\d{1,2})\s*([ap])?m?$/; // HHpm (which equates to HH:00 PM)
+            var parts;
+            var hour;
+            var hourNum;
+            var minute;
+            var suffix;
 
             val = val.trim();
 
@@ -346,32 +356,44 @@
             fillInValues();
         }
 
+        // Populate the fields on the page
         function fillInValues() {
-            var i, j, id, val;
-                // k, alt // for alternates
+            var i;
+            var j;
+            var id;
+            var val;
 
             i = dayNums.length;
             while (i--) {
-                for (j in periods) {
-                    val = '';
+                // Make sure the day is completely empty so we don't overwrite any user-entered values
+                if (!isDayBlank(dayNums[i])) {
+                    console.warn('Skipping day ' + dayNums[i] + ' which is not completely blank');
+                    continue;
+                }
 
+                console.info('Filling in day ' + dayNums[i] + ' which is completely blank');
+
+                // Loop through stored values
+                for (j in periods) {
+                    // val = '';
+                    //
                     // if (periods[j].alternates) {
                     //     k = periods[j].alternates.length;
-
+                    //
                     //     while (k--) {
                     //         alt = periods[j].alternates[k].split('|');
-
+                    //
                     //         if (parseInt(alt[0], 10) === dayNums[i]) {
                     //             val = alt[1];
                     //             break;
                     //         }
                     //     }
                     // }
-
+                    //
                     // If `val` wasn't populated by an alternate
-                    if (!val) {
+                    // if (!val) {
                         val = periods[j].val;
-                    }
+                    // }
 
                     // Make sure we have a value (i.e. field wasn't blank)
                     if (val) {
@@ -386,6 +408,27 @@
             }
         }
 
+        // Determines if a day has no time filled in yet
+        function isDayBlank(day) {
+            var numEmpty = 0;
+            // var dayNum = dayNums[day]; // Suffix of the element ID
+            var id;
+            var j;
+
+            // Loop through stored values
+            for (j in periods) {
+                id = 'ctl00_ContentPlaceHolder1_TSData' + j + 'DArr' + day;
+                console.log('Checking ID "' + id + '": ', document.getElementById(id));
+
+                // Check for a value
+                if (document.getElementById(id).value.trim().length) {
+                    numEmpty++;
+                }
+            }
+
+            return numEmpty === 0;
+        }
+
         // Run the module
         init();
     } // end Timesheet
@@ -397,34 +440,34 @@
     /**
      * SubTasks module
      */
-    function SubTasks() {
-        var subTaskDropdown = document.querySelector('select[title="Sub Tasks"]'),
-            subTaskOptions = [].slice.call(subTaskDropdown.options),
-            insertionPoint = document.querySelector('.inputTable'), // This is the gray area in the UI; put new elements directly after this
-            controls = document.createElement('div'),
-            searchLabel = document.createElement('label'),
-            searchBox = document.createElement('input'),
-            clusterLabel = document.createElement('label'),
-            clusterMenu = document.createElement('select'),
-            agencyMenu = document.createElement('select'),
-            agencyLabel = document.createElement('label'),
-            items = [],
-            list,
-            subTaskSettings = {
+    var SubTasks = function SubTasks () {
+        var subTaskDropdown = document.querySelector('select[title="Sub Tasks"]');
+        var subTaskOptions = [].slice.call(subTaskDropdown.options);
+        var insertionPoint = document.querySelector('.inputTable'); // This is the gray area in the UI; put new elements directly after this
+        var controls = document.createElement('div');
+        var searchLabel = document.createElement('label');
+        var searchBox = document.createElement('input');
+        var clusterLabel = document.createElement('label');
+        var clusterMenu = document.createElement('select');
+        var agencyMenu = document.createElement('select');
+        var agencyLabel = document.createElement('label');
+        var items = [];
+        var list;
+        var subTaskSettings = {
                 cluster: '',
                 agency: ''
-            },
-            // Simple proxy for the storage proxy
-            store = {
-                save: function(val) {
+            };
+        // Simple proxy for the storage proxy
+        var store = {
+                save: function (val) {
                     return storage.set('subTaskSettings', val);
                 },
-                retrieve: function() {
+                retrieve: function () {
                     return storage.get('subTaskSettings');
                 }
-            },
-            // List of agencies for each cluster
-            clusters = [
+            };
+        // List of agencies for each cluster
+        var clusters = [
                 { name: 'AGS',
                   agencies: ['DCS', 'DOB', 'DVA', 'OER', 'OGS']},
                 { name: 'DAC',
@@ -523,8 +566,8 @@
          * @param   {Event}  evt  Click event
          */
         function onItemClick(evt) {
-            var item = evt.target,
-                value = item.getAttribute('data-value');
+            var item = evt.target;
+            var value = item.getAttribute('data-value');
 
             // Change dropdown
             subTaskDropdown.value = value;
@@ -548,11 +591,12 @@
          * @param   {Event}  evt   Change event
          */
         function onDropdownChange(evt) {
-            var select = evt.target,
-                prefName = select.id.replace(/Menu$/, ''),
-                name = select.options[select.selectedIndex].value,
-                bFound = false,
-                targetCluster, targetAgency;
+            var select = evt.target;
+            var prefName = select.id.replace(/Menu$/, '');
+            var name = select.options[select.selectedIndex].value;
+            var bFound = false;
+            var targetCluster;
+            var targetAgency;
 
             // Update setting
             subTaskSettings[prefName] = name;
@@ -701,10 +745,10 @@
          * Create a spelled-out list of tasks
          */
         function createTaskList() {
-            var ignorePattern = /\-Select\-/,
-                matchPattern = null,
-                targetCluster = subTaskSettings.cluster,
-                targetAgency = subTaskSettings.agency;
+            var ignorePattern = /\-Select\-/;
+            var matchPattern = null;
+            var targetCluster = subTaskSettings.cluster;
+            var targetAgency = subTaskSettings.agency;
 
             // Make sure the stored agency preference is actually in this cluster
             if (targetAgency) {
@@ -750,9 +794,9 @@
             list = document.createElement('ul');
             list.style.cssText = 'list-style: none outside none;';
 
-            subTaskOptions.forEach(function(opt) {
-                var text = opt.getAttribute('title'),
-                    li;
+            subTaskOptions.forEach(function (opt) {
+                var text = opt.getAttribute('title');
+                var li;
 
                 if (ignorePattern.test(text)) {
                     return false;
@@ -813,7 +857,7 @@
             var q = searchBox.value.trim().toLowerCase();
 
             // Hide and show items that match the query
-            items.forEach(function(item) {
+            items.forEach(function (item) {
                 if (item.innerHTML.toLowerCase().indexOf(q) !== -1) {
                     item.style.display = 'block';
                 }
