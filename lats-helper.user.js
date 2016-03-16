@@ -3,7 +3,7 @@
 // @namespace      https://chrome.google.com/webstore/detail/lats-helper/jmkgmheopekejeiondjdokbdckkeikeh?hl=en
 // @include        https://oftlats.cma.com/*
 // @include        https://*.lats.ny.gov/*
-// @version        1.0.13
+// @version        1.0.14
 // @updated        2016-03-16
 // ==/UserScript==
 
@@ -542,43 +542,51 @@
         var clusters = [
                 {
                     name: 'AGS',
-                    agencies: ['DCS', 'DOB', 'DVA', 'OER', 'OGS']
+                    agencies: ['DCS', 'DOB', 'DVA', 'ITS', 'OER', 'OGS']
+                },
+                {
+                    name: 'CSC',
+                    agencies: ['HCR']
                 },
                 {
                     name: 'DAC',
-                    agencies: ['NJC','OAS','OFA','OPW','OPW','QOC']
+                    agencies: ['DPC', 'ITS', 'NJC', 'OFA', 'OPW', 'QOC']
+                },
+                {
+                    name: 'EBS',
+                    agencies: ['HES', 'ITS']
                 },
                 {
                     name: 'EEC',
-                    agencies: ['AGM', 'AGR', 'APA', 'APA', 'DEC', 'DPS', 'ITS', 'OPR', 'OPR']
+                    agencies: ['AGM', 'APA', 'DEC', 'DPS', 'ITS', 'OPR']
                 },
                 {
-                    name: 'ENT_ITS',
-                    agencies: ['CIO', 'HSEN', 'IBM', 'OFT', 'SNC']
-                },
-                {
-                    name: 'RTC',
-                    agencies: ['DCS', 'DFS', 'DOB', 'DTA', 'DTF', 'GOV', 'NGC', 'OGS']
+                    name: 'ENT',
+                    agencies: ['ITS']
                 },
                 {
                     name: 'GGC',
-                    agencies: ['BOE', 'DMV', 'DOS', 'JCP', 'SLA', 'WCB']
+                    agencies: ['BOE', 'DMV', 'DOS', 'HCR', 'ITS', 'JCP', 'SLA', 'WCB']
                 },
                 {
                     name: 'HLT',
-                    agencies: ['DOH', 'MIG', 'OAS', 'OMH']
+                    agencies: ['DOH', 'HLT', 'ITS', 'MIG', 'OAS', 'OMH']
                 },
                 {
                     name: 'HSC',
-                    agencies: ['CFS', 'DHR', 'DOL', 'HES', 'TDA']
+                    agencies: ['CFS', 'DHR', 'DOL', 'ITS', 'TDA']
                 },
                 {
                     name: 'PSC',
-                    agencies: ['COC', 'DCC', 'DCJ', 'DHS', 'DSP', 'OVS', 'PDV']
+                    agencies: ['COC', 'DCC', 'DCJ', 'DHS', 'DSP', 'ITS', 'OVS', 'PDV']
                 },
                 {
-                    name: 'TED',
-                    agencies: ['ESD', 'HCR']
+                    name: 'RTC',
+                    agencies: ['CBR', 'DOT', 'DTA', 'DTF', 'ESD', 'GAM', 'ITS', 'RTC']
+                },
+                {
+                    name: 'WNY',
+                    agencies: ['ABO', 'AGM', 'DHR', 'DMV', 'DOB', 'DOS', 'ESD', 'GOV', 'HCR', 'ITS', 'JCP', 'OAS', 'OGS', 'OIG', 'OPW', 'PRB', 'RIC', 'SLA', 'WCB']
                 }
             ];
 
@@ -664,7 +672,7 @@
          * Handles clicks on a task item
          * @param   {Event}  evt  Click event
          */
-        function onItemClick(evt) {
+        function onItemClick (evt) {
             var item = evt.target;
             var value = item.getAttribute('data-value');
 
@@ -680,7 +688,7 @@
          *
          * @param   {Event}  evt   Keyup event
          */
-        function onSearchKeyup(evt) {
+        function onSearchKeyup (evt) {
             filterBySearchQuery();
         }
 
@@ -689,11 +697,11 @@
          *
          * @param   {Event}  evt   Change event
          */
-        function onDropdownChange(evt) {
+        function onDropdownChange (evt) {
             var select = evt.target;
             var prefName = select.id.replace(/Menu$/, '');
             var name = select.options[select.selectedIndex].value;
-            var bFound = false;
+            var found;
             var targetCluster;
             var targetAgency;
 
@@ -710,18 +718,20 @@
 
                 // Make sure the stored agency preference is actually in this cluster
                 if (targetAgency) {
+                    found = false;
+
                     clusters.forEach(function (cluster) {
                         if (cluster.name === targetCluster) {
                             // Agency loop
                             cluster.agencies.forEach(function (agency) {
                                 if (agency === targetAgency) {
-                                    bFound = true;
+                                    found = true;
                                 }
                             });
                         }
                     });
 
-                    if (!bFound) {
+                    if (!found) {
                         // Remove agency preference since it's invalid
                         targetAgency = '';
 
@@ -733,49 +743,37 @@
             }
             // An agency was just chosen
             else if (prefName === 'agency') {
-                targetAgency = name;
-
-                // Figure out which cluster(s) are acceptable to be shown in the menu
-                targetCluster = [];
-
-                // Find all clusters that this agency is part of
-                clusters.forEach(function (cluster) {
-                    cluster.agencies.forEach(function (agency) {
-                        if (agency === targetAgency) {
-                            targetCluster.push(cluster.name);
-                        }
-                    });
-                });
-
-                // See if an acceptable cluster is already selected
-                if (targetCluster.indexOf(clusterMenu.options[clusterMenu.selectedIndex].innerHTML) === -1) {
-
-                    // Find the target option and select it
-                    bFound = false;
-                    [].slice.call(clusterMenu.options).forEach(function (opt) {
-                        if (!bFound && targetCluster.indexOf(opt.innerHTML) !== -1) {
-                            // Stop at the first one found, I guess
-                            bFound = true;
-                            targetCluster = opt.innerHTML;
-                        }
-                    });
-
-                    if (typeof targetCluster !== 'string') {
-                        // Nothing was found in the loop above, so just pick the first one I guess
-                        targetCluster = targetCluster[0];
-                    }
-                }
-                else {
-                    // This just chooses the currently-selected cluster from the array of valid choices so `targetCluster` is just a string
-                    targetCluster = targetCluster[targetCluster.indexOf(clusterMenu.options[clusterMenu.selectedIndex].innerHTML)];
-                }
+                found = name.split('|');
+                targetAgency = found[0];
+                targetCluster = found[1];
+                console.log('From dropdown, agency=' + targetAgency + ' and cluster=' + targetCluster);
             }
 
             // Redraw dropdowns
             buildDropdowns(targetCluster, targetAgency);
 
+            // Set parameters to `undefined` if we don't have real values so that the list creation function disregards them
+            if (!targetCluster || targetCluster !== '(All)') {
+                console.log('a, resetting cluter');
+                targetCluster = undefined;
+            }
+            else {
+                subTaskSettings.cluster = (!targetCluster && targetAgency.indexOf('|') !== -1) ? targetAgency.split('|')[0] : targetCluster;
+                console.log('b, storing cluster ', subTaskSettings.cluster);
+            }
+
+            if (!targetAgency || targetAgency !== '(All)') {
+                console.log('c, resetting agency');
+                targetAgency = undefined;
+            }
+            else {
+                subTaskSettings.agency = (targetAgency.indexOf('|') !== -1) ? targetAgency.split('|')[0] : targetAgency;
+                console.log('d, storing agency ', subTaskSettings.agency);
+            }
+
             // Redraw list
-            recreateTaskList();
+            console.log('[B] Now, agency=' + targetAgency + ' and cluster=' + targetCluster);
+            recreateTaskList(targetCluster, targetAgency);
         }
 
         /**
@@ -786,8 +784,9 @@
          *
          * @return  {Boolean}                Success/failure
          */
-        function buildDropdowns(targetCluster, targetAgency) {
+        function buildDropdowns (targetCluster, targetAgency) {
             var selectedIndices = [-1, -1];
+            var agencyList = [];
 
             // Clear out existing options
             while (clusterMenu.firstChild) {
@@ -821,17 +820,55 @@
                     doAddTheseAgencies = true;
                 }
 
-                // Add `<option>` for each agency to the menu
+                // Collect agency names from all clusters into a single list
                 if (doAddTheseAgencies) {
                     cluster.agencies.forEach(function (agency, a) {
-                        if (targetAgency && agency === targetAgency) {
-                            selectedIndices[1] = a;
-                        }
-
-                        agencyMenu.appendChild(new Option(agency, agency));
+                        agencyList.push({
+                            label: agency,
+                            value: agency,
+                            cluster: cluster.name,
+                        });
                     });
                 }
             });
+
+            // Create agency list
+            if (agencyList.length) {
+                // Find agencies that are duplicated across clusters and suffix them so the user knows which one they're choosing
+                agencyList.forEach(function (agObj, a) {
+                    // The agency is listed under more than one cluster
+                    if (countInArray(agencyList, agObj.value, 'value') > 1) {
+                        // Update the item in the array, adding the cluster as a suffix to the label
+                        agencyList[a] = {
+                            label: agObj.label + ' (' + agObj.cluster + ')',
+                            value: agObj.value,
+                            cluster: agObj.cluster,
+                        };
+                    }
+                });
+
+                // Sort agencies by name
+                agencyList.sort(function (a, b) {
+                    if (a.label > b.label) {
+                        return 1;
+                    }
+                    else if (a.label < b.label) {
+                        return -1;
+                    }
+                    else {
+                        return 0;
+                    }
+                });
+
+                // Add `<option>` for each agency to the menu
+                agencyList.forEach(function (agency, a) {
+                    if (targetAgency && agency.value === targetAgency) {
+                        selectedIndices[1] = a;
+                    }
+
+                    agencyMenu.appendChild(new Option(agency.label, agency.value + '|' + agency.cluster));
+                });
+            }
 
             // Select the preferred indices (add one to compensate for the dummy option)
             clusterMenu.options[selectedIndices[0] + 1].setAttribute('selected', 'selected');
@@ -843,36 +880,44 @@
         /**
          * Create a spelled-out list of tasks
          */
-        function createTaskList() {
+        function createTaskList (targetCluster, targetAgency) {
             var ignorePattern = /\-Select\-/;
             var matchPattern = null;
-            var targetCluster = subTaskSettings.cluster;
-            var targetAgency = subTaskSettings.agency;
+            console.info('Creating list with: "' + targetCluster + '" and "' + targetAgency + '"');
 
-            // Make sure the stored agency preference is actually in this cluster
-            if (targetAgency) {
-                bFound = false;
-                // Cluster loop
-                clusters.forEach(function (cluster) {
-                    if (cluster.name === targetCluster) {
-                        // Agency loop
-                        cluster.agencies.forEach(function (agency) {
-                            if (agency === targetAgency) {
-                                bFound = true;
-                            }
-                        });
-                    }
-                });
+            // Clean up and/or extract the agency and cluster names since they could come from different sources and I've built up technical debt by patching this codebase over time without refactoring it for consistency
 
-                if (!bFound) {
-                    // Remove agency preference since it's invalid
-                    targetAgency = '';
+            // Agency value might be sent as `agency|cluster`
+            if (targetAgency && targetAgency.indexOf('|') !== -1) {
+                targetCluster = targetAgency; // Make a copy of the whole value before it gets overwritten
 
-                    // Update storage
-                    subTaskSettings.agency = '';
-                    store.save(subTaskSettings);
-                }
+                targetCluster = targetCluster.split('|')[1];
+                subTaskSettings.cluster = targetCluster;
+
+                targetAgency = targetAgency.split('|')[0];
+                subTaskSettings.agency = targetAgency;
             }
+
+            // Cluster is formed as `cluster_agency` (TODO: where is that coming from?)
+            if (targetCluster && /\w{3}_\w{3}/.test(targetCluster)) {
+                targetCluster = targetCluster.split('_')[0];
+                subTaskSettings.cluster = targetCluster;
+            }
+
+            if (!targetCluster) {
+                targetCluster = subTaskSettings.cluster;
+            }
+
+            if (targetAgency && targetAgency.indexOf('|') !== -1) {
+                targetAgency = targetAgency.split('|')[0];
+                subTaskSettings.agency = targetAgency;
+            }
+
+            if (!targetAgency) {
+                targetAgency = subTaskSettings.agency;
+            }
+
+            console.log('Values are now: "' + targetCluster + '" and "' + targetAgency + '"');
 
             // Create prefs patterns for matching
             // Cluster and agency
@@ -885,10 +930,10 @@
             }
             // Agency only
             else if (!targetCluster && targetAgency) {
-                // Cluster could be `AAA` or `AAA_BBB`
-                matchPattern = new RegExp('^\\w{3}_(\\w{3}_)?' + targetAgency + '_');
+                // Include wildcard for three-letter cluster
+                matchPattern = new RegExp('^\\w{3}_' + targetAgency + '_');
             }
-
+            console.log('matchPattern: ', matchPattern);
 
             list = document.createElement('ul');
             list.style.cssText = 'list-style: none outside none;';
@@ -938,7 +983,7 @@
         /**
          * Destroy and re-create the list of tasks
          */
-        function recreateTaskList() {
+        function recreateTaskList(targetCluster, targetAgency) {
             // Empty cache
             items = [];
 
@@ -946,7 +991,7 @@
             list.parentNode.removeChild(list);
 
             // Re-create list
-            createTaskList();
+            createTaskList(targetCluster, targetAgency);
         }
 
         /**
@@ -1039,6 +1084,25 @@
 
         init();
     }
+
+    ///////////////
+    // Utilities //
+    ///////////////
+
+    // http://stackoverflow.com/a/13389463/348995
+    function countInArray (array, value, prop) {
+        var count = 0;
+        var i;
+
+        for (i = 0; i < array.length; i++) {
+            if (array[i][prop] === value) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
 
     //////////////////////////////
     // Immediate initialization //
