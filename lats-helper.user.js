@@ -540,26 +540,46 @@
             };
         // List of agencies for each cluster
         var clusters = [
-                { name: 'AGS',
-                  agencies: ['DCS', 'DOB', 'DVA', 'OER', 'OGS']},
-                { name: 'DAC',
-                  agencies: ['NJC','OAS','OFA','OPW','OPW','QOC']},
-                { name: 'EEC',
-                  agencies: ['AGM', 'AGR', 'APA', 'APA', 'DEC', 'DPS', 'ITS', 'OPR', 'OPR']},
-                { name: 'ENT_ITS',
-                  agencies: ['CIO', 'HSEN', 'IBM', 'OFT', 'SNC']},
-                { name: 'RTC',
-                  agencies: ['DCS', 'DFS', 'DOB', 'DTA', 'DTF', 'GOV', 'NGC', 'OGS']},
-                { name: 'GGC',
-                  agencies: ['BOE', 'DMV', 'DOS', 'JCP', 'SLA', 'WCB']},
-                { name: 'HLT',
-                  agencies: ['DOH', 'MIG', 'OAS', 'OMH']},
-                { name: 'HSC',
-                  agencies: ['CFS', 'DHR', 'DOL', 'HES', 'TDA']},
-                { name: 'PSC',
-                  agencies: ['COC', 'DCC', 'DCJ', 'DHS', 'DSP', 'OVS', 'PDV']},
-                { name: 'TED',
-                  agencies: ['DOT', 'ESD', 'HCR']}
+                {
+                    name: 'AGS',
+                    agencies: ['DCS', 'DOB', 'DVA', 'OER', 'OGS']
+                },
+                {
+                    name: 'DAC',
+                    agencies: ['NJC','OAS','OFA','OPW','OPW','QOC']
+                },
+                {
+                    name: 'EEC',
+                    agencies: ['AGM', 'AGR', 'APA', 'APA', 'DEC', 'DPS', 'ITS', 'OPR', 'OPR']
+                },
+                {
+                    name: 'ENT_ITS',
+                    agencies: ['CIO', 'HSEN', 'IBM', 'OFT', 'SNC']
+                },
+                {
+                    name: 'RTC',
+                    agencies: ['DCS', 'DFS', 'DOB', 'DTA', 'DTF', 'GOV', 'NGC', 'OGS']
+                },
+                {
+                    name: 'GGC',
+                    agencies: ['BOE', 'DMV', 'DOS', 'JCP', 'SLA', 'WCB']
+                },
+                {
+                    name: 'HLT',
+                    agencies: ['DOH', 'MIG', 'OAS', 'OMH']
+                },
+                {
+                    name: 'HSC',
+                    agencies: ['CFS', 'DHR', 'DOL', 'HES', 'TDA']
+                },
+                {
+                    name: 'PSC',
+                    agencies: ['COC', 'DCC', 'DCJ', 'DHS', 'DSP', 'OVS', 'PDV']
+                },
+                {
+                    name: 'TED',
+                    agencies: ['ESD', 'HCR']
+                }
             ];
 
         /**
