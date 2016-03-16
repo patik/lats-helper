@@ -3,8 +3,8 @@
 // @namespace      https://chrome.google.com/webstore/detail/lats-helper/jmkgmheopekejeiondjdokbdckkeikeh?hl=en
 // @include        https://oftlats.cma.com/*
 // @include        https://*.lats.ny.gov/*
-// @version        1.0.12
-// @updated        2015-07-10
+// @version        1.0.13
+// @updated        2016-03-16
 // ==/UserScript==
 
 (function () {
@@ -548,7 +548,7 @@
                   agencies: ['AGM', 'AGR', 'APA', 'APA', 'DEC', 'DPS', 'ITS', 'OPR', 'OPR']},
                 { name: 'ENT_ITS',
                   agencies: ['CIO', 'HSEN', 'IBM', 'OFT', 'SNC']},
-                { name: 'FRG',
+                { name: 'RTC',
                   agencies: ['DCS', 'DFS', 'DOB', 'DTA', 'DTF', 'GOV', 'NGC', 'OGS']},
                 { name: 'GGC',
                   agencies: ['BOE', 'DMV', 'DOS', 'JCP', 'SLA', 'WCB']},
