@@ -4,7 +4,7 @@
 // @include        https://oftlats.cma.com/*
 // @include        https://*.lats.ny.gov/*
 // @version        1.1.0
-// @updated        2016-03-16
+// @updated        2016-03-28
 // ==/UserScript==
 
 (function () {
