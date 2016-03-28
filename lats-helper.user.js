@@ -3,7 +3,7 @@
 // @namespace      https://chrome.google.com/webstore/detail/lats-helper/jmkgmheopekejeiondjdokbdckkeikeh?hl=en
 // @include        https://oftlats.cma.com/*
 // @include        https://*.lats.ny.gov/*
-// @version        1.0.14
+// @version        1.1.0
 // @updated        2016-03-16
 // ==/UserScript==
 
@@ -1013,6 +1013,35 @@
             createTaskList(targetCluster, targetAgency);
         }
 
+        /**
+         * Hide and show tasks based on the user-entered search term
+         */
+        function filterBySearchQuery() {
+            var q = searchBox.value.trim().toLowerCase();
+            var pieces = q.split(' ');
+
+            // Hide and show items that match the query
+            items.forEach(function (item) {
+                var numMatches = 0;
+
+                pieces.forEach(function (piece) {
+                    if (item.innerHTML.toLowerCase().indexOf(piece) !== -1) {
+                        numMatches++;
+                    }
+                })
+
+                if (numMatches === pieces.length) {
+                    item.style.display = 'block';
+                }
+                else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        /**
+         * Clears all filter fields and resets the subtask list
+         */
         function clearFilters () {
             // Clear text input
             searchBox.value = '';
@@ -1030,23 +1059,6 @@
 
             // Re-create list
             recreateTaskList();
-        }
-
-        /**
-         * Hide and show tasks based on the user-entered search term
-         */
-        function filterBySearchQuery() {
-            var q = searchBox.value.trim().toLowerCase();
-
-            // Hide and show items that match the query
-            items.forEach(function (item) {
-                if (item.innerHTML.toLowerCase().indexOf(q) !== -1) {
-                    item.style.display = 'block';
-                }
-                else {
-                    item.style.display = 'none';
-                }
-            });
         }
 
         // Initialize immediately since this script is being loaded when the document is ready
@@ -1140,7 +1152,6 @@
 
         return count;
     }
-
 
     //////////////////////////////
     // Immediate initialization //
