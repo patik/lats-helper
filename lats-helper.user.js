@@ -523,6 +523,7 @@
         var clusterMenu = document.createElement('select');
         var agencyMenu = document.createElement('select');
         var agencyLabel = document.createElement('label');
+        var clearButton = document.createElement('button');
         var items = [];
         var list;
         var subTaskSettings = {
@@ -659,11 +660,19 @@
             clusterMenu.addEventListener('change', onDropdownChange, false);
             agencyMenu.addEventListener('change', onDropdownChange, false);
 
+            // Clear button
+            clearButton.innerHTML = 'Clear';
+            clearButton.setAttribute('type', 'button');
+            clearButton.setAttribute('tabindex', '1');
+            clearButton.style.cssText = 'margin-left: 10px;';
+            clearButton.addEventListener('click', clearFilters, false);
+
             // Add elements to the page
             searchBox.parentNode.insertBefore(clusterLabel, searchBox.nextSibling);
             searchBox.parentNode.insertBefore(clusterMenu, clusterLabel.nextSibling);
             searchBox.parentNode.insertBefore(agencyLabel, clusterMenu.nextSibling);
             searchBox.parentNode.insertBefore(agencyMenu, agencyLabel.nextSibling);
+            searchBox.parentNode.insertBefore(clearButton, agencyMenu.nextSibling);
 
             createTaskList();
         }
@@ -1002,6 +1011,25 @@
 
             // Re-create list
             createTaskList(targetCluster, targetAgency);
+        }
+
+        function clearFilters () {
+            // Clear text input
+            searchBox.value = '';
+            try { searchBox.focus(); } catch (e) { }
+
+            // Reset dropdowns
+            clusterMenu.options[0].setAttribute('selected', 'selected');
+            clusterMenu.selectedIndex = 0;
+            agencyMenu.options[0].setAttribute('selected', 'selected');
+            agencyMenu.selectedIndex = 0;
+
+            // Clear stored agency/cluster
+            subTaskSettings.cluster = undefined;
+            subTaskSettings.agency = undefined;
+
+            // Re-create list
+            recreateTaskList();
         }
 
         /**
