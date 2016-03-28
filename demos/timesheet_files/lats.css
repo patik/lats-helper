@@ -422,6 +422,16 @@ A.buttonLink
     COLOR: black;
     FONT-FAMILY: arial
 }
+
+.tinyLink
+{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 10px;
+    COLOR: blue;
+    FONT-FAMILY: arial
+}
+
+
 A.schedLink
 {
     FONT-WEIGHT: normal;
@@ -549,3 +559,4 @@ DIV.popDetail
 {
     text-align:center;
 }  
+
