@@ -741,12 +741,20 @@
                     }
                 }
             }
-            // An agency was just chosen
+            // Agency dropdown was changed
             else if (prefName === 'agency') {
-                found = name.split('|');
-                targetAgency = found[0];
-                targetCluster = found[1];
-                console.log('From dropdown, agency=' + targetAgency + ' and cluster=' + targetCluster);
+                // An agency was chosen (as opposed to the default "All" option)
+                if (name.indexOf('|') !== -1) {
+                    found = name.split('|');
+                    targetAgency = found[0];
+                    targetCluster = found[1];
+                }
+                // The default "All" option was chosen
+                else {
+                    // Clear the agency list but keep the current cluster selected
+                    targetAgency = '';
+                    targetCluster = clusterMenu.options[clusterMenu.selectedIndex].value;
+                }
             }
 
             // Redraw dropdowns
@@ -754,25 +762,20 @@
 
             // Set parameters to `undefined` if we don't have real values so that the list creation function disregards them
             if (!targetCluster || targetCluster !== '(All)') {
-                console.log('a, resetting cluter');
                 targetCluster = undefined;
             }
             else {
                 subTaskSettings.cluster = (!targetCluster && targetAgency.indexOf('|') !== -1) ? targetAgency.split('|')[0] : targetCluster;
-                console.log('b, storing cluster ', subTaskSettings.cluster);
             }
 
             if (!targetAgency || targetAgency !== '(All)') {
-                console.log('c, resetting agency');
                 targetAgency = undefined;
             }
             else {
                 subTaskSettings.agency = (targetAgency.indexOf('|') !== -1) ? targetAgency.split('|')[0] : targetAgency;
-                console.log('d, storing agency ', subTaskSettings.agency);
             }
 
             // Redraw list
-            console.log('[B] Now, agency=' + targetAgency + ' and cluster=' + targetCluster);
             recreateTaskList(targetCluster, targetAgency);
         }
 
@@ -883,7 +886,6 @@
         function createTaskList (targetCluster, targetAgency) {
             var ignorePattern = /\-Select\-/;
             var matchPattern = null;
-            console.info('Creating list with: "' + targetCluster + '" and "' + targetAgency + '"');
 
             // Clean up and/or extract the agency and cluster names since they could come from different sources and I've built up technical debt by patching this codebase over time without refactoring it for consistency
 
@@ -917,7 +919,16 @@
                 targetAgency = subTaskSettings.agency;
             }
 
-            console.log('Values are now: "' + targetCluster + '" and "' + targetAgency + '"');
+            // Check for pipe-delimited value coming from storage
+            if (targetAgency && targetAgency.indexOf('|') !== -1) {
+                targetCluster = targetAgency; // Make a copy of the whole value before it gets overwritten
+
+                targetCluster = targetCluster.split('|')[1];
+                subTaskSettings.cluster = targetCluster;
+
+                targetAgency = targetAgency.split('|')[0];
+                subTaskSettings.agency = targetAgency;
+            }
 
             // Create prefs patterns for matching
             // Cluster and agency
@@ -933,7 +944,6 @@
                 // Include wildcard for three-letter cluster
                 matchPattern = new RegExp('^\\w{3}_' + targetAgency + '_');
             }
-            console.log('matchPattern: ', matchPattern);
 
             list = document.createElement('ul');
             list.style.cssText = 'list-style: none outside none;';
@@ -983,7 +993,7 @@
         /**
          * Destroy and re-create the list of tasks
          */
-        function recreateTaskList(targetCluster, targetAgency) {
+        function recreateTaskList (targetCluster, targetAgency) {
             // Empty cache
             items = [];
 
