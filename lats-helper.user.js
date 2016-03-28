@@ -3,7 +3,7 @@
 // @namespace      https://chrome.google.com/webstore/detail/lats-helper/jmkgmheopekejeiondjdokbdckkeikeh?hl=en
 // @include        https://oftlats.cma.com/*
 // @include        https://*.lats.ny.gov/*
-// @version        1.1.0
+// @version        1.1.1
 // @updated        2016-03-28
 // ==/UserScript==
 
@@ -503,7 +503,7 @@
 
         // Run the module
         init();
-    } // end Timesheet
+    }; // end Timesheet
 
     ///////////////////////
     // Sub Task Selector //
@@ -530,6 +530,7 @@
                 cluster: '',
                 agency: ''
             };
+
         // Simple proxy for the storage proxy
         var store = {
                 save: function (val) {
@@ -539,57 +540,9 @@
                     return storage.get('subTaskSettings');
                 }
             };
-        // List of agencies for each cluster
-        var clusters = [
-                {
-                    name: 'AGS',
-                    agencies: ['DCS', 'DOB', 'DVA', 'ITS', 'OER', 'OGS']
-                },
-                {
-                    name: 'CSC',
-                    agencies: ['HCR']
-                },
-                {
-                    name: 'DAC',
-                    agencies: ['DPC', 'ITS', 'NJC', 'OFA', 'OPW', 'QOC']
-                },
-                {
-                    name: 'EBS',
-                    agencies: ['HES', 'ITS']
-                },
-                {
-                    name: 'EEC',
-                    agencies: ['AGM', 'APA', 'DEC', 'DPS', 'ITS', 'OPR']
-                },
-                {
-                    name: 'ENT',
-                    agencies: ['ITS']
-                },
-                {
-                    name: 'GGC',
-                    agencies: ['BOE', 'DMV', 'DOS', 'HCR', 'ITS', 'JCP', 'SLA', 'WCB']
-                },
-                {
-                    name: 'HLT',
-                    agencies: ['DOH', 'HLT', 'ITS', 'MIG', 'OAS', 'OMH']
-                },
-                {
-                    name: 'HSC',
-                    agencies: ['CFS', 'DHR', 'DOL', 'ITS', 'TDA']
-                },
-                {
-                    name: 'PSC',
-                    agencies: ['COC', 'DCC', 'DCJ', 'DHS', 'DSP', 'ITS', 'OVS', 'PDV']
-                },
-                {
-                    name: 'RTC',
-                    agencies: ['CBR', 'DOT', 'DTA', 'DTF', 'ESD', 'GAM', 'ITS', 'RTC']
-                },
-                {
-                    name: 'WNY',
-                    agencies: ['ABO', 'AGM', 'DHR', 'DMV', 'DOB', 'DOS', 'ESD', 'GOV', 'HCR', 'ITS', 'JCP', 'OAS', 'OGS', 'OIG', 'OPW', 'PRB', 'RIC', 'SLA', 'WCB']
-                }
-            ];
+
+        // List of clusters and their agencies
+        var clusters = [];
 
         /**
          * Initializes module and the UI
@@ -605,6 +558,8 @@
                 // Don't do any more costly rendering since the popup will now close
                 return true;
             }
+
+            clusters = parseClusterAndAgencyLists();
 
             // Read stored settings
             storedSettings = store.retrieve();
@@ -675,6 +630,70 @@
             searchBox.parentNode.insertBefore(clearButton, agencyMenu.nextSibling);
 
             createTaskList();
+        }
+
+        function parseClusterAndAgencyLists () {
+            var store = [];
+            var pattern = /([A-Z]{3})_([A-Z]{3})_/;
+
+            subTaskOptions.forEach(function (opt) {
+                var text = opt.getAttribute('title');
+                var pieces;
+                var clusterName;
+                var agencyName;
+                var clusterIndex;
+                var clusterObj;
+
+                if (!pattern.test(text)) {
+                    return false;
+                }
+
+                // Extract cluster and agency names
+                pieces = pattern.exec(text);
+                clusterName = pieces[1];
+                agencyName = pieces[2];
+
+                // Check if we've already stored this cluster
+                clusterIndex = getArrayIndexByProp(store, clusterName, 'name');
+
+                // Hasn't been added yet
+                if (clusterIndex === -1) {
+                    // Create a new object and store it
+                    clusterObj = {
+                        name: clusterName,
+                        agencies: [agencyName],
+                    };
+
+                    store.push(clusterObj);
+                }
+                // Already exists, just check the agency name
+                else {
+                    clusterObj = store[clusterIndex];
+
+                    if (clusterObj.agencies.indexOf(agencyName) === -1) {
+                        // Add this agency
+                        clusterObj.agencies.push(agencyName);
+
+                        // Sort agency list alphabetically
+                        clusterObj.agencies.sort();
+                    }
+                }
+            });
+
+            // Sort by cluster, alphabetically
+            store.sort(function (a, b) {
+                if (a.name < b.name) {
+                    return -1;
+                }
+                else if (a.name > b.name) {
+                    return 1;
+                }
+                else {
+                    return 0;
+                }
+            });
+
+            return store;
         }
 
         /**
@@ -1063,7 +1082,7 @@
 
         // Initialize immediately since this script is being loaded when the document is ready
         init();
-    } // end SubTasks
+    }; // end SubTasks
 
     /**
      * TDS module
@@ -1151,6 +1170,10 @@
         }
 
         return count;
+    }
+
+    function getArrayIndexByProp (array, value, prop) {
+        return array.map(function (x) { return x[prop]; }).indexOf(value);
     }
 
     //////////////////////////////
