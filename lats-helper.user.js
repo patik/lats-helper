@@ -117,6 +117,8 @@
         var controls;
         var button;
 
+        var dataStore = {};
+
         /**
          * Initalize module and UI
          */
@@ -133,6 +135,111 @@
             if (document.getElementById('ctl00_ContentPlaceHolder1_btnApprove')) {
                 return;
             }
+
+            // Create data store
+            [0, 1, 4, 5, 6, 7, 8, 11, 12, 13].forEach(function (index) {
+                var dayObj = {
+                        index: index,
+                    };
+
+                dayObj.MorningIn = {
+                    elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataMorningInDArr' + index),
+                };
+                dayObj.MorningIn.value = dayObj.MorningIn.elem.value.trim();
+                dayObj.MorningIn.elem.addEventListener('keyup', onTimeInputKeyup);
+
+                dayObj.LunchOut = {
+                    elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataLunchOutDArr' + index),
+                };
+                dayObj.LunchOut.value = dayObj.LunchOut.elem.value.trim();
+                dayObj.LunchOut.elem.addEventListener('keyup', onTimeInputKeyup);
+
+                dayObj.LunchIn = {
+                    elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataLunchInDArr' + index),
+                };
+                dayObj.LunchIn.value = dayObj.LunchIn.elem.value.trim();
+                dayObj.LunchIn.elem.addEventListener('keyup', onTimeInputKeyup);
+
+                dayObj.NightOut = {
+                    elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataNightOutDArr' + index),
+                };
+                dayObj.NightOut.value = dayObj.NightOut.elem.value.trim();
+                dayObj.NightOut.elem.addEventListener('keyup', onTimeInputKeyup);
+
+                dayObj.OTMeal = {
+                    elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataOTMealDArr' + index),
+                };
+                dayObj.OTMeal.value = dayObj.OTMeal.elem.value.trim();
+                dayObj.OTMeal.elem.addEventListener('keyup', onTimeInputKeyup);
+
+                dayObj.Vacation = {
+                    elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataVacationDArr' + index),
+                };
+                dayObj.Vacation.value = dayObj.Vacation.elem.value.trim();
+                dayObj.Vacation.elem.addEventListener('keyup', onTimeInputKeyup);
+
+                dayObj.SickRegular = {
+                    elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataSickRegularDArr' + index),
+                };
+                dayObj.SickRegular.value = dayObj.SickRegular.elem.value.trim();
+                dayObj.SickRegular.elem.addEventListener('keyup', onTimeInputKeyup);
+
+                dayObj.SickFamily = {
+                    elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataSickFamilyDArr' + index),
+                };
+                dayObj.SickFamily.value = dayObj.SickFamily.elem.value.trim();
+                dayObj.SickFamily.elem.addEventListener('keyup', onTimeInputKeyup);
+
+                dayObj.Personal = {
+                    elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataPersonalDArr' + index),
+                };
+                dayObj.Personal.value = dayObj.Personal.elem.value.trim();
+                dayObj.Personal.elem.addEventListener('keyup', onTimeInputKeyup);
+
+                dayObj.CompCharged = {
+                    elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataCompChargedDArr' + index),
+                };
+                dayObj.CompCharged.value = dayObj.CompCharged.elem.value.trim();
+                dayObj.CompCharged.elem.addEventListener('keyup', onTimeInputKeyup);
+
+                dayObj.HolidayRegular = {
+                    elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataHolidayRegularDArr' + index),
+                };
+                dayObj.HolidayRegular.value = dayObj.HolidayRegular.elem.value.trim();
+                dayObj.HolidayRegular.elem.addEventListener('keyup', onTimeInputKeyup);
+
+                dayObj.Floater = {
+                    elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataFloaterDArr' + index),
+                };
+                dayObj.Floater.value = dayObj.Floater.elem.value.trim();
+                dayObj.Floater.elem.addEventListener('keyup', onTimeInputKeyup);
+
+                dayObj.VRWSUsed = {
+                    elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataVRWSUsedDArr' + index),
+                };
+                dayObj.VRWSUsed.value = dayObj.VRWSUsed.elem.value.trim();
+                dayObj.VRWSUsed.elem.addEventListener('keyup', onTimeInputKeyup);
+
+                dayObj.timeWorked = {
+                    elem: document.querySelector('#ctl00_ContentPlaceHolder1_TimesheetGridTable > tbody > tr:nth-child(32) > td:nth-child(' + (index + 2) + ')'),
+                };
+                dayObj.timeWorked.value = dayObj.timeWorked.elem.innerHTML.trim();
+
+                dayObj.charges = {
+                    elem: document.querySelector('#ctl00_ContentPlaceHolder1_TimesheetGridTable > tbody > tr:nth-child(33) > td:nth-child(' + (index + 2) + ')'),
+                };
+                dayObj.charges.value = dayObj.charges.elem.innerHTML.trim();
+
+                dayObj.totalTime = {
+                    elem: document.querySelector('#ctl00_ContentPlaceHolder1_TimesheetGridTable > tbody > tr:nth-child(34) > td:nth-child(' + (index + 2) + ')'),
+                };
+                dayObj.totalTime.value = dayObj.totalTime.elem.innerHTML.trim();
+
+                dataStore['day' + index] = dayObj;
+            });
+
+            // console.info('Data store: ', dataStore);
+            // console.table(dataStore);
 
             // Read stored settings
             if (storedSettings) {
@@ -269,6 +376,84 @@
                 .forEach(function (input){
                     input.removeAttribute('readonly');
                 });
+        }
+
+        function onTimeInputKeyup (evt) {
+            var target = evt.target;
+            var fullId = target.id;
+            var pieces = /ctl00_ContentPlaceHolder1_TSData(\w+)DArr(\d+)/.exec(fullId);
+            var fieldName = pieces[1];
+            var dayIndex = pieces[2];
+            var dayObj;
+
+            // Ignore arrow keys
+            if (evt.keyCode >= 37 && evt.keyCode <= 40) {
+                return true;
+            }
+
+            // Ignore tab, enter, and escape keys
+            if (evt.keyCode === 9 || evt.keyCode === 13 || evt.keyCode === 27) {
+                return true;
+            }
+
+            // Update data store
+            dayObj = dataStore['day' + dayIndex];
+            console.log('Day ' + dayIndex + ', ' + fieldName + ' changed from ' + dayObj[fieldName].value + ' to ' + target.value, dayObj);
+            dayObj[fieldName].value = target.value;
+
+            refreshDay(dayObj);
+        }
+
+        function refreshDay (dayObj) {
+            var reportedTimeWorked = 0;
+            var charges;
+            var totalTime;
+
+            // All four times recorded
+            if (dayObj.MorningIn.value && dayObj.LunchOut.value && dayObj.LunchIn.value && dayObj.NightOut.value) {
+                // First half of the day
+                reportedTimeWorked += (new Date('01/01/2016 ' + dayObj.LunchOut.value).getTime() - new Date('01/01/2016 ' + dayObj.MorningIn.value).getTime());
+
+                // Second half of the day
+                reportedTimeWorked += (new Date('01/01/2016 ' + dayObj.NightOut.value).getTime() - new Date('01/01/2016 ' + dayObj.LunchIn.value).getTime());
+
+                // Convert to seconds
+                reportedTimeWorked = reportedTimeWorked / 1000;
+
+                // Convert to hours
+                reportedTimeWorked = reportedTimeWorked / 3600;
+            }
+
+            // Something wasn't filled in completely, so quit silently
+            if (isNaN(reportedTimeWorked)) {
+                return true;
+            }
+
+            console.log('Worked so far on Day ' + dayObj.index + ': ' + reportedTimeWorked + ' hours');
+
+            // Update view
+            dayObj.timeWorked.elem.innerHTML = reportedTimeWorked;
+
+            if (reportedTimeWorked % 0.10 === 0) {
+                dayObj.timeWorked.elem.innerHTML += 0;
+            }
+
+            // Compare to total and charges
+            charges = parseFloat(dayObj.charges.elem.innerHTML);
+            totalTime = parseFloat(dayObj.totalTime.elem.innerHTML);
+
+            if (charges + reportedTimeWorked > totalTime) {
+                dayObj.totalTime.elem.style.backgroundColor = 'yellow';
+                dayObj.totalTime.elem.setAttribute('title', 'Too much time. Subtract ' + (totalTime - reportedTimeWorked - charges) + ' hours from your charges and/or time worked');
+            }
+            else if (charges + reportedTimeWorked < totalTime) {
+                dayObj.totalTime.elem.style.backgroundColor = 'pink';
+                dayObj.totalTime.elem.setAttribute('title', 'Not enough time. Add ' + (totalTime - reportedTimeWorked - charges) + ' hours to your charges and/or time worked');
+            }
+            else {
+                dayObj.totalTime.elem.style.backgroundColor = '#CCCCCC';
+                dayObj.totalTime.elem.setAttribute('title', 'Everything adds up!');
+            }
         }
 
         // Teardown UI
@@ -1181,13 +1366,13 @@
     //////////////////////////////
 
     // Run the appropriate module
-    if (path === 'MyTimesheet') {
+    // if (path === 'MyTimesheet') {
         Timesheet();
-    }
-    else if (path === 'SubTasks') {
-        SubTasks();
-    }
-    else if (path === 'TDS') {
-        TDS();
-    }
+    // }
+    // else if (path === 'SubTasks') {
+    //     SubTasks();
+    // }
+    // else if (path === 'TDS') {
+    //     TDS();
+    // }
 }());
