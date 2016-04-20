@@ -114,33 +114,56 @@
                     return storage.get('timeSheetSettings');
                 }
             };
+        var checked = {
+            yes: '&#10003;',
+            no: '&#128683;',
+        };
         var controls;
         var button;
-
+        var popover = null;
         var dataStore = {};
+        var leaveBalances = {};
 
         /**
          * Initalize module and UI
          */
-        function init() {
+        function init () {
+            var storedSettings = store.retrieve();
             var i;
             var label;
             var input;
             var flagWrapper;
             var buttonWrapper;
             var closeButton;
-            var storedSettings = store.retrieve();
+            var newRow;
+            var insertBeforeRow;
 
             // Make sure it's not an approval screen
             if (document.getElementById('ctl00_ContentPlaceHolder1_btnApprove')) {
                 return;
             }
 
+            // Add new row to contain autofill buttons for each day
+            newRow = document.createElement('tr');
+            insertBeforeRow = document.querySelector('#ctl00_ContentPlaceHolder1_TimesheetGridTable > tbody > tr:nth-child(34)');
+            insertBeforeRow.parentNode.insertBefore(newRow, insertBeforeRow);
+
             // Create data store
-            [0, 1, 4, 5, 6, 7, 8, 11, 12, 13].forEach(function (index) {
+            ['filler', 0, 1, 'filler', 'filler', 4, 5, 6, 7, 8, 'filler', 'filler', 11, 12, 13, 'filler'].forEach(function (index) {
                 var dayObj = {
                         index: index,
+                        control: null,
+                        difference: 0,
                     };
+                var newCell = document.createElement('td');
+
+                // Weekends -- just add a dummy cell
+                if (index === 'filler') {
+                    newCell.innerHTML = '&nbsp;';
+                    newRow.appendChild(newCell);
+
+                    return false;
+                }
 
                 dayObj.MorningIn = {
                     elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataMorningInDArr' + index),
@@ -231,15 +254,70 @@
                 dayObj.charges.value = dayObj.charges.elem.innerHTML.trim();
 
                 dayObj.totalTime = {
-                    elem: document.querySelector('#ctl00_ContentPlaceHolder1_TimesheetGridTable > tbody > tr:nth-child(34) > td:nth-child(' + (index + 2) + ')'),
+                    elem: document.querySelector('#ctl00_ContentPlaceHolder1_TimesheetGridTable > tbody > tr:nth-child(35) > td:nth-child(' + (index + 2) + ')'),
                 };
                 dayObj.totalTime.value = dayObj.totalTime.elem.innerHTML.trim();
 
+                // Create day-specific autofill control
+                dayObj.control = document.createElement('div');
+                dayObj.control.style.cssText = 'text-align: center;' +
+                                               'cursor: pointer;';
+                dayObj.control.innerHTML = checked.yes;
+                dayObj.control.addEventListener('click', function (evt) {
+                    onDayAutofillClick(evt, dayObj);
+                });
+                // console.log('control ' + index + ': ', dayObj.control);
+
+                // Add elements to the table
+                newCell.appendChild(dayObj.control);
+                newRow.appendChild(newCell);
+
+                // Add to data store
                 dataStore['day' + index] = dayObj;
             });
 
             // console.info('Data store: ', dataStore);
             // console.table(dataStore);
+
+            ////////////////////
+            // Leave balances //
+            ////////////////////
+
+            leaveBalances.Vacation = {
+                elem: document.querySelector('#ctl00_ContentPlaceHolder1_SysBalances > tbody > tr:nth-child(6) > td:nth-child(2)'),
+                displayName: 'Vacation',
+            };
+            leaveBalances.Vacation.hours = parseFloat(leaveBalances.Vacation.elem.innerHTML);
+
+            leaveBalances.SickRegular = {
+                elem: document.querySelector('#ctl00_ContentPlaceHolder1_SysBalances > tbody > tr:nth-child(6) > td:nth-child(3)'),
+                displayName: 'Sick',
+            };
+            leaveBalances.SickRegular.hours = parseFloat(leaveBalances.SickRegular.elem.innerHTML);
+
+            leaveBalances.Personal = {
+                elem: document.querySelector('#ctl00_ContentPlaceHolder1_SysBalances > tbody > tr:nth-child(6) > td:nth-child(4)'),
+                displayName: 'Personal',
+            };
+            leaveBalances.Personal.hours = parseFloat(leaveBalances.Personal.elem.innerHTML);
+
+            leaveBalances.CompCharged = {
+                elem: document.querySelector('#ctl00_ContentPlaceHolder1_SysBalances > tbody > tr:nth-child(6) > td:nth-child(5)'),
+                displayName: 'Non-Comp',
+            };
+            leaveBalances.CompCharged.hours = parseFloat(leaveBalances.CompCharged.elem.innerHTML);
+
+            leaveBalances.HolidayRegular = {
+                elem: document.querySelector('#ctl00_ContentPlaceHolder1_SysBalances > tbody > tr:nth-child(6) > td:nth-child(6)'),
+                displayName: 'Holiday',
+            };
+            leaveBalances.HolidayRegular.hours = parseFloat(leaveBalances.HolidayRegular.elem.innerHTML);
+
+            leaveBalances.Floater = {
+                elem: document.querySelector('#ctl00_ContentPlaceHolder1_SysBalances > tbody > tr:nth-child(6) > td:nth-child(7)'),
+                displayName: 'Floater',
+            };
+            leaveBalances.Floater.hours = parseFloat(leaveBalances.Floater.elem.innerHTML);
 
             // Read stored settings
             if (storedSettings) {
@@ -254,7 +332,11 @@
             // Get periods from local store
             getStoredPeriods();
 
-            // Create container for all controls
+            //////////////////////////////
+            // Global autofill controls //
+            //////////////////////////////
+
+            // Create container for auto-insert controls
             controls = document.createElement('div');
             controls.style.cssText = 'position: absolute;' +
                                      'top: 10px;' +
@@ -309,7 +391,7 @@
             // Flags wrapper
             flagWrapper = document.createElement('div');
             flagWrapper.style.cssText = 'margin: 10px auto 0 auto;' +
-                                          'overflow: hidden';
+                                        'overflow: hidden';
             controls.appendChild(flagWrapper);
 
             // "Only bank days" flag, check box
@@ -319,8 +401,8 @@
             input.addEventListener('change', onOnlyBlankDaysClick);
             input.setAttribute('tabindex', '1');
             input.style.cssText = 'float: left;' +
-                                   'color: #fff;' +
-                                   'border-color: #4cae4c;';
+                                  'color: #fff;' +
+                                  'border-color: #4cae4c;';
 
             // Set check box checked state
             if (timeSheetSettings.onlyBlankDays) {
@@ -373,9 +455,108 @@
 
             // Make all input fields updateable (normally, future dates are readonly)
             query('#ctl00_ContentPlaceHolder1_TimesheetGridTable input[readonly="readonly"][type="text"]')
-                .forEach(function (input){
+                .forEach(function (input) {
                     input.removeAttribute('readonly');
                 });
+        }
+
+        function onDayAutofillClick (evt, dayObj) {
+            console.log(dayObj);
+            var close = document.createElement('button');
+
+            evt.preventDefault();
+
+            // Remove old popover
+            if (popover !== null) {
+                closePopover();
+            }
+
+            popover = document.createElement('div');
+
+            popover.style.cssText = 'position: absolute;' +
+                                    'top: ' + (dayObj.control.getBoundingClientRect().top + dayObj.control.clientHeight + document.body.scrollTop + 4) + 'px;' +
+                                    'left: ' + dayObj.control.getBoundingClientRect().left + 'px;' +
+                                    'min-width: 200px;' +
+                                    'min-height: 100px;' +
+                                    'padding: 10px;' +
+                                    'border: 1px solid #444;' +
+                                    'box-shadow: 0 0 2px #444;' +
+                                    'background-color: white;' +
+                                    'border-radius: 3px;' +
+                                    'z-index: 100';
+
+            popover.className = 'lats-helper-day-popover';
+
+            // Insert leave category buttons
+            if (dayObj.difference > 0) {
+                popover.innerHTML = '<p>Charge time from:</p>';
+
+                Object.keys(leaveBalances).forEach(function (type) {
+                    var para = document.createElement('p');
+                    var button = document.createElement('button');
+                    var obj = leaveBalances[type];
+
+                    if (obj.hours > 0 && obj.hours >= dayObj.difference) {
+                        button.setAttribute('type', 'button');
+                        button.innerHTML = obj.displayName;
+                        button.addEventListener('click', function (evt) {
+                            console.log('button click ', evt);
+                            var elem = dayObj[type].elem;
+                            var currValue = parseFloat(elem.value);
+                            var currLeaveValue = parseFloat(obj.elem.innerHTML);
+
+                            // Update value in the table
+                            // console.log('changing from ' + elem.value + ' to ' + (currValue + dayObj.difference), elem);
+                            elem.value = (currValue + dayObj.difference);
+
+                            // Update leave balance
+                            // console.log('changing from ' + obj.elem.innerHTML + ' to ' + (currLeaveValue + dayObj.difference), elem);
+                            obj.elem.innerHTML = (currLeaveValue - dayObj.difference);
+                        }, false);
+
+                        para.appendChild(button);
+
+                        para.appendChild(document.createTextNode('(' + obj.hours + ' hours available)'));
+
+                        popover.appendChild(para);
+                        popover.appendChild(document.createElement('br'));
+                    }
+                    else { console.warn('not enough hours to spare: ', obj); }
+                });
+            }
+            else {
+                popover.innerHTML = 'Controls go here!';
+            }
+
+            // Close button
+            close.setAttribute('type', 'button');
+            close.innerHTML = 'Close';
+            close.style.cssText = 'margin-top: 1em;';
+            close.addEventListener('click', closePopover, false);
+            popover.appendChild(close);
+
+            // Add to page
+            document.body.appendChild(popover);
+
+            setTimeout(function () { // Ugh, trying to avoid having this triggered by the click that called this very function
+                document.body.addEventListener('click', onBodyClick, false);
+            }, 100);
+        }
+
+        // Close the popover when clicking away from it
+        function onBodyClick (evt) {
+            // Clicked outside of a popover
+            if (!$(evt.target).closest('.lats-helper-day-popover').length) {
+                closePopover();
+
+                document.body.removeEventListener('click', onBodyClick);
+            }
+        }
+
+        // Close the popover when clicking away from it
+        function closePopover () {
+            document.body.removeChild(popover);
+            popover = null;
         }
 
         function onTimeInputKeyup (evt) {
@@ -442,18 +623,35 @@
             charges = parseFloat(dayObj.charges.elem.innerHTML);
             totalTime = parseFloat(dayObj.totalTime.elem.innerHTML);
 
+            dayObj.difference = totalTime - reportedTimeWorked - charges;
+
             if (charges + reportedTimeWorked > totalTime) {
                 dayObj.totalTime.elem.style.backgroundColor = 'yellow';
-                dayObj.totalTime.elem.setAttribute('title', 'Too much time. Subtract ' + (totalTime - reportedTimeWorked - charges) + ' hours from your charges and/or time worked');
+                dayObj.totalTime.elem.setAttribute('title', 'Too much time. Subtract ' + dayObj.difference + ' hours from your charges and/or time worked');
+
+                dayObj.control.innerHTML = checked.no;
+                dayObj.control.style.backgroundColor = 'yellow';
+                dayObj.control.setAttribute('title', 'Too much time. Subtract ' + dayObj.difference + ' hours from your charges and/or time worked');
             }
             else if (charges + reportedTimeWorked < totalTime) {
                 dayObj.totalTime.elem.style.backgroundColor = 'pink';
-                dayObj.totalTime.elem.setAttribute('title', 'Not enough time. Add ' + (totalTime - reportedTimeWorked - charges) + ' hours to your charges and/or time worked');
+                dayObj.totalTime.elem.setAttribute('title', 'Not enough time. Add ' + dayObj.difference + ' hours to your charges and/or time worked');
+
+                dayObj.control.innerHTML = checked.no;
+                dayObj.control.style.backgroundColor = 'pink';
+                dayObj.control.setAttribute('title', 'Not enough time. Add ' + dayObj.difference + ' hours to your charges and/or time worked');
             }
             else {
                 dayObj.totalTime.elem.style.backgroundColor = '#CCCCCC';
                 dayObj.totalTime.elem.setAttribute('title', 'Everything adds up!');
+
+                dayObj.control.innerHTML = checked.yes;
+                dayObj.control.style.backgroundColor = '#CCCCCC';
+                dayObj.control.setAttribute('title', 'Everything adds up!');
             }
+
+            // Update data store with new `difference`
+            dataStore['day' + dayObj.index] = dayObj;
         }
 
         // Teardown UI
@@ -1220,7 +1418,7 @@
         /**
          * Hide and show tasks based on the user-entered search term
          */
-        function filterBySearchQuery() {
+        function filterBySearchQuery () {
             var q = searchBox.value.trim().toLowerCase();
             var pieces = q.split(' ');
 
