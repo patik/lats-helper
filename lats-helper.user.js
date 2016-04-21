@@ -478,6 +478,7 @@
         function onDayAutofillClick (evt, dayObj) {
             // console.log('[onDayAutofillClick] clicked on day: ', dayObj);
             var close = document.createElement('button');
+            var absDifference;
 
             evt.preventDefault();
 
@@ -496,11 +497,12 @@
 
                 // Enumerate over the various leave categories and add buttons for each one that has hours to spare
                 Object.keys(leaveBalances).forEach(function (type) {
-                    var para = document.createElement('p');
-                    var button = document.createElement('button');
                     var obj = leaveBalances[type];
+                    var para;
+                    var button;
 
                     if (obj.hours > 0 && obj.hours >= dayObj.difference) {
+                        button = document.createElement('button');
                         button.setAttribute('type', 'button');
                         button.innerHTML = obj.displayName;
 
@@ -520,6 +522,7 @@
                             refreshDay(dayObj);
                         }, false);
 
+                        para = document.createElement('p');
                         para.appendChild(button);
                         para.appendChild(document.createTextNode(' (' + obj.hours + ' hours available)'));
                         fixerPopover.appendChild(para);
@@ -528,7 +531,58 @@
             }
             // Too much time worked
             else if (dayObj.difference < 0) {
-                fixerPopover.innerHTML = '<p>You\'ve entered an extra ' + Math.abs(dayObj.difference) + ' hours (worked + charges). Be sure to adjust your time.</p>';
+                var didAddAButton = false;
+
+                absDifference = Math.abs(dayObj.difference);
+
+                fixerPopover.innerHTML = '<p>You\'ve entered an extra ' + absDifference + ' hours (worked + charges).</p>';
+
+                // Enumerate over the various leave categories and add buttons for each one that has hours to spare
+                ['OTMeal', 'Vacation', 'SickRegular', 'SickFamily', 'Personal', 'CompCharged', 'HolidayRegular', 'Floater', 'VRWSUsed'].forEach(function (type) {
+                    var obj = dayObj[type];
+                    var para;
+                    var button;
+
+                    if (obj.value > 0) {
+                        button = document.createElement('button');
+                        didAddAButton = true;
+
+                        button.setAttribute('type', 'button');
+                        button.innerHTML = 'Subtract from ' + type;
+
+                        button.addEventListener('click', function (evt) {
+                            var currValue = parseFloat(obj.value);
+
+                            // Update value in the table
+                            if (currValue - absDifference < 0) {
+                                // Not enough time in this category to make up for the whole difference, so just set it to zero
+                                obj.elem.value = 0;
+
+                                // Update leave balance
+                                obj.elem.innerHTML = (currValue + parseFloat(obj.elem.value));
+                            }
+                            else {
+                                // Not enough time in this category to make up for the whole difference, so just set it to zero
+                                obj.elem.value = (currValue - absDifference);
+
+                                // Update leave balance
+                                obj.elem.innerHTML = (currValue + obj.elem.value);
+                            }
+
+                            closePopover();
+                            refreshDay(dayObj);
+                        }, false);
+
+                        para = document.createElement('p');
+                        para.appendChild(button);
+                        fixerPopover.appendChild(para);
+                    }
+                });
+
+                // Add an explanatory message if we didn't add any useful buttons
+                if (!didAddAButton) {
+                    fixerPopover.innerHTML += '<p>Be sure to adjust your time.</p>';
+                }
             }
             else {
                 fixerPopover.innerHTML = '<p>Everything adds up! You don\'t need to change anything.</p>';
