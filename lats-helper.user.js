@@ -3,8 +3,8 @@
 // @namespace      https://chrome.google.com/webstore/detail/lats-helper/jmkgmheopekejeiondjdokbdckkeikeh?hl=en
 // @include        https://oftlats.cma.com/*
 // @include        https://*.lats.ny.gov/*
-// @version        1.1.1
-// @updated        2016-03-28
+// @version        1.2.0
+// @updated        2016-04-21
 // ==/UserScript==
 
 (function () {
@@ -120,7 +120,7 @@
         };
         var controls;
         var button;
-        var popover = null;
+        var fixerPopover;
         var dataStore = {};
         var leaveBalances = {};
 
@@ -149,7 +149,7 @@
             insertBeforeRow.parentNode.insertBefore(newRow, insertBeforeRow);
 
             // Create data store
-            ['filler', 0, 1, 'filler', 'filler', 4, 5, 6, 7, 8, 'filler', 'filler', 11, 12, 13, 'filler'].forEach(function (index) {
+            ['header', 0, 1, 'filler', 'filler', 4, 5, 6, 7, 8, 'filler', 'filler', 11, 12, 13, 'filler'].forEach(function (index) {
                 var dayObj = {
                         index: index,
                         control: null,
@@ -160,6 +160,14 @@
                 // Weekends -- just add a dummy cell
                 if (index === 'filler') {
                     newCell.innerHTML = '&nbsp;';
+                    newRow.appendChild(newCell);
+
+                    return false;
+                }
+                else if (index === 'header') {
+                    newCell.innerHTML = 'Auto Fixer';
+                    newCell.style.fontSize = '11px';
+                    newCell.style.textAlign = 'center';
                     newRow.appendChild(newCell);
 
                     return false;
@@ -261,7 +269,7 @@
                 // Create day-specific autofill control
                 dayObj.control = document.createElement('div');
                 dayObj.control.style.cssText = 'text-align: center;' +
-                                               'cursor: pointer;';
+                                               'cursor: default';
                 dayObj.control.innerHTML = checked.yes;
                 dayObj.control.addEventListener('click', function (evt) {
                     onDayAutofillClick(evt, dayObj);
@@ -274,6 +282,9 @@
 
                 // Add to data store
                 dataStore['day' + index] = dayObj;
+
+                // Process current entries
+                refreshDay(dayObj);
             });
 
             // console.info('Data store: ', dataStore);
@@ -461,36 +472,28 @@
         }
 
         function onDayAutofillClick (evt, dayObj) {
-            console.log(dayObj);
+            // console.log('[onDayAutofillClick] clicked on day: ', dayObj);
             var close = document.createElement('button');
 
             evt.preventDefault();
 
-            // Remove old popover
-            if (popover !== null) {
-                closePopover();
+            // Make sure element exists
+            createPopover();
+
+            // Already open
+            if (fixerPopover.style.display === 'block') {
+                // console.warn('already open');
+                return true;
             }
+            // console.log('fixerPopover.style.display = ' + fixerPopover.style.display);
 
-            popover = document.createElement('div');
+            // Create popover contents based on the time difference:
 
-            popover.style.cssText = 'position: absolute;' +
-                                    'top: ' + (dayObj.control.getBoundingClientRect().top + dayObj.control.clientHeight + document.body.scrollTop + 4) + 'px;' +
-                                    'left: ' + dayObj.control.getBoundingClientRect().left + 'px;' +
-                                    'min-width: 200px;' +
-                                    'min-height: 100px;' +
-                                    'padding: 10px;' +
-                                    'border: 1px solid #444;' +
-                                    'box-shadow: 0 0 2px #444;' +
-                                    'background-color: white;' +
-                                    'border-radius: 3px;' +
-                                    'z-index: 100';
-
-            popover.className = 'lats-helper-day-popover';
-
-            // Insert leave category buttons
+            // Not enough time worked
             if (dayObj.difference > 0) {
-                popover.innerHTML = '<p>Charge time from:</p>';
+                fixerPopover.innerHTML = '<p>Charge time from:</p>';
 
+                // Enumerate over the various leave categories and add buttons for each one that has hours to spare
                 Object.keys(leaveBalances).forEach(function (type) {
                     var para = document.createElement('p');
                     var button = document.createElement('button');
@@ -499,44 +502,50 @@
                     if (obj.hours > 0 && obj.hours >= dayObj.difference) {
                         button.setAttribute('type', 'button');
                         button.innerHTML = obj.displayName;
+
                         button.addEventListener('click', function (evt) {
-                            console.log('button click ', evt);
+                            // console.log('button click ', evt);
                             var elem = dayObj[type].elem;
                             var currValue = parseFloat(elem.value);
                             var currLeaveValue = parseFloat(obj.elem.innerHTML);
 
                             // Update value in the table
-                            // console.log('changing from ' + elem.value + ' to ' + (currValue + dayObj.difference), elem);
                             elem.value = (currValue + dayObj.difference);
 
                             // Update leave balance
-                            // console.log('changing from ' + obj.elem.innerHTML + ' to ' + (currLeaveValue + dayObj.difference), elem);
                             obj.elem.innerHTML = (currLeaveValue - dayObj.difference);
+
+                            closePopover();
+                            refreshDay(dayObj);
                         }, false);
 
                         para.appendChild(button);
-
-                        para.appendChild(document.createTextNode('(' + obj.hours + ' hours available)'));
-
-                        popover.appendChild(para);
-                        popover.appendChild(document.createElement('br'));
+                        para.appendChild(document.createTextNode(' (' + obj.hours + ' hours available)'));
+                        fixerPopover.appendChild(para);
                     }
-                    else { console.warn('not enough hours to spare: ', obj); }
                 });
             }
-            else {
-                popover.innerHTML = 'Controls go here!';
+            // Too much time worked
+            else if (dayObj.difference < 0) {
+                fixerPopover.innerHTML = '<p>You\'ve entered an extra ' + Math.abs(dayObj.difference) + ' hours (worked + charges). Be sure to adjust your time.</p>';
             }
+            else {
+                fixerPopover.innerHTML = '<p>Everything adds up! You don\'t need to change anything.</p>';
+            }
+
+            // Open popover
+            fixerPopover.style.display = 'block';
+            fixerPopover.style.top = (dayObj.control.getBoundingClientRect().top + dayObj.control.clientHeight + document.body.scrollTop + 4) + 'px';
+            fixerPopover.style.left = dayObj.control.getBoundingClientRect().left + 'px';
 
             // Close button
             close.setAttribute('type', 'button');
             close.innerHTML = 'Close';
-            close.style.cssText = 'margin-top: 1em;';
+            close.style.cssText = 'display: block;' +
+                                  'margin: 2em auto 0 auto;';
             close.addEventListener('click', closePopover, false);
-            popover.appendChild(close);
-
-            // Add to page
-            document.body.appendChild(popover);
+            fixerPopover.appendChild(close);
+            // console.log('popover is ready and open: ', fixerPopover);
 
             setTimeout(function () { // Ugh, trying to avoid having this triggered by the click that called this very function
                 document.body.addEventListener('click', onBodyClick, false);
@@ -554,9 +563,31 @@
         }
 
         // Close the popover when clicking away from it
+        function createPopover () {
+            if (!fixerPopover) {
+                fixerPopover = document.createElement('div');
+                fixerPopover.className = 'lats-helper-day-popover';
+                fixerPopover.style.cssText = 'display: none;' +
+                                             'position: absolute;' +
+                                             'top: 0px;' +
+                                             'left: 0px;' +
+                                             'min-width: 200px;' +
+                                             'min-height: 100px;' +
+                                             'padding: 10px;' +
+                                             'border: 1px solid #444;' +
+                                             'box-shadow: 0 0 2px #444;' +
+                                             'background-color: white;' +
+                                             'border-radius: 3px;' +
+                                             'z-index: 100';
+
+                // Add popover to page
+                document.body.appendChild(fixerPopover);
+            }
+        }
+
+        // Close the popover when clicking away from it
         function closePopover () {
-            document.body.removeChild(popover);
-            popover = null;
+            fixerPopover.style.display = 'none';
         }
 
         function onTimeInputKeyup (evt) {
@@ -579,7 +610,7 @@
 
             // Update data store
             dayObj = dataStore['day' + dayIndex];
-            console.log('Day ' + dayIndex + ', ' + fieldName + ' changed from ' + dayObj[fieldName].value + ' to ' + target.value, dayObj);
+            // console.log('Day ' + dayIndex + ', ' + fieldName + ' changed from ' + dayObj[fieldName].value + ' to ' + target.value, dayObj);
             dayObj[fieldName].value = target.value;
 
             refreshDay(dayObj);
@@ -609,8 +640,7 @@
             if (isNaN(reportedTimeWorked)) {
                 return true;
             }
-
-            console.log('Worked so far on Day ' + dayObj.index + ': ' + reportedTimeWorked + ' hours');
+            // console.log('[refreshDay] Worked so far on Day ' + dayObj.index + ': ' + reportedTimeWorked + ' hours');
 
             // Update view
             dayObj.timeWorked.elem.innerHTML = reportedTimeWorked;
@@ -625,29 +655,41 @@
 
             dayObj.difference = totalTime - reportedTimeWorked - charges;
 
+            // Too much time worked
             if (charges + reportedTimeWorked > totalTime) {
-                dayObj.totalTime.elem.style.backgroundColor = 'yellow';
-                dayObj.totalTime.elem.setAttribute('title', 'Too much time. Subtract ' + dayObj.difference + ' hours from your charges and/or time worked');
+                // Set title text
+                dayObj.totalTime.elem.setAttribute('title', 'Too much time. Subtract ' + Math.abs(dayObj.difference) + ' hours from your charges and/or time worked');
+                dayObj.control.setAttribute('title', 'Too much time. Subtract ' + Math.abs(dayObj.difference) + ' hours from your charges and/or time worked');
 
+                // Update control's style
                 dayObj.control.innerHTML = checked.no;
                 dayObj.control.style.backgroundColor = 'yellow';
-                dayObj.control.setAttribute('title', 'Too much time. Subtract ' + dayObj.difference + ' hours from your charges and/or time worked');
+                dayObj.control.style.color = '#000000';
+                dayObj.control.style.cursor = 'default';
             }
+            // Not enough time worked
             else if (charges + reportedTimeWorked < totalTime) {
-                dayObj.totalTime.elem.style.backgroundColor = 'pink';
+                // Set title text
                 dayObj.totalTime.elem.setAttribute('title', 'Not enough time. Add ' + dayObj.difference + ' hours to your charges and/or time worked');
+                dayObj.control.setAttribute('title', 'Not enough time. Add ' + dayObj.difference + ' hours to your charges and/or time worked');
 
+                // Update control's style
                 dayObj.control.innerHTML = checked.no;
                 dayObj.control.style.backgroundColor = 'pink';
-                dayObj.control.setAttribute('title', 'Not enough time. Add ' + dayObj.difference + ' hours to your charges and/or time worked');
+                dayObj.control.style.color = '#000000';
+                dayObj.control.style.cursor = 'pointer';
             }
+            // Even Steven
             else {
-                dayObj.totalTime.elem.style.backgroundColor = '#CCCCCC';
+                // Set title text
                 dayObj.totalTime.elem.setAttribute('title', 'Everything adds up!');
-
-                dayObj.control.innerHTML = checked.yes;
-                dayObj.control.style.backgroundColor = '#CCCCCC';
                 dayObj.control.setAttribute('title', 'Everything adds up!');
+
+                // Update control's style
+                dayObj.control.innerHTML = checked.yes;
+                dayObj.control.style.backgroundColor = '#FFFFFF';
+                dayObj.control.style.color = '#009900';
+                dayObj.control.style.cursor = 'default';
             }
 
             // Update data store with new `difference`
@@ -1564,13 +1606,13 @@
     //////////////////////////////
 
     // Run the appropriate module
-    // if (path === 'MyTimesheet') {
+    if (path === 'MyTimesheet') {
         Timesheet();
-    // }
-    // else if (path === 'SubTasks') {
-    //     SubTasks();
-    // }
-    // else if (path === 'TDS') {
-    //     TDS();
-    // }
+    }
+    else if (path === 'SubTasks') {
+        SubTasks();
+    }
+    else if (path === 'TDS') {
+        TDS();
+    }
 }());
