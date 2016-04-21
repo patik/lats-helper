@@ -118,7 +118,7 @@
             yes: '&#10003;',
             no: '&#128683;',
         };
-        var controls;
+        var globalControlWrapper;
         var button;
         var fixerPopover;
         var dataStore = {};
@@ -142,6 +142,12 @@
             if (document.getElementById('ctl00_ContentPlaceHolder1_btnApprove')) {
                 return;
             }
+
+            // Add CSS
+            setupStyles();
+
+            // Make sure element exists
+            createPopover();
 
             // Add new row to contain autofill buttons for each day
             newRow = document.createElement('tr');
@@ -268,8 +274,7 @@
 
                 // Create day-specific autofill control
                 dayObj.control = document.createElement('div');
-                dayObj.control.style.cssText = 'text-align: center;' +
-                                               'cursor: default';
+                dayObj.control.className = 'lats-helper-day-control';
                 dayObj.control.innerHTML = checked.yes;
                 dayObj.control.addEventListener('click', function (evt) {
                     onDayAutofillClick(evt, dayObj);
@@ -348,17 +353,10 @@
             //////////////////////////////
 
             // Create container for auto-insert controls
-            controls = document.createElement('div');
-            controls.style.cssText = 'position: absolute;' +
-                                     'top: 10px;' +
-                                     'right: 10px;' +
-                                     'padding: 10px;' +
-                                     'background: white;' +
-                                     'width: 270px;' +
-                                     'border: 1px solid #555;' +
-                                     'box-shadow: 1px 1px 4px #555;';
-            controls.innerHTML = '<p><strong>Autofill timesheet</strong></p>';
-            document.body.appendChild(controls);
+            globalControlWrapper = document.createElement('div');
+            globalControlWrapper.className = 'lats-helper-global-controls';
+            globalControlWrapper.innerHTML = '<p><strong>Autofill timesheet</strong></p>';
+            document.body.appendChild(globalControlWrapper);
 
             /////////////////
             // Time inputs //
@@ -374,7 +372,7 @@
                     label.style.cssText = 'display: inline-block;' +
                                           'width: 90px;' +
                                           'height: 22px;';
-                    controls.appendChild(label);
+                    globalControlWrapper.appendChild(label);
 
                     input = document.createElement('input');
                     input.type = 'text';
@@ -389,9 +387,9 @@
 
                     input.addEventListener('keyup', onPeriodKeyup);
                     input.addEventListener('blur', onPeriodBlur);
-                    controls.appendChild(input);
+                    globalControlWrapper.appendChild(input);
 
-                    controls.appendChild(document.createElement('br'));
+                    globalControlWrapper.appendChild(document.createElement('br'));
                 }
             }
 
@@ -403,7 +401,7 @@
             flagWrapper = document.createElement('div');
             flagWrapper.style.cssText = 'margin: 10px auto 0 auto;' +
                                         'overflow: hidden';
-            controls.appendChild(flagWrapper);
+            globalControlWrapper.appendChild(flagWrapper);
 
             // "Only bank days" flag, check box
             input = document.createElement('input');
@@ -441,7 +439,7 @@
             buttonWrapper = document.createElement('div');
             buttonWrapper.style.cssText = 'margin: 10px auto 0 auto;' +
                                           'overflow: hidden';
-            controls.appendChild(buttonWrapper);
+            globalControlWrapper.appendChild(buttonWrapper);
 
             // Apply button
             button = document.createElement('button');
@@ -469,6 +467,12 @@
                 .forEach(function (input) {
                     input.removeAttribute('readonly');
                 });
+
+            // Un-disable submit buttons (namely "Save")
+            query('input[type="submit"][disabled]')
+                .forEach(function (input) {
+                    input.removeAttribute('disabled');
+                });
         }
 
         function onDayAutofillClick (evt, dayObj) {
@@ -476,9 +480,6 @@
             var close = document.createElement('button');
 
             evt.preventDefault();
-
-            // Make sure element exists
-            createPopover();
 
             // Already open
             if (fixerPopover.style.display === 'block') {
@@ -567,22 +568,114 @@
             if (!fixerPopover) {
                 fixerPopover = document.createElement('div');
                 fixerPopover.className = 'lats-helper-day-popover';
-                fixerPopover.style.cssText = 'display: none;' +
-                                             'position: absolute;' +
-                                             'top: 0px;' +
-                                             'left: 0px;' +
-                                             'min-width: 200px;' +
-                                             'min-height: 100px;' +
-                                             'padding: 10px;' +
-                                             'border: 1px solid #444;' +
-                                             'box-shadow: 0 0 2px #444;' +
-                                             'background-color: white;' +
-                                             'border-radius: 3px;' +
-                                             'z-index: 100';
+                fixerPopover.style.display = 'none';
 
                 // Add popover to page
                 document.body.appendChild(fixerPopover);
             }
+        }
+
+        // Adds styles for the classes used in this module
+        function setupStyles () {
+            /////////////////////////////////////////////////
+            // Fixer controls at the bottom of each column //
+            /////////////////////////////////////////////////
+
+            // Basic style
+            addStyle(
+                '.lats-helper-day-control {' +
+                    'text-align: center;' +
+                    'cursor: default;' +
+                    'border-radius: 3px;' +
+                '}'
+            );
+
+            // Too little time
+            addStyle(
+                '.lats-helper-day-control.lats-helper-under {' +
+                    'background-color: pink;' +
+                    'color: #000000;' +
+                    'cursor: pointer;' +
+                    'border: 1px solid #930;' +
+                '}'
+            );
+
+            // Too much time
+            addStyle(
+                '.lats-helper-day-control.lats-helper-over {' +
+                    'background-color: yellow;' +
+                    'color: #000000;' +
+                    'cursor: default;' +
+                '}'
+            );
+
+            // Even Steven
+            addStyle(
+                '.lats-helper-day-control.lats-helper-even {' +
+                    'background-color: #FFFFFF;' +
+                    'color: #009900;' +
+                    'cursor: default;' +
+                '}'
+            );
+
+            ///////////////////
+            // Fixer popover //
+            ///////////////////
+
+            // Default
+            addStyle(
+                '.lats-helper-day-popover {' +
+                    'position: absolute;' +
+                    'top: 0px;' +
+                    'left: 0px;' +
+                    'min-width: 200px;' +
+                    'min-height: 100px;' +
+                    'padding: 10px;' +
+                    'border: 1px solid #444;' +
+                    'box-shadow: 0 0 2px #444;' +
+                    'background-color: white;' +
+                    'border-radius: 3px;' +
+                    'z-index: 100;' +
+                '}'
+            );
+
+            // // Too little time
+            // addStyle(
+            //     '.lats-helper-day-popover.lats-helper-under {' +
+            //         'max-width: 300px;' +
+            //     '}'
+            // );
+
+            // Too much time
+            addStyle(
+                '.lats-helper-day-popover.lats-helper-over {' +
+                    'max-width: 200px;' +
+                '}'
+            );
+
+            // Even Steven
+            addStyle(
+                '.lats-helper-day-popover.lats-helper-even {' +
+                    'max-width: 200px;' +
+                '}'
+            );
+
+            //////////////////////////////////////////////
+            // Global controls at the top of the window //
+            //////////////////////////////////////////////
+
+            addStyle(
+                '.lats-helper-global-controls {' +
+                    'position: absolute;' +
+                    'top: 10px;' +
+                    'right: 10px;' +
+                    'padding: 10px;' +
+                    'background: white;' +
+                    'width: 270px;' +
+                    'border: 1px solid #555;' +
+                    'box-shadow: 1px 1px 4px #555;' +
+                '}'
+            );
         }
 
         // Close the popover when clicking away from it
@@ -661,11 +754,15 @@
                 dayObj.totalTime.elem.setAttribute('title', 'Too much time. Subtract ' + Math.abs(dayObj.difference) + ' hours from your charges and/or time worked');
                 dayObj.control.setAttribute('title', 'Too much time. Subtract ' + Math.abs(dayObj.difference) + ' hours from your charges and/or time worked');
 
-                // Update control's style
+                // Update control's content and style
                 dayObj.control.innerHTML = checked.no;
-                dayObj.control.style.backgroundColor = 'yellow';
-                dayObj.control.style.color = '#000000';
-                dayObj.control.style.cursor = 'default';
+                dayObj.control.classList.add('lats-helper-over');
+                dayObj.control.classList.remove('lats-helper-under');
+                dayObj.control.classList.remove('lats-helper-even');
+
+                fixerPopover.classList.add('lats-helper-over');
+                fixerPopover.classList.remove('lats-helper-under');
+                fixerPopover.classList.remove('lats-helper-even');
             }
             // Not enough time worked
             else if (charges + reportedTimeWorked < totalTime) {
@@ -673,11 +770,15 @@
                 dayObj.totalTime.elem.setAttribute('title', 'Not enough time. Add ' + dayObj.difference + ' hours to your charges and/or time worked');
                 dayObj.control.setAttribute('title', 'Not enough time. Add ' + dayObj.difference + ' hours to your charges and/or time worked');
 
-                // Update control's style
+                // Update control's content and style
                 dayObj.control.innerHTML = checked.no;
-                dayObj.control.style.backgroundColor = 'pink';
-                dayObj.control.style.color = '#000000';
-                dayObj.control.style.cursor = 'pointer';
+                dayObj.control.classList.add('lats-helper-under');
+                dayObj.control.classList.remove('lats-helper-over');
+                dayObj.control.classList.remove('lats-helper-even');
+
+                fixerPopover.classList.add('lats-helper-under');
+                fixerPopover.classList.remove('lats-helper-over');
+                fixerPopover.classList.remove('lats-helper-even');
             }
             // Even Steven
             else {
@@ -685,11 +786,15 @@
                 dayObj.totalTime.elem.setAttribute('title', 'Everything adds up!');
                 dayObj.control.setAttribute('title', 'Everything adds up!');
 
-                // Update control's style
+                // Update control's content and style
                 dayObj.control.innerHTML = checked.yes;
-                dayObj.control.style.backgroundColor = '#FFFFFF';
-                dayObj.control.style.color = '#009900';
-                dayObj.control.style.cursor = 'default';
+                dayObj.control.classList.add('lats-helper-even');
+                dayObj.control.classList.remove('lats-helper-over');
+                dayObj.control.classList.remove('lats-helper-under');
+
+                fixerPopover.classList.add('lats-helper-even');
+                fixerPopover.classList.remove('lats-helper-over');
+                fixerPopover.classList.remove('lats-helper-under');
             }
 
             // Update data store with new `difference`
@@ -699,7 +804,7 @@
         // Teardown UI
         function onCloseButtonClick(/* evt */) {
             // Remove the UI
-            controls.parentNode.removeChild(controls);
+            globalControlWrapper.parentNode.removeChild(globalControlWrapper);
         }
 
         function getStoredPeriods(/* storedPeriods */) {
@@ -1513,8 +1618,6 @@
      * TDS module
      */
     function TDS () {
-        var styleElem;
-
         function init() {
             // Increase the table size
             addStyle('#ctl00_ContentPlaceHolder1_pnlTDSData' +
@@ -1558,24 +1661,6 @@
                     '{ opacity: 0.25; }');
         }
 
-        /**
-         * Add a CSS style to the document
-         * @param  {String}  rule  Complete CSS selector and style definition block
-         */
-        function addStyle(rule) {
-            if (!document.styleSheets || typeof rule !== 'string') { return false; }
-
-            // The first time this function is called, a new <style> block must be created
-            if (!styleElem) {
-                styleElem = document.createElement('style');
-                styleElem.type = 'text/css';
-                document.documentElement.appendChild(styleElem);
-            }
-
-            // Add rules to the style sheet
-            styleElem.appendChild(document.createTextNode(' ' + rule));
-        }
-
         init();
     }
 
@@ -1601,18 +1686,38 @@
         return array.map(function (x) { return x[prop]; }).indexOf(value);
     }
 
+    var latsHelperStylesheet;
+
+    /**
+     * Add a CSS style to the document
+     * @param  {String}  rule  Complete CSS selector and style definition block
+     */
+    function addStyle (rule) {
+        if (!document.styleSheets || typeof rule !== 'string') { return false; }
+
+        // The first time this function is called, a new <style> block must be created
+        if (!latsHelperStylesheet) {
+            latsHelperStylesheet = document.createElement('style');
+            latsHelperStylesheet.type = 'text/css';
+            document.documentElement.appendChild(latsHelperStylesheet);
+        }
+
+        // Add rules to the style sheet
+        latsHelperStylesheet.appendChild(document.createTextNode(' ' + rule));
+    }
+
     //////////////////////////////
     // Immediate initialization //
     //////////////////////////////
 
-    // Run the appropriate module
-    if (path === 'MyTimesheet') {
+    // // Run the appropriate module
+    // if (path === 'MyTimesheet') {
         Timesheet();
-    }
-    else if (path === 'SubTasks') {
-        SubTasks();
-    }
-    else if (path === 'TDS') {
-        TDS();
-    }
+    // }
+    // else if (path === 'SubTasks') {
+    //     SubTasks();
+    // }
+    // else if (path === 'TDS') {
+    //     TDS();
+    // }
 }());
