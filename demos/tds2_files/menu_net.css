@@ -1,0 +1,109 @@
+﻿/* MenuWrapper
+    Containing div for the menu system
+*/
+.menuWrapper
+{
+    background-color: #dddddd;
+	font-family: Tahoma, MS Sans Serif, Verdana, sans-serif;
+	font-size: 12px;
+	min-height: 15px!important;
+    min-width: 65%!important;
+    overflow: visible;
+}
+
+/* StaticMenuStyle & DynamicMenuStyle
+    The MenuStyle sets the properties that control the corresponding Menu,
+    think of it as the style for the box that contains all of the MenuItems. 
+    In addition to the traditional style properties it also includes HorizontalPadding and VerticalPadding.
+*/
+.staticMenu
+{
+    background-color: #dddddd;
+    cursor: pointer;
+    height: 15px!important;
+    text-align: center;
+    vertical-align: middle!important;
+    width: 85%;
+}
+
+.staticMenuItem
+{
+    border-right: solid 1px #ffffff;
+    color: #000000!important;
+    min-width: 65px!important;
+    padding: 2px 4px 1px 0px!important;
+    text-align: left;
+    vertical-align: text-bottom!important;
+}
+
+.staticMenuItem td a
+{
+    display: block;
+    min-width: 65px!important;
+    text-align: left;
+    vertical-align: middle!important;
+}
+
+.staticHover
+{
+    background-color: #ededed;
+    border-right: solid 1px #ededed;
+    color: #000000!important;
+    text-decoration: none!important;
+}
+
+/*  DynamicMenuItemStyle 
+    The MenuItemStyle sets the properties that control the display of the individual MenuItems contained 
+    in the corresponding component of the menu, think of it as the style for the links that appear within the box.
+    In addition to the traditional style properties it also includes ItemSpacing, HorizontalPadding and VerticalPadding. 
+*/
+.dynamicMenu
+{
+    border-right: solid 1px #dddddd;
+    border-bottom: solid 1px #dddddd;
+    cursor: pointer;
+    text-decoration: none!important;
+    width: 200px;
+}
+
+.dynamicMenuItem
+{
+    background-color: #ededed;
+    border-left: solid 1px #dddddd;
+    border-top: solid 1px #dddddd;
+    padding: 1px 0px 1px 2px!important;
+    text-decoration: none!important;
+    width: 200px;
+}
+
+.dynamicMenuItem td a
+{
+    width: 100%!important;
+    display: block!important;
+    text-align: left!important;
+}
+
+/*  DynamicSelectedStyle 
+    The SelectedStyle sets the properties that control the display of the individual MenuItem 
+    that is currently selected and contained on the corresponding component of the Menu, 
+    think of it as a MenuItemStyle specific to the selected item. 
+    In addition to the traditional style properties it also includes ItemSpacing, HorizontalPadding and VerticalPadding. 
+*/
+
+.dynamicSelected
+{
+    background-color: #dddddd!important;
+}
+
+/*  DynamicHoverStyle
+    The HoverStyle sets the properties that control the display of the individual MenuItem
+    that is currently selected and contained on the corresponding component of the Menu, 
+    think of it as a MenuItemStyle specific to the selected item. 
+    In addition to the traditional style properties it also includes ItemSpacing, HorizontalPadding and VerticalPadding. 
+*/
+.dynamicHover
+{
+    background-color: #dddddd!important;
+    color: #000000!important;
+    text-decoration: none!important;
+}

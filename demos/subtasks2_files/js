@@ -1,0 +1,291 @@
+Type.registerNamespace('LATSnet.LATSweb');
+LATSnet.LATSweb.TimeSheetWebService=function() {
+LATSnet.LATSweb.TimeSheetWebService.initializeBase(this);
+this._timeout = 0;
+this._userContext = null;
+this._succeeded = null;
+this._failed = null;
+}
+LATSnet.LATSweb.TimeSheetWebService.prototype={
+_get_path:function() {
+ var p = this.get_path();
+ if (p) return p;
+ else return LATSnet.LATSweb.TimeSheetWebService._staticInstance.get_path();},
+GetTDSDropDownListUseAccessControl:function(knownCategoryValues,category,contextKey,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetTDSDropDownListUseAccessControl',false,{knownCategoryValues:knownCategoryValues,category:category,contextKey:contextKey},succeededCallback,failedCallback,userContext); },
+GetTDSDropDownList:function(knownCategoryValues,category,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetTDSDropDownList',false,{knownCategoryValues:knownCategoryValues,category:category},succeededCallback,failedCallback,userContext); },
+GetUserCorpDropDownList:function(knownCategoryValues,category,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetUserCorpDropDownList',false,{knownCategoryValues:knownCategoryValues,category:category},succeededCallback,failedCallback,userContext); },
+GetAgencyList:function(knownCategoryValues,category,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetAgencyList',false,{knownCategoryValues:knownCategoryValues,category:category},succeededCallback,failedCallback,userContext); },
+GetSegCorpDropDownList:function(knownCategoryValues,category,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetSegCorpDropDownList',false,{knownCategoryValues:knownCategoryValues,category:category},succeededCallback,failedCallback,userContext); },
+GetUserTDSDropDownList:function(knownCategoryValues,category,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetUserTDSDropDownList',false,{knownCategoryValues:knownCategoryValues,category:category},succeededCallback,failedCallback,userContext); },
+SetUserAdminPayCycleSession:function(payCycleID,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'SetUserAdminPayCycleSession',false,{payCycleID:payCycleID},succeededCallback,failedCallback,userContext); },
+SetUserSessionValue:function(value,key,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'SetUserSessionValue',false,{value:value,key:key},succeededCallback,failedCallback,userContext); },
+GetPayPeriod:function(knownCategoryValues,category,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetPayPeriod',false,{knownCategoryValues:knownCategoryValues,category:category},succeededCallback,failedCallback,userContext); },
+GetPayPeriodUserAdminAdj:function(knownCategoryValues,category,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetPayPeriodUserAdminAdj',false,{knownCategoryValues:knownCategoryValues,category:category},succeededCallback,failedCallback,userContext); },
+GetEmployeesForItemNumber:function(itemNumber,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetEmployeesForItemNumber',false,{itemNumber:itemNumber},succeededCallback,failedCallback,userContext); },
+GetCatBalanceForID:function(internalID,type,PP_ID,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetCatBalanceForID',false,{internalID:internalID,type:type,PP_ID:PP_ID},succeededCallback,failedCallback,userContext); },
+GetEarningsRate:function(paymentID,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetEarningsRate',false,{paymentID:paymentID},succeededCallback,failedCallback,userContext); },
+GetDefaultPaymentID:function(workType,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetDefaultPaymentID',false,{workType:workType},succeededCallback,failedCallback,userContext); },
+ValidateIDBChange_ProcessedTS:function(internalID,payCycleDate,payCycleID,clear,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'ValidateIDBChange_ProcessedTS',false,{internalID:internalID,payCycleDate:payCycleDate,payCycleID:payCycleID,clear:clear},succeededCallback,failedCallback,userContext); },
+ValidateIDBChange:function(internalID,payCycleDate,payCycleID,initialDateExisting,payCycleIDExisting,clearIBD,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'ValidateIDBChange',false,{internalID:internalID,payCycleDate:payCycleDate,payCycleID:payCycleID,initialDateExisting:initialDateExisting,payCycleIDExisting:payCycleIDExisting,clearIBD:clearIBD},succeededCallback,failedCallback,userContext); },
+GetPayPeriodDate:function(knownCategoryValues,category,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetPayPeriodDate',false,{knownCategoryValues:knownCategoryValues,category:category},succeededCallback,failedCallback,userContext); },
+GetCurrentEmployeesDirectReport:function(succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetCurrentEmployeesDirectReport',false,{},succeededCallback,failedCallback,userContext); },
+GetCurrentEmployeesAlterReport:function(succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetCurrentEmployeesAlterReport',false,{},succeededCallback,failedCallback,userContext); },
+SaveWorkLocation:function(locationCode,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'SaveWorkLocation',false,{locationCode:locationCode},succeededCallback,failedCallback,userContext); },
+GetTimeSheetStatusPopup:function(succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetTimeSheetStatusPopup',false,{},succeededCallback,failedCallback,userContext); },
+GetEmployeeInforPop:function(succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetEmployeeInforPop',false,{},succeededCallback,failedCallback,userContext); },
+GetSchedOTDetail:function(scheduleID,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetSchedOTDetail',false,{scheduleID:scheduleID},succeededCallback,failedCallback,userContext); },
+GetSchedAssignDetail:function(scheduleID,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetSchedAssignDetail',false,{scheduleID:scheduleID},succeededCallback,failedCallback,userContext); },
+GetSchedLeaveDetail:function(scheduleLeaveID,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetSchedLeaveDetail',false,{scheduleLeaveID:scheduleLeaveID},succeededCallback,failedCallback,userContext); },
+GetEmployeeScheduleDetail:function(succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetEmployeeScheduleDetail',false,{},succeededCallback,failedCallback,userContext); },
+GetTimesheetVRWS:function(succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetTimesheetVRWS',false,{},succeededCallback,failedCallback,userContext); },
+GetTimesheetNonComp:function(succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetTimesheetNonComp',false,{},succeededCallback,failedCallback,userContext); },
+GetDynamicShiftInfo:function(succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetDynamicShiftInfo',false,{},succeededCallback,failedCallback,userContext); },
+GetSupervisorList:function(prefixText,count,supervisorsOnly,agencyCode,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetSupervisorList',false,{prefixText:prefixText,count:count,supervisorsOnly:supervisorsOnly,agencyCode:agencyCode},succeededCallback,failedCallback,userContext); },
+GetActiveSupervisorList:function(prefixText,count,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetActiveSupervisorList',false,{prefixText:prefixText,count:count},succeededCallback,failedCallback,userContext); },
+SaveSupervisor:function(supervisorType,supervisorID,updateMaster,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'SaveSupervisor',false,{supervisorType:supervisorType,supervisorID:supervisorID,updateMaster:updateMaster},succeededCallback,failedCallback,userContext); },
+SaveSchedRotationGroup:function(schedulePlanID,employeeID,scheduleRotationGroupID,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'SaveSchedRotationGroup',false,{schedulePlanID:schedulePlanID,employeeID:employeeID,scheduleRotationGroupID:scheduleRotationGroupID},succeededCallback,failedCallback,userContext); },
+GetTaskDescription:function(taskID,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetTaskDescription',false,{taskID:taskID},succeededCallback,failedCallback,userContext); },
+GetCategoryDescription:function(categoryID,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetCategoryDescription',false,{categoryID:categoryID},succeededCallback,failedCallback,userContext); },
+GetMiscLeaveDescription:function(miscLeaveCode,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetMiscLeaveDescription',false,{miscLeaveCode:miscLeaveCode},succeededCallback,failedCallback,userContext); },
+GetPaymentDescription:function(paymentID,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetPaymentDescription',false,{paymentID:paymentID},succeededCallback,failedCallback,userContext); },
+GetSubTaskDescription:function(subTaskID,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetSubTaskDescription',false,{subTaskID:subTaskID},succeededCallback,failedCallback,userContext); },
+SubTaskDisplay:function(empTDSID,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'SubTaskDisplay',false,{empTDSID:empTDSID},succeededCallback,failedCallback,userContext); },
+SubTaskByListDisplay:function(empTDSID,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'SubTaskByListDisplay',false,{empTDSID:empTDSID},succeededCallback,failedCallback,userContext); },
+GetProjectByCode:function(categoryCode,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetProjectByCode',false,{categoryCode:categoryCode},succeededCallback,failedCallback,userContext); },
+GetProjectByID:function(categoryID,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetProjectByID',false,{categoryID:categoryID},succeededCallback,failedCallback,userContext); },
+GetEmployeeName:function(prefixText,count,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetEmployeeName',false,{prefixText:prefixText,count:count},succeededCallback,failedCallback,userContext); },
+GetEmployeeNameWithItemNo:function(prefixText,count,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetEmployeeNameWithItemNo',false,{prefixText:prefixText,count:count},succeededCallback,failedCallback,userContext); },
+GetEmployeeNameSegmented:function(prefixText,count,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetEmployeeNameSegmented',false,{prefixText:prefixText,count:count},succeededCallback,failedCallback,userContext); },
+GetTitleList:function(prefixText,count,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetTitleList',false,{prefixText:prefixText,count:count},succeededCallback,failedCallback,userContext); },
+GetDynamicEmpPercentDesc:function(succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetDynamicEmpPercentDesc',false,{},succeededCallback,failedCallback,userContext); },
+GetEmpCompDesc:function(succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetEmpCompDesc',false,{},succeededCallback,failedCallback,userContext); },
+GetCategoryInfoDesc:function(succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetCategoryInfoDesc',false,{},succeededCallback,failedCallback,userContext); },
+GetSeasonalHrsInfo:function(succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetSeasonalHrsInfo',false,{},succeededCallback,failedCallback,userContext); },
+GetEnforcePunchDesc:function(succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetEnforcePunchDesc',false,{},succeededCallback,failedCallback,userContext); },
+GetPaymentCodeHelp:function(succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetPaymentCodeHelp',false,{},succeededCallback,failedCallback,userContext); },
+GetAutoHolidayCodeHelp:function(succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetAutoHolidayCodeHelp',false,{},succeededCallback,failedCallback,userContext); },
+GetFreezeVacEarningsDesc:function(succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetFreezeVacEarningsDesc',false,{},succeededCallback,failedCallback,userContext); },
+GetMaxCompOver40:function(succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetMaxCompOver40',false,{},succeededCallback,failedCallback,userContext); },
+GetPreFillHoliday:function(succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetPreFillHoliday',false,{},succeededCallback,failedCallback,userContext); },
+AutoGenerateTaskCode:function(categoryID,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'AutoGenerateTaskCode',false,{categoryID:categoryID},succeededCallback,failedCallback,userContext); },
+GetAccrualProcessCounts:function(internalID,payCycleID,fromPPBeginDate,toPPEndDate,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetAccrualProcessCounts',false,{internalID:internalID,payCycleID:payCycleID,fromPPBeginDate:fromPPBeginDate,toPPEndDate:toPPEndDate},succeededCallback,failedCallback,userContext); },
+GetAccrualDefaultCounts:function(internalID,payCycleID,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetAccrualDefaultCounts',false,{internalID:internalID,payCycleID:payCycleID},succeededCallback,failedCallback,userContext); },
+GetProcessStatus:function(processID,processStatusID,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetProcessStatus',false,{processID:processID,processStatusID:processStatusID},succeededCallback,failedCallback,userContext); },
+GetPaymentTransmitRecords:function(agencyCode,payPeriodYear,payPeriod,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetPaymentTransmitRecords',false,{agencyCode:agencyCode,payPeriodYear:payPeriodYear,payPeriod:payPeriod},succeededCallback,failedCallback,userContext); },
+GetCurrentPayPeriod:function(payCycle,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetCurrentPayPeriod',false,{payCycle:payCycle},succeededCallback,failedCallback,userContext); },
+GetPayPeriodList:function(payCycle,payPeriodYear,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetPayPeriodList',false,{payCycle:payCycle,payPeriodYear:payPeriodYear},succeededCallback,failedCallback,userContext); },
+GetEmployeePayCycleID:function(internalID,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetEmployeePayCycleID',false,{internalID:internalID},succeededCallback,failedCallback,userContext); },
+GetCostProcessCheckDateList:function(payCycle,payPeriodYear,payPeriod,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetCostProcessCheckDateList',false,{payCycle:payCycle,payPeriodYear:payPeriodYear,payPeriod:payPeriod},succeededCallback,failedCallback,userContext); },
+GetPaySRFileCheckDate:function(payCycle,payPeriodYear,payPeriod,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetPaySRFileCheckDate',false,{payCycle:payCycle,payPeriodYear:payPeriodYear,payPeriod:payPeriod},succeededCallback,failedCallback,userContext); },
+GetSplitCounts:function(payCycle,payPeriodYear,payPeriod,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetSplitCounts',false,{payCycle:payCycle,payPeriodYear:payPeriodYear,payPeriod:payPeriod},succeededCallback,failedCallback,userContext); },
+GetEmployeeSearchList:function(prefixText,count,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetEmployeeSearchList',false,{prefixText:prefixText,count:count},succeededCallback,failedCallback,userContext); },
+GetCostSplitEmpSearchList:function(prefixText,count,internalID,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetCostSplitEmpSearchList',false,{prefixText:prefixText,count:count,internalID:internalID},succeededCallback,failedCallback,userContext); },
+GetNHRP522Employees:function(prefixText,checkDate,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetNHRP522Employees',false,{prefixText:prefixText,checkDate:checkDate},succeededCallback,failedCallback,userContext); },
+GetEmpClockUserSearchList:function(prefixText,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetEmpClockUserSearchList',false,{prefixText:prefixText},succeededCallback,failedCallback,userContext); },
+GetEmpTimeClockSearchList:function(prefixText,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetEmpTimeClockSearchList',false,{prefixText:prefixText},succeededCallback,failedCallback,userContext); },
+GetTimekeeperSearchList:function(prefixText,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetTimekeeperSearchList',false,{prefixText:prefixText},succeededCallback,failedCallback,userContext); },
+GetDelegateSearchList:function(prefixText,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetDelegateSearchList',false,{prefixText:prefixText},succeededCallback,failedCallback,userContext); },
+GetCardIDSearchList:function(prefixText,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetCardIDSearchList',false,{prefixText:prefixText},succeededCallback,failedCallback,userContext); },
+GetWorkLocationList:function(succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetWorkLocationList',false,{},succeededCallback,failedCallback,userContext); },
+GetWorkLocationListForAgencyCode:function(agencyCode,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetWorkLocationListForAgencyCode',false,{agencyCode:agencyCode},succeededCallback,failedCallback,userContext); },
+GetNegUnitsList:function(succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetNegUnitsList',false,{},succeededCallback,failedCallback,userContext); },
+GetSubTaskList:function(EmpTDSID,searchSubTaskCode,searchSubTaskDescription,count,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetSubTaskList',false,{EmpTDSID:EmpTDSID,searchSubTaskCode:searchSubTaskCode,searchSubTaskDescription:searchSubTaskDescription,count:count},succeededCallback,failedCallback,userContext); },
+ForgotPassword:function(userName,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'ForgotPassword',false,{userName:userName},succeededCallback,failedCallback,userContext); },
+GetSpecialAssigmentDropDownList:function(knownCategoryValues,category,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetSpecialAssigmentDropDownList',false,{knownCategoryValues:knownCategoryValues,category:category},succeededCallback,failedCallback,userContext); },
+GetEmpMiscLeaveCodes:function(internalID,planDate,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetEmpMiscLeaveCodes',false,{internalID:internalID,planDate:planDate},succeededCallback,failedCallback,userContext); },
+GetWorksheetShifts:function(internalID,planDate,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetWorksheetShifts',false,{internalID:internalID,planDate:planDate},succeededCallback,failedCallback,userContext); },
+GetSupervisors:function(panelId,userId,includeAlt,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetSupervisors',false,{panelId:panelId,userId:userId,includeAlt:includeAlt},succeededCallback,failedCallback,userContext); },
+GetSubordinates:function(panelId,userId,includeAlt,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'GetSubordinates',false,{panelId:panelId,userId:userId,includeAlt:includeAlt},succeededCallback,failedCallback,userContext); }}
+LATSnet.LATSweb.TimeSheetWebService.registerClass('LATSnet.LATSweb.TimeSheetWebService',Sys.Net.WebServiceProxy);
+LATSnet.LATSweb.TimeSheetWebService._staticInstance = new LATSnet.LATSweb.TimeSheetWebService();
+LATSnet.LATSweb.TimeSheetWebService.set_path = function(value) { LATSnet.LATSweb.TimeSheetWebService._staticInstance.set_path(value); }
+LATSnet.LATSweb.TimeSheetWebService.get_path = function() { return LATSnet.LATSweb.TimeSheetWebService._staticInstance.get_path(); }
+LATSnet.LATSweb.TimeSheetWebService.set_timeout = function(value) { LATSnet.LATSweb.TimeSheetWebService._staticInstance.set_timeout(value); }
+LATSnet.LATSweb.TimeSheetWebService.get_timeout = function() { return LATSnet.LATSweb.TimeSheetWebService._staticInstance.get_timeout(); }
+LATSnet.LATSweb.TimeSheetWebService.set_defaultUserContext = function(value) { LATSnet.LATSweb.TimeSheetWebService._staticInstance.set_defaultUserContext(value); }
+LATSnet.LATSweb.TimeSheetWebService.get_defaultUserContext = function() { return LATSnet.LATSweb.TimeSheetWebService._staticInstance.get_defaultUserContext(); }
+LATSnet.LATSweb.TimeSheetWebService.set_defaultSucceededCallback = function(value) { LATSnet.LATSweb.TimeSheetWebService._staticInstance.set_defaultSucceededCallback(value); }
+LATSnet.LATSweb.TimeSheetWebService.get_defaultSucceededCallback = function() { return LATSnet.LATSweb.TimeSheetWebService._staticInstance.get_defaultSucceededCallback(); }
+LATSnet.LATSweb.TimeSheetWebService.set_defaultFailedCallback = function(value) { LATSnet.LATSweb.TimeSheetWebService._staticInstance.set_defaultFailedCallback(value); }
+LATSnet.LATSweb.TimeSheetWebService.get_defaultFailedCallback = function() { return LATSnet.LATSweb.TimeSheetWebService._staticInstance.get_defaultFailedCallback(); }
+LATSnet.LATSweb.TimeSheetWebService.set_enableJsonp = function(value) { LATSnet.LATSweb.TimeSheetWebService._staticInstance.set_enableJsonp(value); }
+LATSnet.LATSweb.TimeSheetWebService.get_enableJsonp = function() { return LATSnet.LATSweb.TimeSheetWebService._staticInstance.get_enableJsonp(); }
+LATSnet.LATSweb.TimeSheetWebService.set_jsonpCallbackParameter = function(value) { LATSnet.LATSweb.TimeSheetWebService._staticInstance.set_jsonpCallbackParameter(value); }
+LATSnet.LATSweb.TimeSheetWebService.get_jsonpCallbackParameter = function() { return LATSnet.LATSweb.TimeSheetWebService._staticInstance.get_jsonpCallbackParameter(); }
+LATSnet.LATSweb.TimeSheetWebService.set_path("/WebServices/TimeSheetWebService.asmx");
+LATSnet.LATSweb.TimeSheetWebService.GetTDSDropDownListUseAccessControl= function(knownCategoryValues,category,contextKey,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetTDSDropDownListUseAccessControl(knownCategoryValues,category,contextKey,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetTDSDropDownList= function(knownCategoryValues,category,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetTDSDropDownList(knownCategoryValues,category,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetUserCorpDropDownList= function(knownCategoryValues,category,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetUserCorpDropDownList(knownCategoryValues,category,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetAgencyList= function(knownCategoryValues,category,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetAgencyList(knownCategoryValues,category,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetSegCorpDropDownList= function(knownCategoryValues,category,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetSegCorpDropDownList(knownCategoryValues,category,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetUserTDSDropDownList= function(knownCategoryValues,category,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetUserTDSDropDownList(knownCategoryValues,category,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.SetUserAdminPayCycleSession= function(payCycleID,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.SetUserAdminPayCycleSession(payCycleID,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.SetUserSessionValue= function(value,key,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.SetUserSessionValue(value,key,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetPayPeriod= function(knownCategoryValues,category,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetPayPeriod(knownCategoryValues,category,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetPayPeriodUserAdminAdj= function(knownCategoryValues,category,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetPayPeriodUserAdminAdj(knownCategoryValues,category,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetEmployeesForItemNumber= function(itemNumber,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetEmployeesForItemNumber(itemNumber,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetCatBalanceForID= function(internalID,type,PP_ID,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetCatBalanceForID(internalID,type,PP_ID,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetEarningsRate= function(paymentID,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetEarningsRate(paymentID,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetDefaultPaymentID= function(workType,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetDefaultPaymentID(workType,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.ValidateIDBChange_ProcessedTS= function(internalID,payCycleDate,payCycleID,clear,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.ValidateIDBChange_ProcessedTS(internalID,payCycleDate,payCycleID,clear,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.ValidateIDBChange= function(internalID,payCycleDate,payCycleID,initialDateExisting,payCycleIDExisting,clearIBD,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.ValidateIDBChange(internalID,payCycleDate,payCycleID,initialDateExisting,payCycleIDExisting,clearIBD,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetPayPeriodDate= function(knownCategoryValues,category,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetPayPeriodDate(knownCategoryValues,category,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetCurrentEmployeesDirectReport= function(onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetCurrentEmployeesDirectReport(onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetCurrentEmployeesAlterReport= function(onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetCurrentEmployeesAlterReport(onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.SaveWorkLocation= function(locationCode,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.SaveWorkLocation(locationCode,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetTimeSheetStatusPopup= function(onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetTimeSheetStatusPopup(onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetEmployeeInforPop= function(onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetEmployeeInforPop(onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetSchedOTDetail= function(scheduleID,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetSchedOTDetail(scheduleID,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetSchedAssignDetail= function(scheduleID,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetSchedAssignDetail(scheduleID,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetSchedLeaveDetail= function(scheduleLeaveID,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetSchedLeaveDetail(scheduleLeaveID,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetEmployeeScheduleDetail= function(onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetEmployeeScheduleDetail(onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetTimesheetVRWS= function(onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetTimesheetVRWS(onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetTimesheetNonComp= function(onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetTimesheetNonComp(onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetDynamicShiftInfo= function(onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetDynamicShiftInfo(onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetSupervisorList= function(prefixText,count,supervisorsOnly,agencyCode,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetSupervisorList(prefixText,count,supervisorsOnly,agencyCode,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetActiveSupervisorList= function(prefixText,count,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetActiveSupervisorList(prefixText,count,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.SaveSupervisor= function(supervisorType,supervisorID,updateMaster,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.SaveSupervisor(supervisorType,supervisorID,updateMaster,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.SaveSchedRotationGroup= function(schedulePlanID,employeeID,scheduleRotationGroupID,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.SaveSchedRotationGroup(schedulePlanID,employeeID,scheduleRotationGroupID,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetTaskDescription= function(taskID,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetTaskDescription(taskID,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetCategoryDescription= function(categoryID,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetCategoryDescription(categoryID,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetMiscLeaveDescription= function(miscLeaveCode,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetMiscLeaveDescription(miscLeaveCode,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetPaymentDescription= function(paymentID,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetPaymentDescription(paymentID,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetSubTaskDescription= function(subTaskID,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetSubTaskDescription(subTaskID,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.SubTaskDisplay= function(empTDSID,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.SubTaskDisplay(empTDSID,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.SubTaskByListDisplay= function(empTDSID,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.SubTaskByListDisplay(empTDSID,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetProjectByCode= function(categoryCode,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetProjectByCode(categoryCode,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetProjectByID= function(categoryID,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetProjectByID(categoryID,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetEmployeeName= function(prefixText,count,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetEmployeeName(prefixText,count,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetEmployeeNameWithItemNo= function(prefixText,count,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetEmployeeNameWithItemNo(prefixText,count,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetEmployeeNameSegmented= function(prefixText,count,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetEmployeeNameSegmented(prefixText,count,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetTitleList= function(prefixText,count,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetTitleList(prefixText,count,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetDynamicEmpPercentDesc= function(onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetDynamicEmpPercentDesc(onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetEmpCompDesc= function(onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetEmpCompDesc(onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetCategoryInfoDesc= function(onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetCategoryInfoDesc(onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetSeasonalHrsInfo= function(onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetSeasonalHrsInfo(onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetEnforcePunchDesc= function(onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetEnforcePunchDesc(onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetPaymentCodeHelp= function(onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetPaymentCodeHelp(onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetAutoHolidayCodeHelp= function(onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetAutoHolidayCodeHelp(onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetFreezeVacEarningsDesc= function(onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetFreezeVacEarningsDesc(onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetMaxCompOver40= function(onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetMaxCompOver40(onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetPreFillHoliday= function(onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetPreFillHoliday(onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.AutoGenerateTaskCode= function(categoryID,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.AutoGenerateTaskCode(categoryID,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetAccrualProcessCounts= function(internalID,payCycleID,fromPPBeginDate,toPPEndDate,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetAccrualProcessCounts(internalID,payCycleID,fromPPBeginDate,toPPEndDate,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetAccrualDefaultCounts= function(internalID,payCycleID,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetAccrualDefaultCounts(internalID,payCycleID,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetProcessStatus= function(processID,processStatusID,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetProcessStatus(processID,processStatusID,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetPaymentTransmitRecords= function(agencyCode,payPeriodYear,payPeriod,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetPaymentTransmitRecords(agencyCode,payPeriodYear,payPeriod,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetCurrentPayPeriod= function(payCycle,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetCurrentPayPeriod(payCycle,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetPayPeriodList= function(payCycle,payPeriodYear,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetPayPeriodList(payCycle,payPeriodYear,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetEmployeePayCycleID= function(internalID,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetEmployeePayCycleID(internalID,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetCostProcessCheckDateList= function(payCycle,payPeriodYear,payPeriod,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetCostProcessCheckDateList(payCycle,payPeriodYear,payPeriod,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetPaySRFileCheckDate= function(payCycle,payPeriodYear,payPeriod,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetPaySRFileCheckDate(payCycle,payPeriodYear,payPeriod,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetSplitCounts= function(payCycle,payPeriodYear,payPeriod,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetSplitCounts(payCycle,payPeriodYear,payPeriod,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetEmployeeSearchList= function(prefixText,count,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetEmployeeSearchList(prefixText,count,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetCostSplitEmpSearchList= function(prefixText,count,internalID,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetCostSplitEmpSearchList(prefixText,count,internalID,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetNHRP522Employees= function(prefixText,checkDate,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetNHRP522Employees(prefixText,checkDate,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetEmpClockUserSearchList= function(prefixText,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetEmpClockUserSearchList(prefixText,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetEmpTimeClockSearchList= function(prefixText,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetEmpTimeClockSearchList(prefixText,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetTimekeeperSearchList= function(prefixText,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetTimekeeperSearchList(prefixText,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetDelegateSearchList= function(prefixText,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetDelegateSearchList(prefixText,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetCardIDSearchList= function(prefixText,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetCardIDSearchList(prefixText,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetWorkLocationList= function(onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetWorkLocationList(onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetWorkLocationListForAgencyCode= function(agencyCode,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetWorkLocationListForAgencyCode(agencyCode,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetNegUnitsList= function(onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetNegUnitsList(onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetSubTaskList= function(EmpTDSID,searchSubTaskCode,searchSubTaskDescription,count,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetSubTaskList(EmpTDSID,searchSubTaskCode,searchSubTaskDescription,count,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.ForgotPassword= function(userName,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.ForgotPassword(userName,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetSpecialAssigmentDropDownList= function(knownCategoryValues,category,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetSpecialAssigmentDropDownList(knownCategoryValues,category,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetEmpMiscLeaveCodes= function(internalID,planDate,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetEmpMiscLeaveCodes(internalID,planDate,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetWorksheetShifts= function(internalID,planDate,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetWorksheetShifts(internalID,planDate,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetSupervisors= function(panelId,userId,includeAlt,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetSupervisors(panelId,userId,includeAlt,onSuccess,onFailed,userContext); }
+LATSnet.LATSweb.TimeSheetWebService.GetSubordinates= function(panelId,userId,includeAlt,onSuccess,onFailed,userContext) {LATSnet.LATSweb.TimeSheetWebService._staticInstance.GetSubordinates(panelId,userId,includeAlt,onSuccess,onFailed,userContext); }
+var gtc = Sys.Net.WebServiceProxy._generateTypedConstructor;
+Type.registerNamespace('AjaxControlToolkit');
+if (typeof(AjaxControlToolkit.CascadingDropDownNameValue) === 'undefined') {
+AjaxControlToolkit.CascadingDropDownNameValue=gtc("AjaxControlToolkit.CascadingDropDownNameValue");
+AjaxControlToolkit.CascadingDropDownNameValue.registerClass('AjaxControlToolkit.CascadingDropDownNameValue');
+}

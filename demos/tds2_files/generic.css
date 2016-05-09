@@ -1,0 +1,222 @@
+﻿/* LATSnet CSS Classes */
+/* Blue Site b0c4de */
+
+
+body
+{
+	background-color: #ffffff;
+	background-repeat: repeat-x;
+	margin: 5px;
+	padding: 0px;
+	font-family: verdana, arial, helvetica, sans-serif;
+	font-size:small;
+	color: #333300;
+}
+.page_title {
+	position: relative;
+	width: 768px;
+	height: 18px;
+	font-size:1.4em;
+	font-weight:500;
+}
+.main {
+	position: relative;
+	width: 768px;
+	padding-left:4px;
+	margin-top: 14px;
+	margin-left: auto;
+	margin-right: auto;
+	vertical-align:top;
+}
+.footer 
+{
+	text-align:center;
+	height: 75px;
+	font-size: 10px;
+}
+h1{font-size:1.4em; font-weight:500;}
+h2{font-size:1.25em; text-decoration:underline; font-weight:500;}
+h3{font-size:1.25em; font-style:italic; font-weight:500;}
+h4{font-size:1.25em; font-weight:500;}
+h5{font-size:1.1em; font-weight:500; text-decoration:underline;}
+h6{font-size:1.1em; font-weight:500; font-style:italic;}
+a{text-decoration:none;}
+a:hover{text-decoration:underline;}
+form{margin:0; padding:0;}
+
+/* LATSnet Custom CSS Classes */
+.bigHeader{font-size: 1.1em; text-decoration:underline; font-weight: bold;}
+.homePageHeader{font-weight: bold; font-size:larger}
+.normalHeader{font-weight: bold;}
+.pageTitle{padding-top:3px; padding-left:3px; font-weight:bold; font-size:larger}
+.pageTitle tr {vertical-align:top;}
+.pageTitle *{padding:0px!important; margin:0px!important;}
+.content{vertical-align:top; text-align:left; padding-left:2px; color:#000000;}
+.required{color:#FF0000;}
+.required *{color:#FF0000;}
+.note{font-size:.8em;}
+.instructions{font-size:1em; font-style:italic!important;}
+.noSpace * {padding:0px!important; margin:0px!important;}
+.error{color:#FF0000;}
+.error a{color:#FF0000; text-decoration:underline;}
+.warning{color:#FF0000;}
+.warning a{color:#FF0000; text-decoration:underline;}
+.copyright{font-size:.8em;}
+.smallText * {font-size:9px; color:#000000;}
+.reportText {font-size: 10px;}
+
+.readonlyField {color:#777777;}
+.disabledOption {color:#777777;}
+.enabledOption {color:#000000;}
+.disabledField{background-color:#EDEDED;}
+.enabledField{background-color:#FFFFFF;}
+.disabledOptionUnderline {color:#777777; text-decoration:underline;}
+
+.detailHeader{background-color:#DDDDDD;font-weight:500;}
+
+/* ----- TREEVIEW DEFINITIONS ----- */
+.treeView normalHeader{font-weight: bold}
+.treeView a{color: #000000; text-decoration:none;}
+.treeView a:hover{color: #000000; text-decoration:underline;}
+
+/* ----- BLOCKING DEFINITIONS ----- */
+.blocker{cursor:pointer;/*mozilla*/ cursor:hand;}
+.blocker{background-color:#DDDDDD!important;}
+.blocker td{background-color:#DDDDDD!important;}
+.blockerNoBGColor{cursor:pointer;/*mozilla*/ cursor:hand;}
+.blockee{display:none;}
+
+/* ------- NAV DEFINITIONS -------- */
+.navBox {border-collapse:collapse;}
+.navBox tr td {padding:0px!important;}
+.navContent ul {margin:0px;padding:0px;font-size:12px;}
+.navContent li {list-style-type:none;width:100%;text-align:center;padding:0px;}
+.navContent li * {cursor:pointer;/*mozilla*/ cursor:hand;}
+.navContent li a {width:100%;display:block;font-weight:normal;text-decoration:none;border-width:2px;padding-left:5px;padding-right:5px;}
+.navContent li a:link {color:#000000;font-weight:normal;background-color:#CCCCCC;border-style:outset;}
+.navContent li a:visited {color:#000000;font-weight:normal;font-weight:normal;background-color:#CCCCCC;border-style:outset;}
+.navContent li a:hover {color:#000000;font-weight:normal;background-color:#AAAAAA;border-style:outset;text-decoration:none;}
+.navContent li a:active {color:#000000;font-weight:normal;background-color:#AAAAAA;border-style:inset;}
+.pageNav
+{	
+	border-top:#000000 1px solid;
+	border-left:#000000 1px solid;
+	border-right:#000000 1px solid;
+	border-bottom:#000000 1px solid;
+}
+.gridViewHover
+{
+	cursor:pointer; background-color:#DDDDDD !important;
+}
+.gridViewHoverAlt
+{
+	cursor:pointer; background-color:#DDDDDD;
+}
+
+.gridViewHoverSelect
+{
+	cursor:pointer; background-color:#B2DFEE !important;
+}
+
+.gridViewHoverTinySelect
+{
+	cursor:pointer; background-color:#DDDDDD !important;
+	FONT-WEIGHT: normal;
+    FONT-SIZE: 10px;
+    COLOR: black;
+    FONT-FAMILY: arial
+}
+
+.textbold
+{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 7px;
+    COLOR: black;
+    FONT-FAMILY: verdana, optima, arial, sans-serif
+}
+.textsmaller
+{ 
+    FONT-SIZE: 7px;
+    COLOR: black;
+    FONT-FAMILY: verdana, optima, arial, sans-serif
+}
+.top
+{
+    FONT-SIZE: 7px;
+    FONT-FAMILY: verdana, optima, arial, sans-serif
+    BORDER-TOP: #001884 1px solid
+}
+
+/* Accessibility CSS Begins */
+.alignTopLeft
+{
+    text-align: left;
+    vertical-align: top;
+}
+
+.alignTopLeftNoWrap
+{
+    text-align: left;
+    vertical-align: top;
+    white-space: nowrap;
+}
+
+.floatLeft
+{
+    float: left;
+}
+
+.noWrap
+{
+    white-space: nowrap;
+}
+
+.textDecoractionUnderline
+{
+    text-decoration: underline;
+}
+
+.GridViewPagerStyle
+{
+	font-style:italic;
+	font-weight:bold;
+	padding-left:4px;
+	padding-right:4px
+	
+}
+
+.InfoBar
+{
+    background-color: #2EB8E6;
+    color: #FFFFFF;
+    font-weight: bold;
+    position: absolute;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    text-align: center;
+    border-bottom-width: 2px;
+    border-bottom-color: #666666;
+    border-bottom-style: solid;    
+}
+/* Accessibility CSS Ends */
+
+.alternateRows tr:nth-child(odd) {
+    width: 100%;
+    background: #FFF;
+	background-color:#EDEDED;
+	border-top:#333333 1px solid;
+	border-left:#333333 1px solid;
+    border-right:#333333 1px solid;
+	border-bottom:#333333 1px solid;
+}
+
+.alternateRows tr:nth-child(even) {
+    width: 100%;
+    background: #CCC;
+	background-color:#EDEDED;
+	border-top:#333333 1px solid;
+	border-left:#333333 1px solid;
+    border-right:#333333 1px solid;
+	border-bottom:#333333 1px solid;
+}

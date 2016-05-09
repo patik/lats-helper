@@ -1,0 +1,521 @@
+﻿/* LATSnet CSS Classes  #0066B3 #80C9FF */
+
+/* ------- TAB DEFINITIONS -------- */
+/* Used by the tab user control - includes/tab.ascx */
+.tabOff, .tabOn{display:inline; background-color:#666666;}
+.tabOn{background-color:#0066B3!important;}
+.tabOn a, .tabOff a{color:#FFFFFF; text-decoration:none!important;}
+.tabOn a{font-weight:900;}
+.tabDisabled{display:inline; background-color:#EDEDED;}
+.tabDisabled a{color:#AAAAAA; text-decoration:none!important; cursor:default;}
+
+/* ------- SCROLLABLE LAYER FOR RESULTS --------*/
+.scroll{overflow:scroll;border-left:#333333 0px solid;border-top:#333333 0px solid;border-right:#333333 1px solid;border-bottom:#333333 1px solid;}
+
+/* ------- EXPLAIN TABLE DEFINITIONS ------ */
+/* Explain Tables -- Tables that display information in small popups*/
+table.explainTable{border:#333333 0px none;}
+table.explainTable tr td{padding-top: 3px;padding-left: 3px;}
+tr.explainTableHeader{background:#0066B3;vertical-align:bottom;color:#FFFFFF;}
+tr.explainTableHeader td{font-weight:bold;font-size: 3ex;}
+
+/* ------- EVALUATION DEFINITIONS ------ */
+table.evaluationTable{border:#333333 1px solid;background-color:#EDEDED;}
+.evaluationHeader{font-size:1.4em; font-weight:500;}
+
+/* ------- CLASS ROSTER DEFINITIONS ------ */
+.rosterHeader{font-size:1.4em; font-weight:500;text-decoration:underline;color:#000000}
+.rosterHeader:hover{color:#0066B3}
+
+/* ------- GENERIC TABLE DEFINITIONS ------ */
+/* Normal Tables -- Tables that display information */
+table.normalTable{
+	border-top:#333333 1px solid;
+	border-left:#333333 1px solid;
+	border-right:#333333 1px solid;
+	border-bottom:#333333 1px solid;
+}
+table.normalTable tr td{padding-top: 3px;padding-left: 3px;}
+
+/* List Table -- Tables that list information */
+table.listTable {border-top:#333333 1px solid;border-left:#333333 1px solid;border-right:#FFFFFF 0px none;border-bottom:#FFFFFF 0px none;}
+table.listTable tr td {margin: 2px 2px 2px 2px;padding: 2px 2px 2px 2px;background-color: #f5f5f5;}
+tr.listTableBigItem td {background-color: #dcdcdc!important;font-weight:bold;}
+tr.listTableHeader td {background-color:#0066B3!important;font-weight:bold;vertical-align:middle;color:#FFFFFF;}
+tr.listTableHeader a {background-color:#0066B3!important;font-weight:bold;vertical-align:middle;color:#FFFFFF;}
+td.listTableTitleCell {background-color:#EEEEEE!important;font-weight:bold;}
+
+/* Input Tables -- Tables that user's type information into */
+table.inputTable{
+	background-color:#EDEDED;
+	border-top:#333333 1px solid;
+	border-left:#333333 1px solid;
+    border-right:#333333 1px solid;
+	border-bottom:#333333 1px solid;
+}
+table.inputTable tr td{padding:3px;}
+
+table.highLightTable{
+	background-color:#EDEDED;
+	border-top:#333333 1px solid;
+	border-left:#333333 1px solid;
+	border-right:#333333 1px solid;
+	border-bottom:#333333 1px solid;
+	border-color:#B2DFEE;
+	border-style:solid;
+	border-width:thick
+	
+}
+/*table.highLightTable tr td{padding:3px;}*/
+
+table.inputTableOnly{
+	background-color:#EDEDED;
+	border-top:#333333 1px solid;
+	border-left:#333333 1px solid;
+	border-right:#FFFFFF 0px none;
+	border-bottom:#FFFFFF 0px none;
+}
+table.inputTableOnly tr td{padding-top: 0px;padding-left: 0px;}
+
+/* Result Tables -- Tables that display a list of results from the DB */
+
+/* use if the result is *NOT* in a scrolling div */
+table.resultTable{border:#333333 1px solid;width:100%;border-collapse:collapse;background-color:#FFFFFF;}
+table.resultTable tr td{border:#dddddd 1px solid;padding:3px;}
+
+/* use if the result is in a scrolling div */
+table.resultTableScroll{border:#333333 0px solid;width:100%;border-collapse:collapse;background-color:#FFFFFF;}
+table.resultTableScroll table{}
+table.resultTableScroll tr td{border:#dddddd 1px solid;padding:3px;}
+
+/* Drag Drop Grid Table */
+table.ddgTable{width:100%;border-collapse:collapse;background-color:#FFFFFF;}
+table.ddgTable tr td{padding:3px;}
+table.ddgTable td {
+	cursor:hand;
+	padding: 2px 2px 2px 2px;
+	font-size: 12px;
+	background-color:#DDDDDD;
+	border-top:#FFFFFF 1px solid;
+	border-left:#FFFFFF 1px solid;
+	border-right:#FFFFFF 0px none;
+	border-bottom:#FFFFFF 0px none;
+}
+
+/* TR */
+/* Normal Tables -- Tables that display information */
+tr.normalTableHeader{
+	background:#0066B3;
+	font-weight:bold;
+	vertical-align:bottom;
+	color:#FFFFFF;
+}
+/* Normal Tables -- Tables that display information */
+tr.normalTableHeaderInTable{font-weight:bold; vertical-align:bottom;}
+
+/* Input Tables -- Tables that user's type information into */
+tr.inputTableHeader{
+	background:#0066B3;
+	font-weight:bold;
+	vertical-align:bottom;
+	color:#FFFFFF;
+}
+
+tr.inputTableHeaderSmall, td.inputTableHeaderSmall{
+	background:#0066B3;
+	vertical-align:bottom;
+	color:#FFFFFF;
+	font-size: 11px;
+}
+
+/* Normal Tables -- Tables that display information */
+tr.inputTableHeaderInTable{font-weight:bold; vertical-align:bottom;}
+
+/* Result Tables -- Tables that display a list of results from the DB */
+tr.resultTableHeader{height:1ex;}
+tr.resultTableHeader *{
+	background:#0066B3;
+	font-weight:bold;
+	vertical-align:middle;
+	color:#FFFFFF;
+	white-space:nowrap;
+}
+
+/* Result Tables where if you click on the row, it creates an action, like going to another page */
+tr.resultTableRowSelectable{cursor:pointer;/*mozilla*/ cursor:hand;}
+tr.resultTableRowSelectableAlternate{cursor:pointer;/*mozilla*/ cursor:hand; background-color:#EEEEEE;}
+tr.resultTableRowSelected{cursor:pointer;/*mozilla*/ cursor:hand; background-color:#F5F5DC;}
+
+tr.resultTableRowGroup * {font-weight:bolder;font-size:14px;}
+tr.resultTableRowSubTotal * {background-color:#DDDDDD;color:#000000;font-weight:bolder;}
+tr.resultTableRowGrandTotal * {background-color:#CCCCCC;color:#000000;font-weight:bolder;font-size:14px;}
+
+tr.resultTableAltBackColor{background-color:#DDDDDD;}
+
+/* Print Tables -- Tables that display a list of results from the DB */
+.printTitle{font-size:16px; font-weight:900;}
+table.printTable{border:#333333 1px solid;width:100%;border-collapse:collapse;}
+table.printTable tr td{padding:3px;}
+tr.printTableHeader{height:1ex;}
+tr.printTableHeader *{
+	background:#0066B3;
+	font-weight:bold;
+	vertical-align:middle;
+	color:#FFFFFF;
+}
+tr.printTableAltBackColor{background-color:#EEEEEE;}
+
+/* Drag Drop Grid Table */
+tr.ddgTableHeader{height:1ex;}
+tr.ddgTableHeader td 
+{
+	cursor:default;
+	background:#0066B3;
+	font-weight:bold;
+	vertical-align:middle;
+	color:#FFFFFF;
+	white-space:nowrap;
+}
+
+/* ----- SCHEDULE DEFINITIONS ------ */
+table.scheduleByDay { width: 50px; }
+table.scheduleByDay tr td { padding-top: 0px; padding-left: 0px; }
+
+.scheduleByDayHeader
+{
+	background-color:#0066B3;
+	font-weight:bold;
+	vertical-align:middle;
+	color:#FFFFFF;
+	border-bottom:#000000 1px solid;
+	height: 20px;
+}
+
+.scheduleByDayName
+{
+	background-color:#FF8193;
+	font-weight:bold;
+	vertical-align:middle;
+	color:#FFFFFF;
+	border-bottom:#000000 1px solid;
+	border-left:#000000 1px solid;
+	border-right:#000000 1px solid;
+	height: 20px;
+}
+
+.scheduleByDayNameAlt
+{
+	background-color:#0066B3;
+	font-weight:bold;
+	vertical-align:middle;
+	color:#FFFFFF;
+	border-bottom:#000000 1px solid;
+	border-left:#000000 1px solid;
+	border-right:#000000 1px solid;
+	height: 20px;
+}
+
+.scheduleByDayText
+{
+	background-color:#FF8193;
+	font-weight:bold;
+	white-space: nowrap;
+	vertical-align:middle;
+	color:#FFFFFF;
+	height: 20px;
+}
+
+.scheduleByDayTextAlt
+{
+	background-color:#0066B3;
+	font-weight:bold;
+	white-space: nowrap;
+	vertical-align:middle;
+	color:#FFFFFF;
+	height: 20px;
+}
+
+.scheduleByDayRow
+{
+	background-color: #ffffff;
+	border-right:#000000 1px solid;
+	border-bottom:#000000 1px solid;
+	height: 20px;
+}
+.scheduleByDayOn
+{
+	background-color:#FF8193;
+	height: 20px;
+}
+.scheduleByDayOnAlt
+{
+	background-color: #0066B3;
+	height: 20px;
+}
+.scheduleByDayOff
+{
+	background-color: #FFFFFF;
+	height: 20px;
+}
+
+/* custom combo box styles */
+.rowOn {FONT-SIZE: 12px;COLOR: #ffffff;BACKGROUND-COLOR: #0a246a}
+.rowOn tr {FONT-SIZE: 12px;COLOR: #ffffff;BACKGROUND-COLOR: #0a246a}
+.rowOn td {FONT-SIZE: 12px;COLOR: #ffffff;BACKGROUND-COLOR: #0a246a;cursor:pointer;}
+.rowOff {FONT-SIZE: 12px;COLOR: #000000;BACKGROUND-COLOR: #ffffff}
+.rowOff tr {FONT-SIZE: 12px; COLOR: #000000;BACKGROUND-COLOR: #ffffff}
+.rowOff td {FONT-SIZE: 12px;COLOR: #000000;BACKGROUND-COLOR: #ffffff}
+
+/* home page styles */
+table.homepageMainTable {margin:0px;padding:0px;width:100%; vertical-align:top;}
+td.homepageMainTable {margin:0px;padding-right:0px;padding-left:0px;padding-top:0px;padding-bottom:0px;border-right:1px solid;border-left:1px solid;vertical-align:top;border-color:#d3d3d3;}
+tr.homepageMainTable {margin:0px;padding-right:0px;padding-left:0px;padding-top:0px;padding-bottom:0px;border-right:1px solid;border-left:1px solid;vertical-align:top;border-color:#d3d3d3;}
+
+table.homepageTable {margin:0px;padding:0px; width:100%}
+td.homepageMainTableNoBorder {margin:0px;padding-right:0px;padding-left:0px;padding-top:0px;padding-bottom:0px;vertical-align:top;}
+td.homepageTableHeader
+{
+	padding: 2px;
+	font-weight: bold;
+	border-top: 1px solid;
+	border-color: #0066B3;
+	background-image:url(../../Images/grad.png);
+	background-repeat:repeat;
+}
+
+td.homepageTableContent {vertical-align:top; padding-top:0px;padding-left:2px;padding-right:2px;padding-bottom:0px;background-color:#ffffff;font-size:11px;}
+td.homepageTableContent * {font-size:11px;}
+
+.TimesheetTab 
+{
+	height:14px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	margin-bottom: 0px;
+	border: 0px;
+}
+.TimesheetSubTab
+{
+	background-color: #0066B3; 
+	height:16px;
+	padding-top: 3px;
+}
+.TimesheetSubTabItem
+{
+	padding-left: 10px;
+	padding-right: 8px;
+	display: inline;
+}
+td.homepageCol
+{
+	width:33%; vertical-align:top;
+}
+a.homepageLink {text-decoration:none;color:#000000}
+a.homepageLink:hover {text-decoration:none;color:#0066B3;}
+a.homepageContentLink {text-decoration:underline;color:#000000}
+a.homepageContentLink:hover {text-decoration:none;color:#0066B3}
+
+/* Gridview group header and header style */
+.GroupHeaderRowStyle
+{
+	background-color: White;
+	text-align: left;
+	font-weight: bold;
+	color: #0066B3;
+}
+
+.GroupHeaderRowStyleOTNotValid
+{
+	background-color: White;
+	text-align: left;
+	font-weight: bold;
+	color: red;
+}
+
+.GridViewHeaderStyle
+{
+	background-color: #80C9FF;
+	color:Black; 
+	height:20px;
+	vertical-align: middle;	
+	
+}
+
+
+/* <tr> that the main menu is in */
+.mainMenuRow
+{
+	border-style:solid; 
+	border-color:#FF80B8; 
+	border-width:1px;
+	background: #80C9FF;
+}
+.mainMenuRowSep
+{
+	border-top: solid 1px #0066B3;
+	height:1px;
+}
+/* <td> that the username/login is in */
+.usernameCell
+{
+	text-align:right;
+	font-size: 10px;
+	color: #000000;
+	padding-right: 5px;
+	vertical-align: middle;
+	width:10%;
+	white-space: nowrap;
+}
+
+
+/* Calendar Style */
+.MyCalendar .ajax__calendar_container {
+    border:1px solid #80C9FF;
+    background-color:White;
+    color: #0066B3;
+    z-index:1004
+}
+
+.MyCalendar .ajax__calendar_container tr td 
+{
+	padding:0px;
+    padding-top:0px; 
+    padding-left:0px;
+    padding-bottom:0px;
+    padding-right:0px;
+}
+
+/*Modal Popup*/
+.modalBackground {
+	background-color:black;
+	filter:alpha(opacity=50);
+	opacity:0.5;
+}
+
+.modalPopup {
+	background-color:white;
+	border-width:1px;
+	border-style:solid;
+	border-color:#0066B3;
+	padding:3px;
+	width:350px;
+}
+.modalPopupBalance {
+	background-color:white;
+	border-width:1px;
+	border-style:solid;
+	border-color:#0066B3;
+	padding:3px;
+	width:700px;
+}
+.modalPopupHeader
+{
+	cursor:default;
+	background-color:#80C9FF;
+	border:solid 1px #80C9FF;
+	color:Black;
+	text-align:center;
+	font-size:small;
+	font-weight:bold;
+	}
+.TimesheetPopBalance
+{
+ width:700px;
+ height:400px;
+ overflow:scroll;
+	}
+
+/*Modal Popup Alternate row color*/	
+tr.AlterRow
+{
+	background:#EDEDED;
+	}
+	
+/*AutoComplete flyout */
+.autocomplete_completionListElement 
+{  
+	visibility : hidden;
+	margin : 0px!important;
+	background-color : inherit;
+	color : windowtext;
+	border : buttonshadow;
+	border-width : 1px;
+	border-style : solid;
+	cursor : 'default';
+	overflow : auto;
+	height : 200px;
+    text-align : left; 
+    list-style-type : none;
+}
+
+/* AutoComplete highlighted item */
+
+.autocomplete_highlightedListItem
+{
+	background-color: #ffff99;
+	color: black;
+	padding: 1px;
+}
+
+/* AutoComplete item */
+
+.autocomplete_listItem 
+{
+	background-color : window;
+	color : windowtext;
+	padding : 1px;
+}
+
+/*CollapsiblePanel*/
+.collapsePanel {
+	
+	background-color:white;
+	overflow:hidden;
+}
+
+.collapsePanelHeader{
+	width:100%;
+	height:20px; 
+	background:#DDDDDD;
+	color:Black; vertical-align:middle;
+}
+
+.normalButton
+{
+	FONT-WEIGHT:bold;
+	BACKGROUND-COLOR:#0066B3; background:#0066B3;
+	COLOR:White	
+}
+
+.dynamicTable
+{
+	FONT-WEIGHT:bold; 
+	background:#80C9FF
+}
+
+/* xp theme */
+.ajax__tab_xp_lats .ajax__tab_header {font-family:verdana,tahoma,helvetica;font-size:11px;background:url(../../Images/tab-line.gif) repeat-x bottom;}
+.ajax__tab_xp_lats .ajax__tab_outer {background:url(../../Images/tab-right.gif) no-repeat right;height:21px;}
+.ajax__tab_xp_lats .ajax__tab_inner {padding-left:3px;background:url(../../Images/tab-left.gif) no-repeat;}
+.ajax__tab_xp_lats .ajax__tab_tab {height:21px;padding:4px;margin:0;background:url(../../Images/tab.gif) repeat-x;}
+.ajax__tab_xp_lats .ajax__tab_hover .ajax__tab_outer {background:url(../../Images/tab-hover-right.gif) no-repeat right;}
+.ajax__tab_xp_lats .ajax__tab_hover .ajax__tab_inner {background:url(../../Images/tab-hover-left.gif) no-repeat;}
+.ajax__tab_xp_lats .ajax__tab_hover .ajax__tab_tab {background:url(../../Images/tab-hover.gif) repeat-x;}
+.ajax__tab_xp_lats .ajax__tab_active .ajax__tab_outer {background:url(../../Images/tab-active-right.gif) no-repeat right;}
+.ajax__tab_xp_lats .ajax__tab_active .ajax__tab_inner {background:url(../../Images/tab-active-left.gif) no-repeat;}
+.ajax__tab_xp_lats .ajax__tab_active .ajax__tab_tab {background:url(../../Images/tab-active.gif) repeat-x;}
+.ajax__tab_xp_lats .ajax__tab_body {font-family:verdana,tahoma,helvetica;font-size:10pt;border:1px solid #999999;border-top:0;padding:8px;background-color:#ffffff;}
+
+
+/* xp theme */
+.ajax__tab_xp .ajax__tab_header {font-family:verdana,tahoma,helvetica;font-size:11px;background:url(<%=WebResource("AjaxControlToolkit.Tabs.tab-line.gif")%>) repeat-x bottom;}
+.ajax__tab_xp .ajax__tab_outer {padding-right:4px;background:url(<%=WebResource("AjaxControlToolkit.Tabs.tab-right.gif")%>) no-repeat right;height:21px;}
+.ajax__tab_xp .ajax__tab_inner {padding-left:3px;background:url(<%=WebResource("AjaxControlToolkit.Tabs.tab-left.gif")%>) no-repeat;}
+.ajax__tab_xp .ajax__tab_tab {height:21px !important;padding:4px;margin:0;background:url(<%=WebResource("AjaxControlToolkit.Tabs.tab.gif")%>) repeat-x;}
+.ajax__tab_xp .ajax__tab_hover .ajax__tab_outer {background:url(<%=WebResource("AjaxControlToolkit.Tabs.tab-hover-right.gif")%>) no-repeat right;}
+.ajax__tab_xp .ajax__tab_hover .ajax__tab_inner {background:url(<%=WebResource("AjaxControlToolkit.Tabs.tab-hover-left.gif")%>) no-repeat;}
+.ajax__tab_xp .ajax__tab_hover .ajax__tab_tab {background:url(<%=WebResource("AjaxControlToolkit.Tabs.tab-hover.gif")%>) repeat-x;}
+.ajax__tab_xp .ajax__tab_active .ajax__tab_outer {background:url(<%=WebResource("AjaxControlToolkit.Tabs.tab-active-right.gif")%>) no-repeat right;}
+.ajax__tab_xp .ajax__tab_active .ajax__tab_inner {background:url(<%=WebResource("AjaxControlToolkit.Tabs.tab-active-left.gif")%>) no-repeat;}
+.ajax__tab_xp .ajax__tab_active .ajax__tab_tab {background:url(<%=WebResource("AjaxControlToolkit.Tabs.tab-active.gif")%>) repeat-x;}
+.ajax__tab_xp .ajax__tab_body {font-family:verdana,tahoma,helvetica;font-size:10pt;border:1px solid #999999;border-top:0;padding:8px;background-color:#ffffff;}
