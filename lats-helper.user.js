@@ -3,8 +3,9 @@
 // @namespace      https://chrome.google.com/webstore/detail/lats-helper/jmkgmheopekejeiondjdokbdckkeikeh?hl=en
 // @include        https://oftlats.cma.com/*
 // @include        https://*.lats.ny.gov/*
-// @version        1.2.0
-// @updated        2016-04-21
+// @include        https://*.cma.com/*
+// @version        1.2.1
+// @updated        2016-05-09
 // ==/UserScript==
 
 (function () {
@@ -154,143 +155,143 @@
             insertBeforeRow = document.querySelector('#ctl00_ContentPlaceHolder1_TimesheetGridTable > tbody > tr:nth-child(34)');
             insertBeforeRow.parentNode.insertBefore(newRow, insertBeforeRow);
 
-            // Create data store
-            ['header', 0, 1, 'filler', 'filler', 4, 5, 6, 7, 8, 'filler', 'filler', 11, 12, 13, 'filler'].forEach(function (index) {
-                var dayObj = {
-                        index: index,
-                        control: null,
-                        difference: 0,
-                    };
-                var newCell = document.createElement('td');
+            // // Create data store
+            // ['header', 0, 1, 'filler', 'filler', 4, 5, 6, 7, 8, 'filler', 'filler', 11, 12, 13, 'filler'].forEach(function (index) {
+            //     var dayObj = {
+            //             index: index,
+            //             control: null,
+            //             difference: 0,
+            //         };
+            //     var newCell = document.createElement('td');
 
-                // Weekends -- just add a dummy cell
-                if (index === 'filler') {
-                    newCell.innerHTML = '&nbsp;';
-                    newRow.appendChild(newCell);
+            //     // Weekends -- just add a dummy cell
+            //     if (index === 'filler') {
+            //         newCell.innerHTML = '&nbsp;';
+            //         newRow.appendChild(newCell);
 
-                    return false;
-                }
-                else if (index === 'header') {
-                    newCell.innerHTML = 'Auto Fixer';
-                    newCell.style.fontSize = '11px';
-                    newCell.style.textAlign = 'center';
-                    newRow.appendChild(newCell);
+            //         return false;
+            //     }
+            //     else if (index === 'header') {
+            //         newCell.innerHTML = 'Auto Fixer';
+            //         newCell.style.fontSize = '11px';
+            //         newCell.style.textAlign = 'center';
+            //         newRow.appendChild(newCell);
 
-                    return false;
-                }
+            //         return false;
+            //     }
 
-                dayObj.MorningIn = {
-                    elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataMorningInDArr' + index),
-                };
-                dayObj.MorningIn.value = dayObj.MorningIn.elem.value.trim();
-                dayObj.MorningIn.elem.addEventListener('keyup', onTimeInputKeyup);
+            //     dayObj.MorningIn = {
+            //         elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataMorningInDArr' + index),
+            //     };
+            //     dayObj.MorningIn.value = dayObj.MorningIn.elem.value.trim();
+            //     dayObj.MorningIn.elem.addEventListener('keyup', onTimeInputKeyup);
 
-                dayObj.LunchOut = {
-                    elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataLunchOutDArr' + index),
-                };
-                dayObj.LunchOut.value = dayObj.LunchOut.elem.value.trim();
-                dayObj.LunchOut.elem.addEventListener('keyup', onTimeInputKeyup);
+            //     dayObj.LunchOut = {
+            //         elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataLunchOutDArr' + index),
+            //     };
+            //     dayObj.LunchOut.value = dayObj.LunchOut.elem.value.trim();
+            //     dayObj.LunchOut.elem.addEventListener('keyup', onTimeInputKeyup);
 
-                dayObj.LunchIn = {
-                    elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataLunchInDArr' + index),
-                };
-                dayObj.LunchIn.value = dayObj.LunchIn.elem.value.trim();
-                dayObj.LunchIn.elem.addEventListener('keyup', onTimeInputKeyup);
+            //     dayObj.LunchIn = {
+            //         elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataLunchInDArr' + index),
+            //     };
+            //     dayObj.LunchIn.value = dayObj.LunchIn.elem.value.trim();
+            //     dayObj.LunchIn.elem.addEventListener('keyup', onTimeInputKeyup);
 
-                dayObj.NightOut = {
-                    elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataNightOutDArr' + index),
-                };
-                dayObj.NightOut.value = dayObj.NightOut.elem.value.trim();
-                dayObj.NightOut.elem.addEventListener('keyup', onTimeInputKeyup);
+            //     dayObj.NightOut = {
+            //         elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataNightOutDArr' + index),
+            //     };
+            //     dayObj.NightOut.value = dayObj.NightOut.elem.value.trim();
+            //     dayObj.NightOut.elem.addEventListener('keyup', onTimeInputKeyup);
 
-                dayObj.OTMeal = {
-                    elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataOTMealDArr' + index),
-                };
-                dayObj.OTMeal.value = dayObj.OTMeal.elem.value.trim();
-                dayObj.OTMeal.elem.addEventListener('keyup', onTimeInputKeyup);
+            //     dayObj.OTMeal = {
+            //         elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataOTMealDArr' + index),
+            //     };
+            //     dayObj.OTMeal.value = dayObj.OTMeal.elem.value.trim();
+            //     dayObj.OTMeal.elem.addEventListener('keyup', onTimeInputKeyup);
 
-                dayObj.Vacation = {
-                    elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataVacationDArr' + index),
-                };
-                dayObj.Vacation.value = dayObj.Vacation.elem.value.trim();
-                dayObj.Vacation.elem.addEventListener('keyup', onTimeInputKeyup);
+            //     dayObj.Vacation = {
+            //         elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataVacationDArr' + index),
+            //     };
+            //     dayObj.Vacation.value = dayObj.Vacation.elem.value.trim();
+            //     dayObj.Vacation.elem.addEventListener('keyup', onTimeInputKeyup);
 
-                dayObj.SickRegular = {
-                    elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataSickRegularDArr' + index),
-                };
-                dayObj.SickRegular.value = dayObj.SickRegular.elem.value.trim();
-                dayObj.SickRegular.elem.addEventListener('keyup', onTimeInputKeyup);
+            //     dayObj.SickRegular = {
+            //         elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataSickRegularDArr' + index),
+            //     };
+            //     dayObj.SickRegular.value = dayObj.SickRegular.elem.value.trim();
+            //     dayObj.SickRegular.elem.addEventListener('keyup', onTimeInputKeyup);
 
-                dayObj.SickFamily = {
-                    elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataSickFamilyDArr' + index),
-                };
-                dayObj.SickFamily.value = dayObj.SickFamily.elem.value.trim();
-                dayObj.SickFamily.elem.addEventListener('keyup', onTimeInputKeyup);
+            //     dayObj.SickFamily = {
+            //         elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataSickFamilyDArr' + index),
+            //     };
+            //     dayObj.SickFamily.value = dayObj.SickFamily.elem.value.trim();
+            //     dayObj.SickFamily.elem.addEventListener('keyup', onTimeInputKeyup);
 
-                dayObj.Personal = {
-                    elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataPersonalDArr' + index),
-                };
-                dayObj.Personal.value = dayObj.Personal.elem.value.trim();
-                dayObj.Personal.elem.addEventListener('keyup', onTimeInputKeyup);
+            //     dayObj.Personal = {
+            //         elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataPersonalDArr' + index),
+            //     };
+            //     dayObj.Personal.value = dayObj.Personal.elem.value.trim();
+            //     dayObj.Personal.elem.addEventListener('keyup', onTimeInputKeyup);
 
-                dayObj.CompCharged = {
-                    elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataCompChargedDArr' + index),
-                };
-                dayObj.CompCharged.value = dayObj.CompCharged.elem.value.trim();
-                dayObj.CompCharged.elem.addEventListener('keyup', onTimeInputKeyup);
+            //     dayObj.CompCharged = {
+            //         elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataCompChargedDArr' + index),
+            //     };
+            //     dayObj.CompCharged.value = dayObj.CompCharged.elem.value.trim();
+            //     dayObj.CompCharged.elem.addEventListener('keyup', onTimeInputKeyup);
 
-                dayObj.HolidayRegular = {
-                    elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataHolidayRegularDArr' + index),
-                };
-                dayObj.HolidayRegular.value = dayObj.HolidayRegular.elem.value.trim();
-                dayObj.HolidayRegular.elem.addEventListener('keyup', onTimeInputKeyup);
+            //     dayObj.HolidayRegular = {
+            //         elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataHolidayRegularDArr' + index),
+            //     };
+            //     dayObj.HolidayRegular.value = dayObj.HolidayRegular.elem.value.trim();
+            //     dayObj.HolidayRegular.elem.addEventListener('keyup', onTimeInputKeyup);
 
-                dayObj.Floater = {
-                    elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataFloaterDArr' + index),
-                };
-                dayObj.Floater.value = dayObj.Floater.elem.value.trim();
-                dayObj.Floater.elem.addEventListener('keyup', onTimeInputKeyup);
+            //     dayObj.Floater = {
+            //         elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataFloaterDArr' + index),
+            //     };
+            //     dayObj.Floater.value = dayObj.Floater.elem.value.trim();
+            //     dayObj.Floater.elem.addEventListener('keyup', onTimeInputKeyup);
 
-                dayObj.VRWSUsed = {
-                    elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataVRWSUsedDArr' + index),
-                };
-                dayObj.VRWSUsed.value = dayObj.VRWSUsed.elem.value.trim();
-                dayObj.VRWSUsed.elem.addEventListener('keyup', onTimeInputKeyup);
+            //     dayObj.VRWSUsed = {
+            //         elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataVRWSUsedDArr' + index),
+            //     };
+            //     dayObj.VRWSUsed.value = dayObj.VRWSUsed.elem.value.trim();
+            //     dayObj.VRWSUsed.elem.addEventListener('keyup', onTimeInputKeyup);
 
-                dayObj.timeWorked = {
-                    elem: document.querySelector('#ctl00_ContentPlaceHolder1_TimesheetGridTable > tbody > tr:nth-child(32) > td:nth-child(' + (index + 2) + ')'),
-                };
-                dayObj.timeWorked.value = dayObj.timeWorked.elem.innerHTML.trim();
+            //     dayObj.timeWorked = {
+            //         elem: document.querySelector('#ctl00_ContentPlaceHolder1_TimesheetGridTable > tbody > tr:nth-child(32) > td:nth-child(' + (index + 2) + ')'),
+            //     };
+            //     dayObj.timeWorked.value = dayObj.timeWorked.elem.innerHTML.trim();
 
-                dayObj.charges = {
-                    elem: document.querySelector('#ctl00_ContentPlaceHolder1_TimesheetGridTable > tbody > tr:nth-child(33) > td:nth-child(' + (index + 2) + ')'),
-                };
-                dayObj.charges.value = dayObj.charges.elem.innerHTML.trim();
+            //     dayObj.charges = {
+            //         elem: document.querySelector('#ctl00_ContentPlaceHolder1_TimesheetGridTable > tbody > tr:nth-child(33) > td:nth-child(' + (index + 2) + ')'),
+            //     };
+            //     dayObj.charges.value = dayObj.charges.elem.innerHTML.trim();
 
-                dayObj.totalTime = {
-                    elem: document.querySelector('#ctl00_ContentPlaceHolder1_TimesheetGridTable > tbody > tr:nth-child(35) > td:nth-child(' + (index + 2) + ')'),
-                };
-                dayObj.totalTime.value = dayObj.totalTime.elem.innerHTML.trim();
+            //     dayObj.totalTime = {
+            //         elem: document.querySelector('#ctl00_ContentPlaceHolder1_TimesheetGridTable > tbody > tr:nth-child(35) > td:nth-child(' + (index + 2) + ')'),
+            //     };
+            //     dayObj.totalTime.value = dayObj.totalTime.elem.innerHTML.trim();
 
-                // Create day-specific autofill control
-                dayObj.control = document.createElement('div');
-                dayObj.control.className = 'lats-helper-day-control';
-                dayObj.control.innerHTML = checked.yes;
-                dayObj.control.addEventListener('click', function (evt) {
-                    onDayAutofillClick(evt, dayObj);
-                });
-                // console.log('control ' + index + ': ', dayObj.control);
+            //     // Create day-specific autofill control
+            //     dayObj.control = document.createElement('div');
+            //     dayObj.control.className = 'lats-helper-day-control';
+            //     dayObj.control.innerHTML = checked.yes;
+            //     dayObj.control.addEventListener('click', function (evt) {
+            //         onDayAutofillClick(evt, dayObj);
+            //     });
+            //     // console.log('control ' + index + ': ', dayObj.control);
 
-                // Add elements to the table
-                newCell.appendChild(dayObj.control);
-                newRow.appendChild(newCell);
+            //     // Add elements to the table
+            //     newCell.appendChild(dayObj.control);
+            //     newRow.appendChild(newCell);
 
-                // Add to data store
-                dataStore['day' + index] = dayObj;
+            //     // Add to data store
+            //     dataStore['day' + index] = dayObj;
 
-                // Process current entries
-                refreshDay(dayObj);
-            });
+            //     // Process current entries
+            //     refreshDay(dayObj);
+            // });
 
             // console.info('Data store: ', dataStore);
             // console.table(dataStore);
@@ -760,7 +761,7 @@
             // console.log('Day ' + dayIndex + ', ' + fieldName + ' changed from ' + dayObj[fieldName].value + ' to ' + target.value, dayObj);
             dayObj[fieldName].value = target.value;
 
-            refreshDay(dayObj);
+            // refreshDay(dayObj);
         }
 
         function refreshDay (dayObj) {
