@@ -4,8 +4,8 @@
 // @include        https://oftlats.cma.com/*
 // @include        https://*.lats.ny.gov/*
 // @include        https://*.cma.com/*
-// @version        1.2.1
-// @updated        2016-05-09
+// @version        1.2.2
+// @updated        2016-05-19
 // ==/UserScript==
 
 (function () {
@@ -153,7 +153,10 @@
             // Add new row to contain autofill buttons for each day
             newRow = document.createElement('tr');
             insertBeforeRow = document.querySelector('#ctl00_ContentPlaceHolder1_TimesheetGridTable > tbody > tr:nth-child(34)');
-            insertBeforeRow.parentNode.insertBefore(newRow, insertBeforeRow);
+
+            if (insertBeforeRow) {
+                insertBeforeRow.parentNode.insertBefore(newRow, insertBeforeRow);
+            }
 
             // // Create data store
             // ['header', 0, 1, 'filler', 'filler', 4, 5, 6, 7, 8, 'filler', 'filler', 11, 12, 13, 'filler'].forEach(function (index) {
@@ -1766,13 +1769,13 @@
     //////////////////////////////
 
     // // Run the appropriate module
-    // if (path === 'MyTimesheet') {
+    if (path === 'MyTimesheet') {
         Timesheet();
-    // }
-    // else if (path === 'SubTasks') {
-    //     SubTasks();
-    // }
-    // else if (path === 'TDS') {
-    //     TDS();
-    // }
+    }
+    else if (path === 'SubTasks') {
+        SubTasks();
+    }
+    else if (path === 'TDS') {
+        TDS();
+    }
 }());
