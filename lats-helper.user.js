@@ -4,8 +4,8 @@
 // @include        https://oftlats.cma.com/*
 // @include        https://*.lats.ny.gov/*
 // @include        https://*.cma.com/*
-// @version        1.2.2
-// @updated        2016-05-19
+// @version        1.2.3
+// @updated        2016-08-29
 // ==/UserScript==
 
 (function () {
@@ -1112,6 +1112,7 @@
         var agencyMenu = document.createElement('select');
         var agencyLabel = document.createElement('label');
         var clearButton = document.createElement('button');
+        var hasUIbeenRendered = false;
         var items = [];
         var list;
         var subTaskSettings = {
@@ -1135,7 +1136,7 @@
         /**
          * Initializes module and the UI
          */
-        function init() {
+        function init () {
             var storedSettings;
 
             // Check if a task was just added
@@ -1161,63 +1162,106 @@
                 store.save(subTaskSettings);
             }
 
-            // Container for controls
-            controls.style.cssText = 'padding: 10px;';
-            insertionPoint.parentNode.insertBefore(controls, insertionPoint.nextSibling);
+            // Draw the UI
+            renderUI();
+        }
 
-            // Search
-            searchLabel.innerHTML = 'Filter:';
-            searchLabel.style.cssText = 'display: inline-block; padding-right: 5px;';
-            searchLabel.setAttribute('for', 'searchBox');
+        function renderUI () {
+            // List of tasks rendered by LATS
+            subTaskDropdown = document.querySelector('select[title="Sub Tasks"]');
 
-            searchBox.type = 'text';
-            searchBox.id = 'searchBox';
-            searchBox.style.cssText = 'display: inline-block; margin-right: 10px;';
-            searchBox.setAttribute('tabindex', '1');
-            searchBox.addEventListener('keyup', onSearchKeyup, false);
+            // Don't re-rendering these elements if we're just re-creating the task list
+            if (!hasUIbeenRendered) {
+                // Container for controls
+                controls.style.cssText = 'padding: 10px;';
+                insertionPoint.parentNode.insertBefore(controls, insertionPoint.nextSibling);
 
-            controls.parentNode.insertBefore(searchLabel, controls.nextSibling);
-            controls.parentNode.insertBefore(searchBox, searchLabel.nextSibling);
+                // Search
+                searchLabel.innerHTML = 'Filter:';
+                searchLabel.style.cssText = 'display: inline-block; padding-right: 5px;';
+                searchLabel.setAttribute('for', 'searchBox');
 
-            ////////////////////////
-            // Cluster and agency //
-            ////////////////////////
+                searchBox.type = 'text';
+                searchBox.id = 'searchBox';
+                searchBox.style.cssText = 'display: inline-block; margin-right: 10px;';
+                searchBox.setAttribute('tabindex', '1');
+                searchBox.addEventListener('keyup', onSearchKeyup, false);
 
-            // Create elements
-            clusterLabel.innerHTML = 'Cluster:';
-            clusterLabel.setAttribute('for', 'clusterMenu');
+                controls.parentNode.insertBefore(searchLabel, controls.nextSibling);
+                controls.parentNode.insertBefore(searchBox, searchLabel.nextSibling);
 
-            clusterMenu.id = 'clusterMenu';
-            clusterMenu.setAttribute('tabindex', '1');
+                ////////////////////////
+                // Cluster and agency //
+                ////////////////////////
 
-            agencyLabel.innerHTML = 'Agency:';
-            agencyLabel.setAttribute('for', 'agencyMenu');
-            agencyLabel.style.cssText = 'display: inline-block; padding-left: 10px;';
+                // Create elements
+                clusterLabel.innerHTML = 'Cluster:';
+                clusterLabel.setAttribute('for', 'clusterMenu');
 
-            agencyMenu.id = 'agencyMenu';
-            agencyMenu.setAttribute('tabindex', '1');
+                clusterMenu.id = 'clusterMenu';
+                clusterMenu.setAttribute('tabindex', '1');
 
-            buildDropdowns(subTaskSettings.cluster, subTaskSettings.agency);
+                agencyLabel.innerHTML = 'Agency:';
+                agencyLabel.setAttribute('for', 'agencyMenu');
+                agencyLabel.style.cssText = 'display: inline-block; padding-left: 10px;';
 
-            // Events
-            clusterMenu.addEventListener('change', onDropdownChange, false);
-            agencyMenu.addEventListener('change', onDropdownChange, false);
+                agencyMenu.id = 'agencyMenu';
+                agencyMenu.setAttribute('tabindex', '1');
 
-            // Clear button
-            clearButton.innerHTML = 'Clear';
-            clearButton.setAttribute('type', 'button');
-            clearButton.setAttribute('tabindex', '1');
-            clearButton.style.cssText = 'margin-left: 10px;';
-            clearButton.addEventListener('click', clearFilters, false);
+                buildDropdowns(subTaskSettings.cluster, subTaskSettings.agency);
 
-            // Add elements to the page
-            searchBox.parentNode.insertBefore(clusterLabel, searchBox.nextSibling);
-            searchBox.parentNode.insertBefore(clusterMenu, clusterLabel.nextSibling);
-            searchBox.parentNode.insertBefore(agencyLabel, clusterMenu.nextSibling);
-            searchBox.parentNode.insertBefore(agencyMenu, agencyLabel.nextSibling);
-            searchBox.parentNode.insertBefore(clearButton, agencyMenu.nextSibling);
+                // Events
+                clusterMenu.addEventListener('change', onDropdownChange, false);
+                agencyMenu.addEventListener('change', onDropdownChange, false);
+
+                // Clear button
+                clearButton.innerHTML = 'Clear';
+                clearButton.setAttribute('type', 'button');
+                clearButton.setAttribute('tabindex', '1');
+                clearButton.style.cssText = 'margin-left: 10px;';
+                clearButton.addEventListener('click', clearFilters, false);
+
+                // Add elements to the page
+                searchBox.parentNode.insertBefore(clusterLabel, searchBox.nextSibling);
+                searchBox.parentNode.insertBefore(clusterMenu, clusterLabel.nextSibling);
+                searchBox.parentNode.insertBefore(agencyLabel, clusterMenu.nextSibling);
+                searchBox.parentNode.insertBefore(agencyMenu, agencyLabel.nextSibling);
+                searchBox.parentNode.insertBefore(clearButton, agencyMenu.nextSibling);
+
+                // Watch for changes to the task dropdown (i.e. from user search)
+                document.getElementById('ctl00_ContentPlaceHolder1_btnSearch').addEventListener('click', function (evt) {
+                    // Wait for the dropdown to be populated
+                    setTimeout(function () {
+                        // Dropdown still isn't populated, wait a little longer
+                        if (!subTaskDropdown.options.length) {
+                            setTimeout(function () {
+                                refreshTaskList();
+                            }, 500);
+                        }
+                        // Dropdown is populated, so refresh the list now
+                        else {
+                            refreshTaskList();
+                        }
+                    }, 500);
+                }, false);
+            }
 
             createTaskList();
+
+            hasUIbeenRendered = true;
+        }
+
+        // Updates the task list when a new set of results is available (i.e. after a user search)
+        function refreshTaskList () {
+            clusters = parseClusterAndAgencyLists();
+
+            if (!subTaskDropdown) {
+                subTaskDropdown = document.querySelector('select[title="Sub Tasks"]');
+            }
+
+            subTaskOptions = [].slice.call(subTaskDropdown.options);
+
+            recreateTaskList();
         }
 
         function parseClusterAndAgencyLists () {
@@ -1613,8 +1657,31 @@
             // Empty cache
             items = [];
 
-            // Remove elements
-            list.parentNode.removeChild(list);
+            // Clear and remove the list if it already exists
+            // list.parentNode.removeChild(list);
+            if (list && list.parentNode) {
+                // Remove `<li>` elements and their event listeners
+                (function () {
+                    var listItems = list.querySelectorAll('li');
+                    var numItems = listItems.length - 1;
+                    var listItem;
+
+                    while (numItems > -1) {
+                        listItem = listItems[numItems];
+                        listItem.removeEventListener('click', onItemClick);
+
+                        // Not sure why this fails
+                        if (listItem.parentNode) {
+                            listItem.parentNode.removeChild(listItem);
+                        }
+
+                        numItems--;
+                    }
+                }());
+
+                // Remove the `<ul>` element which will be re-created in `createTaskList()`
+                list.parentNode.removeChild(list);
+            }
 
             // Re-create list
             createTaskList(targetCluster, targetAgency);
