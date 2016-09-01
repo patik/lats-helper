@@ -1,0 +1,562 @@
+a.active 
+{
+	color:Red;
+}
+A
+{
+    FONT-SIZE: 11px;
+    COLOR: blue;
+    FONT-FAMILY: Arial, Tahoma;
+    TEXT-DECORATION: underline
+}
+A:hover
+{
+    COLOR: red
+}
+
+a img, a:link img, a:visited img, a:hover img, a:active img { 
+	border:0 !important; 
+}
+.Label
+{
+    FONT-WEIGHT: bolder;
+    FONT-SIZE: 9pt;
+    COLOR: black;
+}
+.button
+{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 11px;
+    BORDER-LEFT-COLOR: #cccc99;
+    BORDER-BOTTOM-COLOR: #cccc99;
+    COLOR: black;
+    BORDER-TOP-COLOR: #cccc99;
+    BACKGROUND-COLOR: white;
+    BORDER-RIGHT-COLOR: #cccc99
+}
+.submit
+{
+    FONT-SIZE: 10px;
+    COLOR: black;
+    TEXT-DECORATION: none
+}
+.defaultText
+{
+    FONT-SIZE: 10pt;
+    COLOR: black;
+}
+.dateHeader
+{
+    FONT-SIZE: 10px;
+    color:Black
+}
+.rowHeader
+{
+    BORDER-RIGHT: #000000 1px;
+    BORDER-TOP: #000000 1px;
+    FONT-SIZE: 10px;
+    BORDER-LEFT: #000000 1px;
+    COLOR: #000000;
+    BORDER-BOTTOM: #000000 1px;
+}
+.rowHeaderLabelTS
+{
+    BORDER-RIGHT: #000000 1px;
+    BORDER-TOP: #000000 1px;
+    FONT-SIZE: 10px;
+    BORDER-LEFT: #000000 1px;
+    COLOR: #000000;
+    BORDER-BOTTOM: #000000 1px;
+}
+.rowHeaderTS
+{
+    BORDER-RIGHT: #000000 1px;
+    BORDER-TOP: #000000 1px;
+    FONT-SIZE: 11px;
+    BORDER-LEFT: #000000 1px;
+    COLOR: #000000;
+    BORDER-BOTTOM: #000000 1px;
+}
+.balanceArray
+{
+    FONT-SIZE: 10px;
+    COLOR: black;
+}
+.timeSheetInputBox
+{
+    FONT-SIZE: 9px;
+    COLOR: black
+}
+.whiteLink
+{
+    COLOR: white;
+}
+A.boldsearch
+{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 11px;
+    COLOR: white;
+    TEXT-DECORATION: none
+}
+A.boldsearch:hover
+{
+    COLOR: yellow
+}
+.linkBorder
+{
+    BORDER-RIGHT: #990000 1pt solid;
+    BORDER-TOP: #990000 1pt solid;
+    BORDER-LEFT: #990000 1pt solid;
+    BORDER-BOTTOM: #990000 1pt solid
+}
+.linkText
+{
+    COLOR: navy;
+    TEXT-DECORATION: none
+}
+A
+{
+    FONT-SIZE: 11px;
+    COLOR: black;
+    TEXT-DECORATION: underline
+}
+A:hover
+{
+    COLOR: red
+}
+.textwhite
+{
+    FONT-WEIGHT: normal;
+    FONT-SIZE: 11px;
+    COLOR: #ffffff;
+    TEXT-DECORATION: none
+}
+.tdsTextbox
+{
+    TEXT-ALIGN: right;
+    font-weight:normal;
+    font-size:10px;
+}
+.latsTextBlackOnGray
+{
+    FONT-WEIGHT: bolder;
+    FONT-SIZE: 10px;
+    COLOR: #000000;
+    BACKGROUND-COLOR: #cccccc;
+    TEXT-ALIGN: right;
+}
+.latsTextBlackOnWhite
+{
+    BORDER-RIGHT: black 1px;
+    BORDER-TOP: black 1px;
+    FONT-SIZE: 10px;
+    BORDER-LEFT: black 1px;
+    COLOR: #000000;
+    BORDER-BOTTOM: black 1px solid;
+    BACKGROUND-COLOR: #ffffff;
+    TEXT-ALIGN: right;
+}
+.latsTextBlackOnYellow
+{
+    FONT-SIZE: 11px;
+    COLOR: #000000;
+    BORDER-BOTTOM: black 1px solid;
+    BACKGROUND-COLOR: #ffffce;
+    TEXT-ALIGN: right;
+}
+.latsTextYellowOnGray
+{
+    BORDER-RIGHT: aqua;
+    BORDER-TOP: black 1px;
+    FONT-SIZE: 11px;
+    BORDER-LEFT: black 1px;
+    COLOR: #ffffce;
+    BORDER-BOTTOM: black 1px;
+    BACKGROUND-COLOR: #cccccc
+}
+.inputTagYellowBackground
+{
+    FONT-SIZE: 11px;
+    COLOR: black;
+    BACKGROUND-COLOR: #ffffce;
+    TEXT-ALIGN: right;
+}
+.inputTagWhiteBackground
+{
+    FONT-SIZE: 11px;
+    COLOR: black;
+    BACKGROUND-COLOR: white;
+    TEXT-ALIGN: right;
+}
+.defaultTextUnderline
+{
+    FONT-SIZE: 10pt;
+    COLOR: #000000;
+    BORDER-BOTTOM: black 1px solid;
+}
+.defaultTextHeader
+{
+    BORDER-RIGHT: black 1pt;
+    BORDER-TOP: black 1pt;
+    FONT-WEIGHT: bolder;
+    FONT-SIZE: 10pt;
+    BORDER-LEFT: black 1pt;
+    COLOR: black;
+    BORDER-BOTTOM: black 1pt;
+    BACKGROUND-COLOR: #c0c0c0
+}
+.defaultTextTiny
+{
+    FONT-SIZE: 8pt;
+    COLOR: black;
+}
+.blackLink
+{
+    FONT-SIZE: 12px;
+    COLOR: black;
+}
+.lastGridRow
+{
+    BORDER-RIGHT: black;
+    BORDER-TOP: black 1pt solid;
+    FONT-SIZE: 8pt;
+    BORDER-LEFT: black;
+    BORDER-BOTTOM: black;
+}
+.defaultTextSmall
+{
+    FONT-SIZE: 9pt;
+    COLOR: black;
+}
+.defaultTextBig
+{
+    FONT-SIZE: 12pt;
+    COLOR: black;
+}
+.tdsAquaError
+{
+    FONT-SIZE: 10px;
+    COLOR: aqua;
+}
+.textNoBorder
+{
+    BORDER-RIGHT: medium none;
+    BORDER-TOP: medium none;
+    FONT-SIZE: 10pt;
+    BORDER-LEFT: medium none;
+    COLOR: black;
+    BORDER-BOTTOM: medium none;
+}
+.textBoxLabel
+{
+    BORDER-RIGHT: thin none;
+    BORDER-TOP: thin none;
+    BORDER-LEFT: thin none;
+    BORDER-BOTTOM: thin none;
+    COLOR: black;
+    FONT-WEIGHT:bold;
+}
+.inputDisabledWhiteBackground
+{
+    FONT-SIZE: 11px;
+    COLOR: #696969;
+    BACKGROUND-COLOR: white;
+    TEXT-ALIGN: right;
+}
+.inputDisabledYellowBackground
+{
+    FONT-SIZE: 11px;
+    COLOR: #696969;
+    BACKGROUND-COLOR: #ffffce;
+    TEXT-ALIGN: right; 
+}
+TABLE.menuTable
+{
+    BORDER-RIGHT: black 1px solid;
+    BORDER-TOP: black 1px solid;
+    BORDER-LEFT: black 1px solid;
+    BORDER-BOTTOM: black 1px solid
+}
+TABLE.outline 
+{
+    BORDER-RIGHT: black thin;
+    PADDING-RIGHT: 2pt;
+    BORDER-TOP: black 1px solid;
+    PADDING-LEFT: 2pt;
+    PADDING-BOTTOM: 2pt;
+    MARGIN: 2pt 0pt;
+    BORDER-LEFT: black 1px solid;
+    WIDTH: 100%;
+    PADDING-TOP: 2pt;
+    BORDER-BOTTOM: silver 1px;
+    BACKGROUND-COLOR: transparent
+}
+
+TABLE.list
+{
+    PADDING-RIGHT: 2pt;
+    BORDER-TOP: silver 1px solid;
+    PADDING-LEFT: 2pt;
+    PADDING-BOTTOM: 2pt;
+    MARGIN: 2pt 0pt;
+    BORDER-LEFT: silver 1px solid;
+    WIDTH: 100%;
+    PADDING-TOP: 2pt;
+    BACKGROUND-COLOR: #f5f5f5
+}
+A.buttonLink
+{
+    BORDER-RIGHT: black 1pt solid;
+    PADDING-RIGHT: 4px;
+    BORDER-TOP: black 1pt solid;
+    MARGIN-TOP: 2px;
+    PADDING-LEFT: 4px;
+    FONT-WEIGHT: 500;
+    FONT-SIZE: 11px;
+    MARGIN-BOTTOM: 2px;
+    PADDING-BOTTOM: 0px;
+    MARGIN-LEFT: 2px;
+    BORDER-LEFT: black 1pt solid;
+    WIDTH: 52pt;
+    COLOR: navy;
+    PADDING-TOP: 0px;
+    BORDER-BOTTOM: black 1pt solid;
+    HEIGHT: 10pt;
+    BACKGROUND-COLOR: white;
+    TEXT-ALIGN: center;
+    TEXT-DECORATION: none
+}
+.huge
+{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 17px;
+    COLOR: #333333;
+    FONT-FAMILY: arial, verdana, optima, sans-serif;
+    TEXT-DECORATION: none
+}
+
+.popHelp 
+{
+   position:absolute;
+   width:200px;
+   height:auto;
+   color:blue;
+   background-color:#FDF5E6;
+   text-align:left;
+   visibility:hidden;
+   z-index:10;
+   border:1px solid red;
+}
+
+.highLight{background-color:#FFFFCE} 
+.default{background-color:#FFFFFF}
+
+.printText
+{
+	font-size:12px;
+	font-weight: normal;
+	color:Black;
+	font-family:arial, verdana, sans-serif
+}
+
+.clockStyle
+{
+    BORDER-RIGHT: silver 2pt inset;
+    BORDER-TOP: silver 2pt inset;
+    FONT-SIZE: 10pt;
+    BORDER-LEFT: silver 2pt inset;
+    BORDER-BOTTOM: silver 2pt inset;
+    FONT-FAMILY: Arial, Tahoma, Verdana;
+    BACKGROUND-COLOR: black;
+    TEXT-ALIGN: center
+}
+.clockTable
+{
+    BORDER-RIGHT: silver inset;
+    BORDER-TOP: silver inset;
+    FONT-SIZE: 10pt;
+    MARGIN: 2px 1px 1px 2px;
+    BORDER-LEFT: silver inset;
+    BORDER-BOTTOM: silver inset;
+    FONT-FAMILY: Tahoma, Arial, Verdana;
+    BACKGROUND-COLOR: #4682B4
+}
+.clockText
+{
+    BORDER-RIGHT: medium none;
+    BORDER-TOP: medium none;
+    FONT-WEIGHT: lighter;
+    FONT-SIZE: 24px;
+    BORDER-LEFT: medium none;
+    WIDTH: 20px;
+    COLOR: #d4f5ff;
+    BORDER-BOTTOM: medium none;
+    FONT-STYLE: italic;
+    FONT-FAMILY: Arial, Verdana, Tahoma;
+    BACKGROUND-COLOR: black;
+    TEXT-ALIGN: left
+}
+.textDate
+{
+    BORDER-RIGHT: medium none;
+    BORDER-TOP: medium none;
+    FONT-SIZE: 10pt;
+    BORDER-LEFT: medium none;
+    COLOR: white;
+    BORDER-BOTTOM: medium none;
+    FONT-FAMILY: Tahoma, Arial, Verdana;
+    BACKGROUND-COLOR: Transparent;
+    TEXT-ALIGN: center
+}
+.textDefault
+{
+    FONT-WEIGHT: bolder;
+    FONT-SIZE: 10pt;
+    COLOR: white;
+    FONT-FAMILY: Tahoma, Arial, Verdana
+}
+.tiny
+{
+    FONT-WEIGHT: normal;
+    FONT-SIZE: 10px;
+    COLOR: black;
+    FONT-FAMILY: arial
+}
+
+.tinyLink
+{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 10px;
+    COLOR: blue;
+    FONT-FAMILY: arial
+}
+
+
+A.schedLink
+{
+    FONT-WEIGHT: normal;
+    FONT-SIZE: 10px;
+    COLOR: navy;
+    FONT-FAMILY: Arial, Tahoma;
+    TEXT-ALIGN: center;
+    TEXT-DECORATION: none
+}
+A.schedLink:hover
+{
+    COLOR: olive
+}
+TABLE.schedLeft
+{
+    BORDER-RIGHT: black 1px solid;
+    PADDING-RIGHT: 2pt;
+    BORDER-TOP: black 1px solid;
+    MARGIN-TOP: 2pt;
+    PADDING-LEFT: 2pt;
+    MARGIN-BOTTOM: 2pt;
+    PADDING-BOTTOM: 2pt;
+    BORDER-LEFT: black 1px solid;
+    PADDING-TOP: 2pt;
+    BORDER-BOTTOM: black 10px
+}
+TABLE.schedRight
+{
+    BORDER-RIGHT: black 1px solid;
+    PADDING-RIGHT: 2pt;
+    BORDER-TOP: black 1px solid;
+    MARGIN-TOP: 2pt;
+    PADDING-LEFT: 2pt;
+    MARGIN-BOTTOM: 2pt;
+    PADDING-BOTTOM: 2pt;
+    PADDING-TOP: 2pt
+}
+
+TABLE.schedLeftPrint
+{
+    BORDER-RIGHT: black 1px solid;
+    PADDING-RIGHT: 2px;
+    BORDER-TOP: black 1px solid;
+    MARGIN-TOP: 2px;
+    PADDING-LEFT: 2px;
+    MARGIN-BOTTOM: 2px;
+    PADDING-BOTTOM: 2px;
+    BORDER-LEFT: black 1px solid;
+    PADDING-TOP: 2px
+}
+TABLE.schedLeftPrint TD
+{
+    BORDER-RIGHT: black 1px;
+    BORDER-BOTTOM: black 1px solid
+}
+TABLE.schedRightPrint
+{
+    BORDER-RIGHT: black 1px solid;
+    PADDING-RIGHT: 2px;
+    BORDER-TOP: black 1px solid;
+    MARGIN-TOP: 2px;
+    PADDING-LEFT: 2px;
+    MARGIN-BOTTOM: 2px;
+    PADDING-BOTTOM: 2px;
+    PADDING-TOP: 2px
+}
+TABLE.schedRightPrint TD
+{
+    BORDER-RIGHT: black 1px;
+    BORDER-LEFT: black 1px solid;
+    BORDER-BOTTOM: black 1px solid
+}
+
+DIV.popDetail 
+{
+      position:absolute;
+      width:200px;
+      height:200px;
+      color:blue;
+      left:0;
+      top:0;
+      background-color:#FDF5E6;
+      text-align:left;
+      z-index:10;
+      border:1px solid red;
+      overflow: auto;
+      padding: 0px;
+      display:none
+      
+}   
+.supervisorSubordinate_HeaderName
+{
+	padding-left: 5px; 
+	margin-top: 0px; 
+	margin-bottom: 0px;
+	float: left;
+}
+
+.supervisorSubordinate_HeaderTitle
+{
+	padding-left: 5px; 
+	margin-top: 0px; 
+	margin-bottom: 0px;
+	float: right;
+}
+
+.supervisorSubordinate_Content
+{
+	display: none; 
+	margin-left: 15px; 
+	border-left: 1px dotted black
+}
+
+.supervisorSubordinate_Container
+{
+	margin-bottom: 5px;
+}
+
+.alignRight
+{
+    text-align:right;
+}
+
+.alignCenter
+{
+    text-align:center;
+}  
+

@@ -1,0 +1,95 @@
+﻿/* --- menu styles ---
+note:
+	not all browsers render styles the same way so try out your style sheet
+	on different browsers before publishing;
+*/
+
+/* FOR THE TABLE ROW THAT THE MENU SYSTEM IS IN */
+/* <tr> that the menu is in */
+.m0TblRow {
+	background-color: #b0c4de;
+	border: 1px solid #FFFFFF;
+	height:20px;
+}
+/* <td> that the username/login is in */
+.m0TblCell {
+	font-size: 10px;
+	color: #FFFFFF;
+	padding-right: 5px;
+	vertical-align: middle;
+}
+.m0TblCell * {
+	font-size: 10px;
+	color: #FFFFFF;
+	padding-right: 5px;
+	vertical-align: middle;
+}
+
+/* FOR THE ROOT LEVEL OF THE MENU SYSTEM */
+/* Style for a block - DIV */
+.m0table0 {
+	background-color: #FFFFFF;
+}
+/* Style for outer tag, mout (mouse out) state */
+.m0mouto0 {
+	color: #FFFFFF;
+	background: #b0c4de;
+	border-right: 1px solid #FFFFFF;
+}
+/* Style for outer tag, mover (mouse over) state */
+.m0movero0 {
+	color: #FFFFFF;
+	background: #90c4de;
+}
+/* Style for outer tag, mdown (mouse down) state */
+.m0mdowno0 {
+	color: #FFFFFF;
+	background: #90c4de;	
+	border-right: 1px solid #FFFFFF;
+}
+/* Style for inner tag, mover (mouse over) state */
+.m0inner0 {
+	padding: 0px;
+}
+.m0inner0 * {
+	color: #FFFFFF!important;
+}
+
+/* FOR ALL LEVELS BELOW THE ROOT LEVEL OF THE MENU SYSTEM */
+/* Style for a block - DIV */
+.m0table1 {
+	background-color: #FFFFFF;
+	border-right: 1px solid #b0c4de;
+	border-left: 1px solid #b0c4de;
+	border-bottom: 1px solid #b0c4de;
+	border-top: 0px none #b0c4de;
+}
+/* Style for outer tag, mout (mouse out) state */
+.m0mouto1 {
+	border-top: 1px solid #b0c4de;
+	background: #F5F5DC; /*#b0c4de;*/
+}
+/* Style for outer tag, mover (mouse over) state */
+.m0movero1 {
+	border-top: 1px solid #b0c4de;
+	background: #DDDDDD;
+}
+/* Style for outer tag, mdown (mouse down) state */
+.m0mdowno1 {
+	border-top: 1px solid #b0c4de;
+	background: #DDDDDD;
+}
+/* Style for inner tag, mover (mouse over) state */
+.m0inner1 {
+	padding: 0px;
+}
+/* Style for inner text tag, mover (mouse over) state */
+.m0innerItem {
+	color: #000000;
+	font-size: 12px;
+	padding-left: 3px;
+	padding-right: 3px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	text-align: left;
+}
