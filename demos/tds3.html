@@ -1,0 +1,1750 @@
+<!-- saved from url=(0045)https://time02.lats.ny.gov/Timesheet/TDS.aspx -->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head id="ctl00_head001">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link href="./tds3_files/menu.css" type="text/css" rel="stylesheet">
+    <link href="./tds3_files/menu_infinite.css" type="text/css" rel="stylesheet">
+    <link href="./tds3_files/menu_tigra.css" type="text/css" rel="stylesheet">
+    <link href="./tds3_files/styles.css" type="text/css" rel="stylesheet">
+    <title>
+        Time Distribution System
+    </title>
+    <meta http-equiv="Content-Style-Type" content="text/css">
+    <meta http-equiv="X-UA-Compatible" content="IE=9">
+    <link href="./tds3_files/generic.css" type="text/css" rel="stylesheet">
+    <link href="./tds3_files/lats.css" type="text/css" rel="stylesheet">
+    <script src="./tds3_files/jquery-1.11.3.min.js" type="text/javascript"></script>
+    <script src="./tds3_files/blocking.js" language="javascript" type="text/javascript" script=""></script>
+    <script type="text/javascript">
+    var g_browser = navigator.appName;
+    var g_browser_version = navigator.appVersion;
+
+    //added this to remove history of the back button
+    window.history.forward(1);
+    </script>
+    <style type="text/css">
+    div.profiler-popup {
+        overflow: visible !important;
+    }
+    </style>
+    <script type="text/javascript">
+    showInfoBar();
+    $($("[id$=btnClose]")[0]).hide();
+
+    function showInfoBar() {
+        $(document).ready(function() {
+            // not sure why but on the ScheduleWorksheetRosterDays page (possibly others) the infobar method isn't available.
+            // need to verify the method exists before calling it
+            if (typeof $("#infobarDiv").InfoBar == "function") {
+                $("#infobarDiv").InfoBar({
+                    'CssClass': 'InfoBar',
+                    'CloseButtonId': 'btnDismiss',
+                    'CookieName': 'ShowInfoBar'
+                });
+            } else {
+                // when the infobar method isn't available we don't want to show the div
+                $("#infobarDiv").hide();
+            }
+        });
+    }
+
+    function dismissNotification() {
+        var root = $("[id$=rootURL]")[0].value;
+        var notifications = $("[id$=hdnNotificationID]")[0].value;
+        $("[id$=hdnNotificationID]")[0].value = "";
+        var data2Send = JSON.stringify({
+            "notificationIDs": notifications
+        });
+        $.ajaxSetup({
+            type: 'POST',
+            dataType: 'json',
+            async: true,
+            contentType: 'application/json',
+            data: {}
+        });
+
+        $.ajax({
+            url: root + "WebServices/Utilities.asmx/DismissNotifications",
+            data: data2Send,
+            success: function(result) {
+                // do nothing.
+            },
+            error: function(result) {
+                // do nothing.
+            }
+        });
+    }
+
+    function handleCloseButton() {
+        $("[id$=hdnNotificationID]")[0].value = "";
+        $("#infobarDiv").hide();
+    }
+    </script>
+    <script type="text/javascript">
+    function showNotificationBar() {
+        var dashboardSiteName = "";
+        var root = $("[id$=rootURL]")[0].value;
+        // get the dashboard site name
+        $.ajax({
+            async: false,
+            url: root + 'Shared/GetProfileItem',
+            type: 'POST',
+            data: {
+                profileItemType: 13
+            },
+            dataType: 'json',
+            success: function(results) {
+                dashboardSiteName = results;
+            }
+        });
+
+        if (dashboardSiteName != "") {
+            var message = "You are viewing " + dashboardSiteName + " via the dashboard.";
+
+            $(document).ready(function() {
+                if (typeof $("#notificationDiv").Notification == "function") {
+                    $("#notificationDiv").Notification(message, root, {
+                        'CssClass': 'InfoBar',
+                        'CloseButtonId': 'btnDismiss',
+                        'CookieName': 'ShowNotification'
+                    });
+                } else {
+                    $("#notificationDiv").hide();
+                }
+            });
+        }
+    }
+    </script>
+    <link href="./tds3_files/menu_net.css" type="text/css" rel="stylesheet">
+    <link href="./tds3_files/WebResource.axd" type="text/css" rel="stylesheet">
+    <style type="text/css">
+    .ctl00_netMainMenu_0 {
+        background-color: white;
+        visibility: hidden;
+        display: none;
+        position: absolute;
+        left: 0px;
+        top: 0px;
+    }
+
+    .ctl00_netMainMenu_1 {
+        color: Black;
+        text-decoration: none;
+    }
+
+    .ctl00_netMainMenu_2 {
+        color: Black;
+        width: 100%;
+    }
+
+    .ctl00_netMainMenu_3 {
+        border-style: none;
+    }
+
+    .ctl00_netMainMenu_4 {}
+
+    .ctl00_netMainMenu_5 {}
+
+    .ctl00_netMainMenu_6 {
+        border-style: none;
+    }
+
+    .ctl00_netMainMenu_7 {}
+
+    .ctl00_netMainMenu_8 {}
+
+    .ctl00_netMainMenu_9 {
+        border-style: none;
+    }
+
+    .ctl00_netMainMenu_10 {}
+
+    .ctl00_netMainMenu_11 {
+        border-style: none;
+    }
+
+    .ctl00_netMainMenu_12 {}
+
+    .ctl00_netMainMenu_13 {
+        border-style: none;
+    }
+
+    .ctl00_netMainMenu_14 {}
+    </style>
+</head>
+
+<body id="ctl00_body001" onload="window.history.forward();">
+    <noscript>
+        This page may not process correctly because your browser does not support Javascript.
+    </noscript>
+    <script type="text/javascript">
+    var sMyClientID = "ctl00";
+    var sPageContentClientID = "ctl00_ContentPlaceHolder1";
+
+    function makeSafe() {
+        var hiddenNotif = $("[id$=hdnAllNotifications]")[0];
+
+        if (hiddenNotif.value != "") {
+            hiddenNotif.value = window.escape(hiddenNotif.value);
+        }
+
+        return true;
+    }
+    </script>
+    <form name="aspnetForm" method="post" action="https://time02.lats.ny.gov/Timesheet/TDS.aspx" id="aspnetForm" onsubmit="return makeSafe();">
+        <div>
+            <input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="">
+            <input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="">
+            <input type="hidden" name="ctl00_ContentPlaceHolder1_Tabs_ClientState" id="ctl00_ContentPlaceHolder1_Tabs_ClientState" value="{&quot;ActiveTabIndex&quot;:0,&quot;TabState&quot;:[true,true]}">
+            <input type="hidden" name="__LASTFOCUS" id="__LASTFOCUS" value="">
+            <input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="QIE5LiQ+m1UDtAgaA+lTmdZZlu/38PrCSFWUdUNveXkcWwjY2frZUOCj+MnA/yoNeIM3P+tBd1qyYZl3e1NNWr+qZ1+wpU5SobpFbBp/GGTj0PE+kTH7iGPzzzPKIwR47g6L94K9bSjH0mHsnbnU2WT/sRAme07ReX+IE5y5QU6lSn7Yt8FsdATUgOrD2nX7u/Yva1O1RE6zB/kGGNSR1J66jMzIQxwX0pEHPlRVolN6oeWRaF4KogPtivjvK0MPqWNLV/Z0QzxSHMMpF5LxyNXa5DrhWfOVtt6qYipt4hEl6leReYk9sI+wxyPOu2HbYYP1b7XJGQKCmP5oPBDlzAvE0H79/IP5Dym8wYlQqOqYjMRQTHYqmVsVJQrMEsRcrForBBNLn5mcm8ZM6/OF3YJYTbGVoZYBCD5WqNkiDMj8bpQBMSeT0i8KHI+PlgoZFEua/SKy6SxLcTLtNV2d9Hk7s9sEUR2XiR8WLncR1IUhe0Ho3Sn8wh+ZeUuKIbs/f0qbPtEzIA9gU9H3UU3vgzzkg5fwXUJEt4ZcsYSyWM0hY7mriH/Nt9Iz/2pWlnp8xe8WH11kY0ol+Bc+rY4beKR4MCrqNi+zA5T2bBjm5x9hhU4PyaZNiovTOcXVnl+MKTWkDAcs4aHGS19OqsqJLS9gpfmOkQ+t+CQFULfAsnN0VsiDPUGCRS+EpDgkz1Bcov5fcGX1nP+WEFYsNMWBeEmgBeNgA2xD8lq0QW08E36BNCqWmney8RX/Q0jWe9dg5z8pZu5uVXl1cL/SAqyezBzqs8iZ7bTlfz6rtK4cE5DXWp3BtfNTfRJvfc9AoWVygmu+gKWvcgVlJNKZcp96GKaONSFWqxPO/reM307zHi2NQkgAes8VrEdWLiKjcJvJIsD8EdruiSaTo4k/m1L9FhcMuP4UZ4vxq88a3qrlJW/aZsWu+AQVLNX0j+frLItzW+5rcHxtwy/4YSCyDJrVjuQ4lLtsr5sSSpo0C7i902X69/Qy59ANYhOL/CvEUpM9/6wotoM3Jbo+oInPfVKlPgX3TbJQU2gQh/rh6VBiHSCy8cINZaD3jhxf02Yw8Z/VuSFyv5MtFebxoIoJjKy8F0OncYatx4un6sS80L46Idy5w5NYVypuJI7QwtVwIRP4gJXRNus+/eGY2hSwgoK5wWydTgDw5j9qnXCicRDuBBwoy8ReIHpsUqeg5NFqJCAeh4gNOZUUEN0ijyqCillUEcCT4UuHF7X5QmGZn/nuug/ylIOHWaE280t01U/3GOcAngXYtjPr8+2YS/BW4n7SRJBeNdDGOP+CSW/dlkWL5NJfTtVO9VocmjdVjSbVbB8NVStB69KJtw6cZZmtXAl3rY/rNEgV/4ASnHDuGQ/GoNQqRhU7RfhR6hI7/J4AkjhgztBG8K1TjJf2R5gqmUdDKDOhwSVaG8OKrjUwbbpucA/B4vW/xEmcQmvFN288E+YuM4xfpWj9XTeGzGn5brNE6rcj0iFDhUawI1BqY+INpoNPfpVbbFrgLIzc/l5NDfN9jHkRMIGOcwjtAeGs1F/keCky/BRbRb+Qn/jIJGj/dNXlYLPn3BfnDwvaBtBrucCCl9OLj2alaoCELTDeWRh/JVQqU3c16G11uOGI6mmVocRl4wty3oseQam2YjDOhv0XmL4I1Nh9+Pt/JM4hUNpFnXkRR/uypIzHeqtMUvLmRLVT7XZOaMO+Bj45nK3lMGsYDfDYozmr+6GimGcM+r4dia0acB9Eb8BzS6jQQOCeemL6dC/dR574IOEVhm/IbEAfAOUe22DhDNOjrtu6/684dZ4ayjYosWsTDCDkA+xh83iQmZ32Q37GEe09C4Qh3l/WOSAahsatEg2iHTOG5cQmu0ZZU2MJTSS/hsADH/KTlns6DoeKjbq4eq9rvPnhCaoPfh2pT0jzUv7ESZJtHJdkfESLwmnNZnn2F1AqVDcmzuKLQ1T0tTivmdFXZVN7vNe3ehf7/5U7cLPELarxdyqrs2JDtNlWa3tsgZ+/rTRrYkvZLt0UU/cOzS00SnJ5B+APL/M1V8LgmMgfmOfuXp0V3kcylTrA73e73Pq1ao0UuSbDhb7CvGynW0uRDRqSJdy7jRylzJ50QMFX4/4BdW7o/RkLBYCQO8nJr+qtHoWtwqPvdXK0HOX27ekYizRF2M8TzYQVXmxhXhoy6Od3fWdlXj8H/VGn8rNgH5R8Hvjk++rLkQ81qAkpw0k0zP4VbISNz38+WXGZ06T94pm+vN403OWRg/KT16yPxMEbkl0By9WKBUocjGGoGBeLaGGonJ4+xaLJ4x/xFo2mE9IkN5l0n3fQDgQG5duIvuq0OmtN13wKp0k039eqq4II7BMSKLACtzDQJSjfjXaixa1KMkZpFrV7kEQ+R8phjCoT6N0FwY9NEgwpzLAvK2withxoLJi5Xygng6x+zoh/Hv4l1eKGuiswEVgFw43jqwfWh8MEmsDnjNZ9yOtiz4CJAd6vISaw9hdUbEagaJ36VXCHnUjCaTL7RbNUFKTONO0uKRPsJ6LnFz/ilEufkO25GyBpAN6Il1KpZ2RHacNNxmBuxZM/gIQ2//GDM4fkcEZAOlGytNKL5VVSkpFYQVaizCR80XPLu063H6Ub7qNy2klcwZcxQ2CDX2TQLvgyZQ1U/EDCD+3evoea6M2A9HdiQkNJ3cishPL14zNv9EmhXlXtZJZQTAO6uWnfflvF6zKIGR9C13Z+JqK1hZ8CkHjUo3Z7WjqVbCwmpl11V8ivLh7oYHZ/GEufgFMwrrugA2JMjDDPwYsJJwH9O0Q3X+RV3mwRH/iSHXNuptRQoKKC2+aeVNuHuEi9+LLf5hwS5Tj/blfamfFl6MXOMzk9yyUAJABVq66I8YtU6529VYWzq8PaDqjp/oNcl3moht62DkaNGb0Z6FtbsHlXxYZsd9avonK7LkLvn1W+a4/MAzqXUvSffrWSPyJcYKcg3Qh8Ik8GwDKuDAgattsWVRB0kLKsqoiN1wMBvX52W42hY9JvwFar2smV7kx0wgBNdXK8l0CkBWd/sPAIc/UPv4mxhI9C1iqoZoO3xf9aR5htWAjdIR9mP0DPRzBD68D8FVrTwVo9Zeiy4EjhgTkD2hox7c6OV1gjGL8HY76Oqwm1eSzdWuQvTRuixeWU2iViL+rS4D9ThJdd0crmdx8Y2x75aEKVfwFUHjB7APeh1pcr5XpBaO9qcLXsvN9f/vcgUIZu0vGiSn95tuWOMsYYTQMMbYFRWxzUu5cSSswipSMlFlwxvahGI0tPKAdmgpN1VR4t9DmoECSmfOI1dDR7+1tSeFAXR4uVvVa2fgQQGftB3viDeHEyOqDHeLdbGN9OVKQaZ7bpZELtU2VeUbKkxauuxQAv+nTUG85eIoKg2cQjlkDUOvKXaD2eCdMiXdhF2ou0Fos2I/OWI06qM4qC0xF6wpVaS/jxM/YvSIvAObe8FWpZ7ldJx1hlqUrKQ7Qc8fCZXett+15Wj/3OufnfW7hcXBi3eTIsBhc++C104ZCnTUc+XNlz7lVjQernvqmfj6gRVVF0FJwzGVwWMy8RVgsSNgF0SXDl0xayST5nFWV66LW0iIZBfbQOKIjiDlXP3vVqA4F+26T52ZaC+ixn+eB4SFkc0H9keAXcA4SeCsod0ykvlTkS7+I2emNPezXV4LJ5RKoPW14xIlZTa4+s+OTPpYSKrznBduKZXe56FTMUL1LGIhwWDnCURrBIjveyhb/QcgWKIUFp1y4IcqY3rM4Phvy6SrTgpDQJmeBPIhpGoOULAwiWDAHbwpfRa8K/ZD9SfnmEbVn/+aIyNXSzjDSW0HdDfWeUX7ape7otLT8nXk7gL+zafCJU8sL97U/KN1K8CqnqR9UKIdzjbslfp7qc/azXFGjaWuRUqDqEJkwFSopH5KSY3BEtSp3sv/inBKl5cM1sd3KXP+O1wQy4RWTLkeDY+zxua4TCI7G4P78r9wbdPWxDtHmTTgM3nHC3a11Zw1WNB0SUg3g9/wpgBVfYAe0MjfkXp3bE4abk4WvyRaa2B7Y4a0reTazqnMqWp8AXq6uNCPoq3zFBChJncKt1mSPYGXyriWnsMkFr533DxK0joeP0TQNpBg==">
+        </div>
+        <script type="text/javascript">
+        //<![CDATA[
+        var theForm = document.forms['aspnetForm'];
+        if (!theForm) {
+            theForm = document.aspnetForm;
+        }
+
+        function __doPostBack(eventTarget, eventArgument) {
+            if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+                theForm.__EVENTTARGET.value = eventTarget;
+                theForm.__EVENTARGUMENT.value = eventArgument;
+                theForm.submit();
+            }
+        }
+        //]]>
+        </script>
+        <script src="./tds3_files/WebResource(1).axd" type="text/javascript"></script>
+        <script src="./tds3_files/ScriptResource.axd" type="text/javascript"></script>
+        <script src="./tds3_files/ScriptResource(1).axd" type="text/javascript"></script>
+        <script type="text/javascript">
+        //<![CDATA[
+        if (typeof(Sys) === 'undefined') throw new Error('ASP.NET Ajax client-side framework failed to load.');
+        //]]>
+        </script>
+        <script src="./tds3_files/ScriptResource(2).axd" type="text/javascript"></script>
+        <script src="./tds3_files/jquery-1.11.3.min.js" type="text/javascript"></script>
+        <script src="./tds3_files/AjaxHelpers.js" type="text/javascript"></script>
+        <script src="./tds3_files/window_manager.js" type="text/javascript"></script>
+        <script src="./tds3_files/trim.js" type="text/javascript"></script>
+        <script src="./tds3_files/json.js" type="text/javascript"></script>
+        <script src="./tds3_files/pageTiming.js" type="text/javascript"></script>
+        <script src="./tds3_files/infobar.js" type="text/javascript"></script>
+        <script src="./tds3_files/notification.js" type="text/javascript"></script>
+        <script src="./tds3_files/ScriptResource(3).axd" type="text/javascript"></script>
+        <script src="./tds3_files/ScriptResource(4).axd" type="text/javascript"></script>
+        <script src="./tds3_files/ScriptResource(5).axd" type="text/javascript"></script>
+        <script src="./tds3_files/ScriptResource(6).axd" type="text/javascript"></script>
+        <script src="./tds3_files/ScriptResource(7).axd" type="text/javascript"></script>
+        <script src="./tds3_files/ScriptResource(8).axd" type="text/javascript"></script>
+        <script src="./tds3_files/ScriptResource(9).axd" type="text/javascript"></script>
+        <script src="./tds3_files/ScriptResource(10).axd" type="text/javascript"></script>
+        <script src="./tds3_files/ScriptResource(11).axd" type="text/javascript"></script>
+        <script src="./tds3_files/ScriptResource(12).axd" type="text/javascript"></script>
+        <script src="./tds3_files/jsdebug" type="text/javascript"></script>
+        <div>
+            <input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="5773F86B">
+            <input type="hidden" name="__VIEWSTATEENCRYPTED" id="__VIEWSTATEENCRYPTED" value="">
+        </div>
+        <script type="text/javascript">
+        //<![CDATA[
+        Sys.WebForms.PageRequestManager._initialize('ctl00$DefaultScriptMgr', 'aspnetForm', ['tctl00$UpdatePanel1', '', 'tctl00$ContentPlaceHolder1$UpdatePanel4', '', 'tctl00$ContentPlaceHolder1$Tabs$TabPanelBrowse$UpdatePanel1', '', 'tctl00$ContentPlaceHolder1$Tabs$TabPanelSearch$UpdatePanel2', '', 'tctl00$ContentPlaceHolder1$UpdatePanel3', ''], ['ctl00$ContentPlaceHolder1$Tabs$TabPanelBrowse$ddlAgency', '', 'ctl00$ContentPlaceHolder1$Tabs$TabPanelBrowse$ddlCategory', '', 'ctl00$ContentPlaceHolder1$Tabs$TabPanelSearch$btnSearch', '', 'ctl00$ContentPlaceHolder1$btnSaveTop', '', 'ctl00$ContentPlaceHolder1$btnSaveBottom', '', 'ctl00$ContentPlaceHolder1$btnTriggerDelete', '', 'ctl00$ContentPlaceHolder1$btnSubmitTDSTimesheet', '', 'ctl00$ContentPlaceHolder1$btnApproveUnprocessedTDSTimesheet', '', 'ctl00$ContentPlaceHolder1$btnUnapproveUnprocessedTDSTimesheet', '', 'ctl00$ContentPlaceHolder1$btnUnsubmitTDSTimesheet', '', 'ctl00$ContentPlaceHolder1$btnProcessTDSTimesheet', ''], [], 0, 'ctl00');
+        //]]>
+        </script>
+        <script type="text/javascript">
+        showTimings();
+        </script>
+        <input type="hidden" name="ctl00$rootURL" id="ctl00_rootURL" value="/">
+        <!-- store the ID's of the unread notifications -->
+        <input type="hidden" name="ctl00$hdnNotificationID" id="ctl00_hdnNotificationID">
+        <!--- this will store all notifications read or not -->
+        <input type="hidden" name="ctl00$hdnAllNotifications" id="ctl00_hdnAllNotifications">
+        <div id="wrapper" style="min-height: 100%; height: auto !important; height: 100%; margin: 0 auto -110px;">
+            <div id="infobarDiv" style="display:none;z-index:999">
+                <table cellpadding="10" width="100%" border="0">
+                    <tbody>
+                        <tr>
+                            <td align="center" width="95%">
+                                <span id="ctl00_infoMessage"></span>
+                            </td>
+                            <td align="left" width="5%">
+                                <input id="btnDismiss" type="button" value="Dismiss Notification(s)" onclick="dismissNotification();">
+                                <input id="btnClose" type="button" value="Close" onclick="handleCloseButton();">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="notificationDiv" style="display:none"></div>
+            <div id="ctl00_UpdatePanel1">
+            </div>
+            <input type="hidden" name="ctl00$CSRFToken" id="ctl00_CSRFToken">
+            <div id="ctl00_trPageBanner">
+                <img src="./tds3_files/lats_banner_top.gif" id="ctl00_banner_image" alt="LATSnet Banner Image" title="LATSnet Banner Image" style="border-width:0">
+            </div>
+            <div id="ctl00_trMenu" style="height: 37px">
+                <table id="ctl00_mainMenuTable" style="width:100%" cellpadding="0" cellspacing="0" summary="Format Layout">
+                    <tbody>
+                        <tr>
+                            <td style="text-align:left; height: 21px;">
+                                <a href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#startContent" accesskey="s" class="skipNavigation" style="display:none;">Skip Navigation</a>
+                                <div id="ctl00_err_div" style="text-align:center" class="error">
+                                </div>
+                                <table id="ctl00_netMainMenu" class="staticMenu ctl00_netMainMenu_5 ctl00_netMainMenu_2" summary="Format Layout" role="presentation" cellpadding="0" cellspacing="0" border="0">
+                                    <tbody>
+                                        <tr>
+                                            <td onmouseover="Menu_HoverStatic(this)" onmouseout="Menu_Unhover(this)" onkeyup="Menu_Key(event)" title="LATSnet Home Page" id="ctl00_netMainMenun0">
+                                                <table class="staticMenuItem ctl00_netMainMenu_4" cellpadding="0" cellspacing="0" border="0" width="100%">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td><a class="ctl00_netMainMenu_1 staticMenuItem ctl00_netMainMenu_3" href="https://time02.lats.ny.gov/Default.aspx" target="_self" style="border-style:none;font-size:1em;">Home</a></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                            <td style="width:3px;"></td>
+                                            <td onmouseover="Menu_HoverStatic(this)" onmouseout="Menu_Unhover(this)" onkeyup="Menu_Key(event)" title="Timesheet Menu" id="ctl00_netMainMenun1">
+                                                <table class="staticMenuItem ctl00_netMainMenu_4" cellpadding="0" cellspacing="0" border="0" width="100%">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td><a class="ctl00_netMainMenu_1 staticMenuItem ctl00_netMainMenu_3" href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#" style="border-style:none;font-size:1em;cursor:text;">Timesheet</a></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                            <td style="width:3px;"></td>
+                                            <td onmouseover="Menu_HoverStatic(this)" onmouseout="Menu_Unhover(this)" onkeyup="Menu_Key(event)" title="LATSnet Administration" id="ctl00_netMainMenun2">
+                                                <table class="staticMenuItem ctl00_netMainMenu_4" cellpadding="0" cellspacing="0" border="0" width="100%">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td><a class="ctl00_netMainMenu_1 staticMenuItem ctl00_netMainMenu_3" href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#" style="border-style:none;font-size:1em;cursor:text;">Admin</a></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div id="ctl00_netMainMenun1Items" class="ctl00_netMainMenu_0 dynamicMenu ctl00_netMainMenu_8">
+                                    <table border="0" cellpadding="0" cellspacing="0">
+                                        <tbody>
+                                            <tr onmouseover="Menu_HoverDynamic(this)" onmouseout="Menu_Unhover(this)" onkeyup="Menu_Key(event)" id="ctl00_netMainMenun3">
+                                                <td>
+                                                    <table class="dynamicMenuItem ctl00_netMainMenu_7" cellpadding="0" cellspacing="0" border="0" width="100%">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td style="width:100%;"><a class="ctl00_netMainMenu_1 dynamicMenuItem ctl00_netMainMenu_6" href="https://time02.lats.ny.gov/Common/Process.aspx" style="border-style:none;font-size:1em;">My Timesheet</a></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                            <tr onmouseover="Menu_HoverDynamic(this)" onmouseout="Menu_Unhover(this)" onkeyup="Menu_Key(event)" id="ctl00_netMainMenun4">
+                                                <td>
+                                                    <table class="dynamicMenuItem ctl00_netMainMenu_7" cellpadding="0" cellspacing="0" border="0" width="100%">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td style="width:100%;"><a class="ctl00_netMainMenu_1 dynamicMenuItem ctl00_netMainMenu_6" href="https://time02.lats.ny.gov/Timesheet/Approval_List.aspx" style="border-style:none;font-size:1em;">Approval List</a></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                            <tr onmouseover="Menu_HoverDynamic(this)" onmouseout="Menu_Unhover(this)" onkeyup="Menu_Key(event)" id="ctl00_netMainMenun5">
+                                                <td>
+                                                    <table class="dynamicMenuItem ctl00_netMainMenu_7" cellpadding="0" cellspacing="0" border="0" width="100%">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td style="width:100%;"><a class="ctl00_netMainMenu_1 dynamicMenuItem ctl00_netMainMenu_6" href="https://time02.lats.ny.gov/Timesheet/Verification_List.aspx" style="border-style:none;font-size:1em;">Verification List</a></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="dynamicMenuItem ctl00_netMainMenu_7 ctl00_netMainMenu_0" id="ctl00_netMainMenun1ItemsUp" onmouseover="PopOut_Up(this)" onmouseout="PopOut_Stop(this)" style="text-align:center;">
+                                        <img src="./tds3_files/WebResource(2).axd" alt="Scroll up">
+                                    </div>
+                                    <div class="dynamicMenuItem ctl00_netMainMenu_7 ctl00_netMainMenu_0" id="ctl00_netMainMenun1ItemsDn" onmouseover="PopOut_Down(this)" onmouseout="PopOut_Stop(this)" style="text-align:center;">
+                                        <img src="./tds3_files/WebResource(3).axd" alt="Scroll down">
+                                    </div>
+                                </div>
+                                <div id="ctl00_netMainMenun2Items" class="ctl00_netMainMenu_0 dynamicMenu ctl00_netMainMenu_8">
+                                    <table border="0" cellpadding="0" cellspacing="0">
+                                        <tbody>
+                                            <tr onmouseover="Menu_HoverDynamic(this)" onmouseout="Menu_Unhover(this)" onkeyup="Menu_Key(event)" id="ctl00_netMainMenun6">
+                                                <td>
+                                                    <table class="dynamicMenuItem ctl00_netMainMenu_7" cellpadding="0" cellspacing="0" border="0" width="100%">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td style="width:100%;"><a class="ctl00_netMainMenu_1 dynamicMenuItem ctl00_netMainMenu_6" href="https://time02.lats.ny.gov/ChangePwd.aspx" style="border-style:none;font-size:1em;">Change Password</a></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="dynamicMenuItem ctl00_netMainMenu_7 ctl00_netMainMenu_0" id="ctl00_netMainMenun2ItemsUp" onmouseover="PopOut_Up(this)" onmouseout="PopOut_Stop(this)" style="text-align:center;">
+                                        <img src="./tds3_files/WebResource(2).axd" alt="Scroll up">
+                                    </div>
+                                    <div class="dynamicMenuItem ctl00_netMainMenu_7 ctl00_netMainMenu_0" id="ctl00_netMainMenun2ItemsDn" onmouseover="PopOut_Down(this)" onmouseout="PopOut_Stop(this)" style="text-align:center;">
+                                        <img src="./tds3_files/WebResource(3).axd" alt="Scroll down">
+                                    </div>
+                                </div>
+                                <script type="text/javascript">
+                                // See if we can add a summary to the tables in the ASP.NET Menu
+                                // after it is rendered.
+                                if (document.all) {
+                                    oMenuTable = $get("ctl00_mainMenuTable");
+                                    if (oMenuTable) {
+                                        oTables = oMenuTable.getElementsByTagName("table");
+
+                                        if (oTables) {
+                                            for (i = 0; i < oTables.length; i++) {
+                                                var oTable = oTables[i];
+                                                if (oTable.getAttribute("summary") == "") {
+                                                    oTable.setAttribute("summary", "Format Layout");
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                </script>
+                                <a name="startContent" id="startContent" style="display:none"></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:right; height: 21px;">
+                                <span id="ctl00_username_label">Welcome MyFirstName MyLastName!</span>
+                                <span id="ctl00_user_sep">&nbsp;|&nbsp;</span>
+                                <a id="ctl00_logout_link" title="Logout of LATSnet" href="https://time02.lats.ny.gov/logout.aspx">Logout</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <div id="ctl00_PageTitleDiv" class="pageTitle">
+                    <span id="ctl00_PageTitleLabel">Time Distribution System</span>
+                </div>
+                <div id="ctl00_ContentDiv" class="content">
+                    <input type="hidden" name="ctl00$ContentPlaceHolder1$mode" id="ctl00_ContentPlaceHolder1_mode" value="refresh">
+                    <input type="hidden" name="ctl00$ContentPlaceHolder1$EmpTDSID" id="ctl00_ContentPlaceHolder1_EmpTDSID">
+                    <input type="hidden" name="ctl00$ContentPlaceHolder1$SubTaskButtonID" id="ctl00_ContentPlaceHolder1_SubTaskButtonID">
+                    <script type="text/javascript" src="./tds3_files/timesheet_validation.js"></script>
+                    <script type="text/javascript">
+                    var tableOffset;
+                    $(document).ready(function() {
+
+                        tableOffset = $("#ctl00_ContentPlaceHolder1_TDSData").offset().top;
+
+                        $(window).bind("scroll", function() {
+                            lockHeader();
+                        });
+                    });
+
+                    // unlock header row before printing, lock it again after printing (if necessary)
+                    (function() {
+
+                        var beforePrint = function() {
+                            $("#ctl00_ContentPlaceHolder1_HeaderDisplay").css("position", "").css("top", "").css("background-color", "");
+                        };
+
+                        var afterPrint = function() {
+                            lockHeader();
+                        };
+
+                        if (window.matchMedia) {
+                            var mediaQueryList = window.matchMedia('print');
+                            mediaQueryList.addListener(function(mql) {
+                                if (mql.matches) {
+                                    beforePrint();
+                                } else {
+                                    afterPrint();
+                                }
+                            });
+                        }
+
+                        window.onbeforeprint = beforePrint;
+                        window.onafterprint = afterPrint;
+
+                    }());
+
+                    function lockHeader() {
+                        var offset = $(this).scrollTop();
+
+                        if (offset > tableOffset) {
+                            $("#ctl00_ContentPlaceHolder1_HeaderDisplay").css("position", "fixed").css("top", "0px").css("background-color", "white");
+                        } else {
+                            $("#ctl00_ContentPlaceHolder1_HeaderDisplay").css("position", "").css("top", "").css("background-color", "");
+                        }
+                    }
+
+                    function checkKeyword() {
+                        if (document.getElementById('ctl00_ContentPlaceHolder1_Tabs_TabPanelSearch_txtSearch').value == '') {
+                            alert('Please enter a keyword to search by');
+                            return false;
+                        }
+                        return true;
+                    }
+
+                    function addTask(sFrom) {
+                        if (sFrom == 'B') {
+                            if (document.getElementById('ctl00_ContentPlaceHolder1_Tabs_TabPanelBrowse_ddlTask').value == '') {
+                                alert('Please select a valid task');
+                                return false;
+                            }
+                        } else {
+                            if (document.getElementById('ctl00_ContentPlaceHolder1_Tabs_TabPanelSearch_ddlTaskSearch').value == '') {
+                                alert('Please select a valid task');
+                                return false;
+                            }
+                        }
+                        document.getElementById('ctl00_ContentPlaceHolder1_mode').value = 'add' + sFrom;
+                        return true;
+                    }
+
+                    function deleteTask(tdsID) {
+                        var bConfirm = confirm("Do you want to delete this task?\n\nClick 'OK' to delete.");
+                        if (!bConfirm) {
+                            return false;
+                        }
+                        document.getElementById('ctl00_ContentPlaceHolder1_mode').value = 'delete';
+                        document.getElementById('ctl00_ContentPlaceHolder1_EmpTDSID').value = tdsID;
+                        document.getElementById('ctl00_ContentPlaceHolder1_btnTriggerDelete').click();
+                        return true;
+                    }
+
+                    function validatePercentage(oControl, cell) {
+                        var objRegExp;
+                        var strValue = Trim(oControl.value);
+                        setDirty();
+
+                        if (strValue != '0') {
+                            objRegExp = /(^\d\d*\.\d{1,2}$)|(^\d\d*$)|(^\.\d{1,2}$)/;
+                            if (!objRegExp.test(strValue)) {
+                                incrementErrorCount(oControl, cell);
+                                alert('Only non-negative numeric values with no more than two decimal places allowed.');
+                            } else {
+                                decrementErrorCount(oControl, cell);
+                            }
+                        } else {
+                            oControl.value = '0.00';
+                            decrementErrorCount(oControl, cell);
+                        }
+                    }
+
+                    function saveTDSData() {
+                        if (errorCount > 0) { //global variable in TimesheetValidation.js
+                            alert("This TDS page has " + errorCount + " validation error(s) highlighted by green cells. Please correct them before saving.");
+                            return false;
+                        }
+                        resetDirty(); //DEF00695 ENCON - extra save button on TDS screen after record is saved
+                        document.getElementById('ctl00_ContentPlaceHolder1_mode').value = 'save';
+                        return true;
+                    }
+
+                    function setMode(mode) {
+                        document.getElementById('ctl00_ContentPlaceHolder1_mode').value = mode;
+                    }
+
+                    function approveTDS() {
+                        document.getElementById('ctl00_ContentPlaceHolder1_btnApprove').click();
+                        return true;
+                    }
+
+                    function unApproveTDS() {
+                        document.getElementById('ctl00_ContentPlaceHolder1_btnUnApprove').click();
+                        return true;
+                    }
+
+                    function unprocessTDSTimesheet() {
+                        var pop = ShowModalPopup('ModalPopupExtenderUnprocess');
+                        return false;
+                    }
+
+                    function submitTDSTimesheet() {
+                        document.getElementById('ctl00_ContentPlaceHolder1_btnSubmitTDSTimesheet').click();
+                        return true;
+                    }
+
+                    function approveUnprocessedTDSTimesheet() {
+                        document.getElementById('ctl00_ContentPlaceHolder1_btnApproveUnprocessedTDSTimesheet').click();
+                        return true;
+                    }
+
+                    function unsubmitTDSTimesheet() {
+                        document.getElementById('ctl00_ContentPlaceHolder1_btnUnsubmitTDSTimesheet').click();
+                        return true;
+                    }
+
+                    function unapproveUnprocessedTDSTimesheet() {
+                        document.getElementById('ctl00_ContentPlaceHolder1_btnUnapproveUnprocessedTDSTimesheet').click();
+                        return true;
+                    }
+
+                    function processTDSTimesheet() {
+                        document.getElementById('ctl00_ContentPlaceHolder1_btnProcessTDSTimesheet').click();
+                        return true;
+                    }
+
+                    function getCategoryDesc() {
+                        var selectedCat = document.getElementById('ctl00_ContentPlaceHolder1_Tabs_TabPanelBrowse_ddlCategory').value;
+                        var pop = ShowModalPopup('ModalPopupExtenderCategory');
+                        LATSnet.LATSweb.TimeSheetWebService.GetCategoryDescription(selectedCat, SucceededCallbackCategory);
+                        return false;
+                    }
+
+                    function SucceededCallbackCategory(result) {
+                        document.getElementById("descCategory").innerHTML = result;
+                    }
+
+                    function getTaskDesc(sFrom) {
+                        var selectedTask;
+
+                        if (sFrom == 'B') {
+                            selectedTask = document.getElementById('ctl00_ContentPlaceHolder1_Tabs_TabPanelBrowse_ddlTask').value;
+                        } else {
+                            selectedTask = document.getElementById('ctl00_ContentPlaceHolder1_Tabs_TabPanelSearch_ddlTaskSearch').value;
+                        }
+                        var pop = ShowModalPopup('ModalPopupExtenderTask');
+                        LATSnet.LATSweb.TimeSheetWebService.GetTaskDescription(selectedTask, SucceededCallbackTask);
+                        return false;
+                    }
+
+                    function SucceededCallbackTask(result) {
+                        document.getElementById("descTask").innerHTML = result;
+                    }
+
+                    function openSubTaskWindow(subTaskButton, tdsID) {
+                        document.getElementById('ctl00_ContentPlaceHolder1_EmpTDSID').value = tdsID;
+                        document.getElementById('ctl00_ContentPlaceHolder1_SubTaskButtonID').value = subTaskButton.id;
+
+                        document.body.className = 'modalBackground';
+                        popModalWindow('SubTasks.aspx?EmpTDSID=' + tdsID, 'SubTasks', '700', '700');
+                        document.body.className = '';
+                        return false;
+                    }
+
+                    function updateSubTaskButton() {
+                        var tdsID = document.getElementById('ctl00_ContentPlaceHolder1_EmpTDSID').value;
+                        LATSnet.LATSweb.TimeSheetWebService.SubTaskDisplay(tdsID, SucceededCallbackSubTask);
+                    }
+
+                    function SucceededCallbackSubTask(result) {
+                        var subTaskButtonID = document.getElementById('ctl00_ContentPlaceHolder1_SubTaskButtonID').value;
+                        document.getElementById(subTaskButtonID).innerHTML = result;
+                        $get(subTaskButtonID).setAttribute("title", result);
+                    }
+
+                    function timesheetFunctionModal(destinationPage, width, height) {
+                        //dim back ground color
+                        document.body.className = 'modalBackground';
+                        popModalWindow(destinationPage, 'TimesheetFunctionModal', width, height);
+                        document.body.className = '';
+                        return false;
+                    }
+
+                    function printTimesheet(destinationPage, printType, width, height) {
+                        //dim back ground color
+                        document.body.className = 'modalBackground';
+                        popModalWindow(destinationPage + '?print_page=' + printType, 'PrintTimesheet', width, height);
+                        document.body.className = '';
+                        return false;
+                    }
+
+                    function setItemFocus(itemID) {
+                        document.getElementById(itemID).focus();
+                        document.getElementById(itemID).className = 'active';
+                        return false;
+                    }
+
+                    function printPage() {
+                        window.print();
+                        return false;
+                    }
+                    </script>
+                    <style type="text/css">
+                    .invisible {
+                        display: none;
+                    }
+
+                    .modalNotifyOptions {
+                        width: 140px;
+                    }
+
+                    .modalCheckbox {
+                        float: left;
+                    }
+                    </style>
+                    <script src="./tds3_files/window_manager.js" type="text/javascript"></script>
+                    <script type="text/javascript">
+                    function CheckDirtyPage(sURL) {
+                        var continueNav = true;
+                        if (bDirty)
+                            continueNav = (confirm("Changes have been made. Do you wish to continue without saving?\n\nClick 'OK' to continue without saving. Click 'Cancel' to return and save your changes."));
+
+                        if (continueNav) {
+                            // DEF00655 - prevent new window from opening when clicking links from modal popup.
+                            document.getElementById('ctl00_ContentPlaceHolder1_NavigationTabs_lnkBlank').href = sURL;
+                            document.getElementById('ctl00_ContentPlaceHolder1_NavigationTabs_lnkBlank').click();
+                            return false;
+                        }
+                        return continueNav;
+                    }
+
+                    // when the document is fully loaded, check to see if there are notifications and show/hide the notifications link accordingly
+                    $(document).ready(function() {
+                        if ($("[id$=hdnAllNotifications]")[0].value == "") {
+                            $($("[id$=ts_notifications_fn]")[0]).hide();
+                        } else {
+                            $($("[id$=ts_notifications_fn]")[0]).show();
+                        }
+                    });
+                    </script>
+                    <!--tabs-->
+                    <!--TabIndex 1 thru 20-->
+                    <div class="TimesheetTab">
+                        <span id="ctl00_ContentPlaceHolder1_NavigationTabs_approval_list_tab"><div id="ctl00_ContentPlaceHolder1_NavigationTabs_approval_list_tab" class="tabOff"><a href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#" onclick="return CheckDirtyPage(&#39;Approval_List.aspx &#39;);" title="Approval List" tabindex="2"><img alt="Left Tab" src="./tds3_files/tableft.gif" style="border-width:0">Approval List<img alt="Right Tab" src="./tds3_files/tabright.gif" style="border-width:0"></a></div></span>
+                        <span id="ctl00_ContentPlaceHolder1_NavigationTabs_timesheet_tab"><div id="ctl00_ContentPlaceHolder1_NavigationTabs_timesheet_tab" class="tabOff"><a href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#" onclick="return CheckDirtyPage(&#39;MyTimesheet.aspx &#39;);" title="Timesheet" tabindex="3"><img alt="Left Tab" src="./tds3_files/tableft.gif" style="border-width:0">Timesheet<img alt="Right Tab" src="./tds3_files/tabright.gif" style="border-width:0"></a></div></span>
+                        <span id="ctl00_ContentPlaceHolder1_NavigationTabs_workersComp_tab"><div id="ctl00_ContentPlaceHolder1_NavigationTabs_workersComp_tab" class="tabOff"><a href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#" onclick="return CheckDirtyPage(&#39;WorkersComp.aspx &#39;);" title="Workers Comp" tabindex="4"><img alt="Left Tab" src="./tds3_files/tableft.gif" style="border-width:0">Workers Comp<img alt="Right Tab" src="./tds3_files/tabright.gif" style="border-width:0"></a></div></span>
+                        <span id="ctl00_ContentPlaceHolder1_NavigationTabs_tds_tab"><div id="ctl00_ContentPlaceHolder1_NavigationTabs_tds_tab" class="tabOn"><a href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#" onclick="return CheckDirtyPage(&#39;TDS.aspx &#39;);" title="TDS" tabindex="5"><img alt="Left Tab" src="./tds3_files/tableft.gif" style="border-width:0">TDS<img alt="Right Tab" src="./tds3_files/tabright.gif" style="border-width:0"></a></div></span>
+                        <span id="ctl00_ContentPlaceHolder1_NavigationTabs_payments_tab"><div id="ctl00_ContentPlaceHolder1_NavigationTabs_payments_tab" class="tabOff"><a href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#" onclick="return CheckDirtyPage(&#39;Payments.aspx &#39;);" title="Payments" tabindex="7"><img alt="Left Tab" src="./tds3_files/tableft.gif" style="border-width:0">Payments<img alt="Right Tab" src="./tds3_files/tabright.gif" style="border-width:0"></a></div></span>
+                        <a id="ctl00_ContentPlaceHolder1_NavigationTabs_lnkBlank"></a>
+                    </div>
+                    <!--timesheet functions-->
+                    <!--TabIndex 21 thru 80-->
+                    <div class="TimesheetSubTab">
+                        <span id="ctl00_ContentPlaceHolder1_NavigationTabs_tds_print_fn"><div class="TimesheetSubTabItem"><a class="boldsearch" href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#" onclick="return printTimesheet(&#39;Print.aspx&#39;,&#39;1&#39;,&#39;850&#39;,&#39;650&#39;)" title="Print" tabindex="38">Print&nbsp;</a></div></span>
+                        <span id="ctl00_ContentPlaceHolder1_NavigationTabs_ts_notifications_fn" style="display: none;"><div class="TimesheetSubTabItem"><a class="boldsearch" href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#" onclick="forceShowInfoBar();" title="Notifications" tabindex="51">Notifications&nbsp;</a></div></span>
+                        <span id="ctl00_ContentPlaceHolder1_NavigationTabs_TabFunction1"><div class="TimesheetSubTabItem"><a class="boldsearch" href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#" onclick="" title="" tabindex="-1">&nbsp;</a></div></span>
+                    </div>
+                    <!-- etc -->
+                    <br>
+                    <table style="width:100%; padding:0px;border-collapse:collapse; border-spacing: 0;" summary="Format Layout">
+                        <tbody>
+                            <tr>
+                                <td colspan="3">
+                                    <div id="ctl00_ContentPlaceHolder1_UpdateProgress1" style="visibility:hidden;display:block;" role="status" aria-hidden="true">
+                                        <img id="ctl00_ContentPlaceHolder1_LoaderImg" src="./tds3_files/ajax-loader.gif" alt="ajax-loader" style="border-width:0px;"> Loading...
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <div id="ctl00_ContentPlaceHolder1_UpdatePanel4">
+                                        <div style="text-align:center"></div>
+                                        <div style="text-align:center"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="defaultText" style="text-align:left">
+                                    <strong>Name:</strong>&nbsp;<span id="ctl00_ContentPlaceHolder1_EmployeeName">MyFirstName J MyLastName</span>
+                                </td>
+                                <td class="defaultText" style="text-align:left">
+                                    <strong>Pay Period:</strong>&nbsp;<span id="ctl00_ContentPlaceHolder1_PayPeriod">2017 - 4 (5/18/2017 to 5/31/2017)</span>
+                                </td>
+                                <td class="defaultText" style="text-align:left">
+                                    <strong>Timesheet Status:</strong>&nbsp;<span id="ctl00_ContentPlaceHolder1_TimesheetStatus">Un-Submitted</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td class="defaultText" style="text-align:left">
+                                    <strong>TDS Timesheet Status:</strong>&nbsp;<span id="ctl00_ContentPlaceHolder1_lblTDSStatus">Un-Submitted</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <hr>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br>
+                    <br>
+                    <div id="ctl00_ContentPlaceHolder1_pnlSelector" style="width:764px;">
+                        <table width="764px" summary="Format Layout">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div id="ctl00_ContentPlaceHolder1_Tabs" class="ajax__tab_xp ajax__tab_container ajax__tab_default" style="visibility: visible;">
+                                            <div id="ctl00_ContentPlaceHolder1_Tabs_header" class="ajax__tab_header">
+                                                <span id="ctl00_ContentPlaceHolder1_Tabs_TabPanelBrowse_tab" class="ajax__tab_active"><span class="ajax__tab_outer"><span class="ajax__tab_inner"><span id="__tab_ctl00_ContentPlaceHolder1_Tabs_TabPanelBrowse" class="ajax__tab_tab"><a href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#" style="text-decoration:none" title="Browse">Browse</a></span></span>
+                                                </span>
+                                                </span><span id="ctl00_ContentPlaceHolder1_Tabs_TabPanelSearch_tab"><span class="ajax__tab_outer"><span class="ajax__tab_inner"><span id="__tab_ctl00_ContentPlaceHolder1_Tabs_TabPanelSearch" class="ajax__tab_tab"><a href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#" style="text-decoration:none" title="Search">Search</a></span></span>
+                                                </span>
+                                                </span>
+                                            </div>
+                                            <div id="ctl00_ContentPlaceHolder1_Tabs_body" class="ajax__tab_body">
+                                                <div id="ctl00_ContentPlaceHolder1_Tabs_TabPanelBrowse" class="ajax__tab_panel" style="visibility: visible;">
+                                                    <div id="ctl00_ContentPlaceHolder1_Tabs_TabPanelBrowse_UpdatePanel1">
+                                                        <table style="width:100%; padding:0px;border-collapse:collapse; border-spacing: 0;" class="inputTable" summary="Format Layout">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td style="vertical-align:top"><strong><span id="ctl00_ContentPlaceHolder1_Tabs_TabPanelBrowse_lblAgency" for="ddlAgency">Agency:</span></strong></td>
+                                                                    <td>
+                                                                        <select name="ctl00$ContentPlaceHolder1$Tabs$TabPanelBrowse$ddlAgency" onchange="javascript:setTimeout(&#39;__doPostBack(\&#39;ctl00$ContentPlaceHolder1$Tabs$TabPanelBrowse$ddlAgency\&#39;,\&#39;\&#39;)&#39;, 0)" id="ctl00_ContentPlaceHolder1_Tabs_TabPanelBrowse_ddlAgency" disabled="disabled" tabindex="105" title="Agency Dropdown List" style="color:#0066B3;background-color:White;font-size:Small;font-weight:bold;font-style:italic;width:350px;">
+                                                                            <option value="">Select an Agency</option>
+                                                                            <option selected="selected" value="01110">NYS Office of Information Technology Services </option>
+                                                                        </select>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="vertical-align:top"><strong></strong></td>
+                                                                    <td>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="vertical-align:top"><strong></strong></td>
+                                                                    <td>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="vertical-align:top"><strong></strong></td>
+                                                                    <td>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="vertical-align:top"><strong><span id="ctl00_ContentPlaceHolder1_Tabs_TabPanelBrowse_lblCategory" for="ddlCategory">Category:</span></strong></td>
+                                                                    <td>
+                                                                        <select name="ctl00$ContentPlaceHolder1$Tabs$TabPanelBrowse$ddlCategory" onchange="javascript:setTimeout(&#39;__doPostBack(\&#39;ctl00$ContentPlaceHolder1$Tabs$TabPanelBrowse$ddlCategory\&#39;,\&#39;\&#39;)&#39;, 0)" id="ctl00_ContentPlaceHolder1_Tabs_TabPanelBrowse_ddlCategory" tabindex="120" title="Category Dropdown List" style="color:#0066B3;background-color:White;font-size:Small;font-weight:bold;font-style:italic;width:350px;">
+                                                                            <option selected="selected" value="">Select a Category</option>
+                                                                            <option value="1333">App Dev and Implemtn - Application Development and Implementation</option>
+                                                                            <option value="1334">App Suppt and Maint - Application Support and Maintenance</option>
+                                                                            <option value="1284">DHSES Response - DHSES Response Activities</option>
+                                                                            <option value="1395">External Audit - External Audit Activities</option>
+                                                                            <option value="1396">Internal Audit - Internal Audit Activities</option>
+                                                                        </select>
+                                                                        <a class="defaultText" href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#" onclick="return getCategoryDesc()">
+                                                                            <img id="ctl00_ContentPlaceHolder1_Tabs_TabPanelBrowse_Image1" tabindex="125" src="./tds3_files/about.gif" alt="Category Description Popup" style="border-width:0px;">
+                                                                        </a>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="vertical-align:top"><strong><span id="ctl00_ContentPlaceHolder1_Tabs_TabPanelBrowse_lblTask" for="ddlTask">Task:</span></strong></td>
+                                                                    <td>
+                                                                        <select name="ctl00$ContentPlaceHolder1$Tabs$TabPanelBrowse$ddlTask" id="ctl00_ContentPlaceHolder1_Tabs_TabPanelBrowse_ddlTask" tabindex="130" title="Task Dropdown List" style="color:#0066B3;background-color:White;font-size:Small;font-weight:bold;font-style:italic;width:350px;">
+                                                                            <option value="">Select a Task</option>
+                                                                        </select>
+                                                                        <a class="defaultText" href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#" onclick="return getTaskDesc(&#39;B&#39;)">
+                                                                            <img id="ctl00_ContentPlaceHolder1_Tabs_TabPanelBrowse_Image2" tabindex="135" src="./tds3_files/about.gif" alt="Task Description Popup" style="border-width:0px;">
+                                                                        </a>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="2" style="text-align:center">
+                                                                        <br>
+                                                                        <input type="submit" name="ctl00$ContentPlaceHolder1$Tabs$TabPanelBrowse$btnAddBrowseTask" value="Add Task" onclick="return addTask(&#39;B&#39;);" id="ctl00_ContentPlaceHolder1_Tabs_TabPanelBrowse_btnAddBrowseTask" tabindex="140" title="Add Task" style="color:White;background-color:#0066B3;font-weight:bold;">
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div id="ctl00_ContentPlaceHolder1_Tabs_TabPanelSearch" style="display:none;visibility:hidden;" class="ajax__tab_panel">
+                                                    <div id="ctl00_ContentPlaceHolder1_Tabs_TabPanelSearch_UpdatePanel2">
+                                                        <table style="width:764px" class="inputTable" summary="Format Layout">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td style="width:90px"><strong>Search:</strong></td>
+                                                                    <td>
+                                                                        <input name="ctl00$ContentPlaceHolder1$Tabs$TabPanelSearch$txtSearch" type="text" id="ctl00_ContentPlaceHolder1_Tabs_TabPanelSearch_txtSearch" tabindex="105" title="Enter Search Text" style="color:#0066B3;background-color:White;font-size:Small;font-weight:bold;font-style:italic;width:250px;">
+                                                                        <span title="Search Agency Wide"><input id="ctl00_ContentPlaceHolder1_Tabs_TabPanelSearch_cbxOverride" type="checkbox" name="ctl00$ContentPlaceHolder1$Tabs$TabPanelSearch$cbxOverride" tabindex="110"><label for="ctl00_ContentPlaceHolder1_Tabs_TabPanelSearch_cbxOverride">Agency Wide</label></span>
+                                                                        <input type="submit" name="ctl00$ContentPlaceHolder1$Tabs$TabPanelSearch$btnSearch" value="Search" onclick="return checkKeyword();" id="ctl00_ContentPlaceHolder1_Tabs_TabPanelSearch_btnSearch" tabindex="115" title="Search" style="color:White;background-color:#0066B3;font-weight:bold;">
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width:85px;vertical-align:top"><strong><span id="ctl00_ContentPlaceHolder1_Tabs_TabPanelSearch_lblTaskSearch" for="ddlTaskSearch">Task:</span></strong></td>
+                                                                    <td>
+                                                                        <select name="ctl00$ContentPlaceHolder1$Tabs$TabPanelSearch$ddlTaskSearch" id="ctl00_ContentPlaceHolder1_Tabs_TabPanelSearch_ddlTaskSearch" tabindex="130" title="Search Task Dropdown List" style="color:#0066B3;background-color:White;font-size:Small;font-weight:bold;font-style:italic;width:350px;">
+                                                                            <option value="">Select a Task</option>
+                                                                        </select>
+                                                                        <a class="defaultText" href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#" onclick="return getTaskDesc(&#39;S&#39;)">
+                                                                            <img id="ctl00_ContentPlaceHolder1_Tabs_TabPanelSearch_Image3" tabindex="135" src="./tds3_files/about.gif" alt="Task Description Popup" style="border-width:0px;">
+                                                                        </a>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="2" style="text-align:center">
+                                                                        <input type="submit" name="ctl00$ContentPlaceHolder1$Tabs$TabPanelSearch$btnAddSearchTask" value="Add Task" onclick="return addTask(&#39;S&#39;);" id="ctl00_ContentPlaceHolder1_Tabs_TabPanelSearch_btnAddSearchTask" tabindex="140" title="Add Task" style="color:White;background-color:#0066B3;font-weight:bold;">
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <input type="submit" name="ctl00$ContentPlaceHolder1$btnTriggerDelete" value="" id="ctl00_ContentPlaceHolder1_btnTriggerDelete" style="color:White;background-color:#0066B3;font-weight:bold;display:none">
+                    <div id="ctl00_ContentPlaceHolder1_UpdatePanel3">
+                        <br>
+                        <!--tabindex=300 for tds error -->
+                        <table id="ctl00_ContentPlaceHolder1_TDSError" summary="Format Layout" border="0" style="width:105px;">
+                            <tbody>
+                                <tr>
+                                    <td style="background-color:Aqua;white-space:nowrap;"><span>TDS Mismatch</span>
+                                        <a tabindex="300" onclick="return setItemFocus(&#39;ctl00_ContentPlaceHolder1_Err_7_0&#39;);" href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#"><img title="TDS Mismatch; Press Enter to move to first occurrence" alt="warning icon" src="./tds3_files/warning.gif" style="border-width:0px;"></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table style="width:764px" summary="Format Layout">
+                            <tbody>
+                                <tr>
+                                    <td style="text-align:left">
+                                        <input type="submit" name="ctl00$ContentPlaceHolder1$btnPrintTop" value="Print" onclick="return printPage();" id="ctl00_ContentPlaceHolder1_btnPrintTop" style="color:White;background-color:#0066B3;font-weight:bold;">
+                                    </td>
+                                    <td style="text-align:right">
+                                        <input type="submit" name="ctl00$ContentPlaceHolder1$btnSaveTop" value="Save" onclick="return saveTDSData();" id="ctl00_ContentPlaceHolder1_btnSaveTop" tabindex="400" title="Save" style="color:White;background-color:#0066B3;font-weight:bold;">
+                                        <input type="submit" name="ctl00$ContentPlaceHolder1$btnSubmitTDSTimesheet" value="Submit TDS" onclick="return submitTDSTimesheet();" id="ctl00_ContentPlaceHolder1_btnSubmitTDSTimesheet" tabindex="421" title="Submit TDS" class="invisible" style="color:White;background-color:#0066B3;font-weight:bold;">
+                                        <input type="submit" name="ctl00$ContentPlaceHolder1$btnApproveUnprocessedTDSTimesheet" value="Approve Unprocessed TDS" onclick="return approveUnprocessedTDSTimesheet();" id="ctl00_ContentPlaceHolder1_btnApproveUnprocessedTDSTimesheet" tabindex="422" title="Approve Unprocessed TDS" class="invisible" style="color:White;background-color:#0066B3;font-weight:bold;">
+                                        <input type="submit" name="ctl00$ContentPlaceHolder1$btnUnsubmitTDSTimesheet" value="Unsubmit TDS" onclick="return unsubmitTDSTimesheet();" id="ctl00_ContentPlaceHolder1_btnUnsubmitTDSTimesheet" tabindex="423" title="Unsubmit TDS" class="invisible" style="color:White;background-color:#0066B3;font-weight:bold;">
+                                        <input type="submit" name="ctl00$ContentPlaceHolder1$btnUnapproveUnprocessedTDSTimesheet" value="Unapprove Unprocessed TDS" onclick="return unapproveUnprocessedTDSTimesheet();" id="ctl00_ContentPlaceHolder1_btnUnapproveUnprocessedTDSTimesheet" tabindex="424" title="Unapprove Unprocessed TDS" class="invisible" style="color:White;background-color:#0066B3;font-weight:bold;">
+                                        <input type="submit" name="ctl00$ContentPlaceHolder1$btnProcessTDSTimesheet" value="Process TDS" onclick="return processTDSTimesheet();" id="ctl00_ContentPlaceHolder1_btnProcessTDSTimesheet" tabindex="425" title="Process TDS" class="invisible" style="color:White;background-color:#0066B3;font-weight:bold;">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!--tabindex=500 for tds header and tds grid -->
+                        <table id="ctl00_ContentPlaceHolder1_HeaderDisplay" summary="Format Layout" border="0" style="width:764px;">
+                            <tbody>
+                                <tr>
+                                    <td class="dateHeader" style="background-color:#CCCCCC;width:50px;"><span style="display:inline-block;width:50px;">&nbsp;</span></td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:Aqua;width:50px;">5/18</td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:Aqua;width:50px;">5/19</td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:#CCCCCC;width:50px;">5/20</td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:#CCCCCC;width:50px;">5/21</td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:Aqua;width:50px;">5/22</td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:Aqua;width:50px;">5/23</td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:Aqua;width:50px;">5/24</td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:Aqua;width:50px;">5/25</td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:Aqua;width:50px;">5/26</td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:#CCCCCC;width:50px;">5/27</td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:#CCCCCC;width:50px;">5/28</td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:#CCCCCC;width:50px;">5/29</td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:Aqua;width:50px;">5/30</td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:Aqua;width:50px;">5/31</td>
+                                </tr>
+                                <tr>
+                                    <td class="dateHeader" style="background-color:#CCCCCC;width:50px;"></td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:Aqua;width:50px;"><span class="dateHeader">Thu</span>
+                                        <a id="ctl00_ContentPlaceHolder1_Err_7_0" tabindex="501" onclick="alert(&#39;Hours(7.50) worked for the day not equal to total task hours(0) for the day&#39;);" href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#"><img title="Hours(7.50) worked for the day not equal to total task hours(0) for the day" alt="warning icon" src="./tds3_files/warning.gif" style="border-width:0px;"></a>
+                                    </td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:Aqua;width:50px;"><span class="dateHeader">Fri</span>
+                                        <a id="ctl00_ContentPlaceHolder1_Err_7_1" tabindex="511" onclick="alert(&#39;Hours(7.50) worked for the day not equal to total task hours(0) for the day&#39;);" href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#"><img title="Hours(7.50) worked for the day not equal to total task hours(0) for the day" alt="warning icon" src="./tds3_files/warning.gif" style="border-width:0px;"></a>
+                                    </td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:#CCCCCC;width:50px;"><span class="dateHeader">Sat</span></td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:#CCCCCC;width:50px;"><span class="dateHeader">Sun</span></td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:Aqua;width:50px;"><span class="dateHeader">Mon</span>
+                                        <a id="ctl00_ContentPlaceHolder1_Err_7_4" tabindex="541" onclick="alert(&#39;Hours(6.50) worked for the day not equal to total task hours(0) for the day&#39;);" href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#"><img title="Hours(6.50) worked for the day not equal to total task hours(0) for the day" alt="warning icon" src="./tds3_files/warning.gif" style="border-width:0px;"></a>
+                                    </td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:Aqua;width:50px;"><span class="dateHeader">Tue</span>
+                                        <a id="ctl00_ContentPlaceHolder1_Err_7_5" tabindex="551" onclick="alert(&#39;Hours(7.50) worked for the day not equal to total task hours(0) for the day&#39;);" href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#"><img title="Hours(7.50) worked for the day not equal to total task hours(0) for the day" alt="warning icon" src="./tds3_files/warning.gif" style="border-width:0px;"></a>
+                                    </td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:Aqua;width:50px;"><span class="dateHeader">Wed</span>
+                                        <a id="ctl00_ContentPlaceHolder1_Err_7_6" tabindex="561" onclick="alert(&#39;Hours(7.50) worked for the day not equal to total task hours(0) for the day&#39;);" href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#"><img title="Hours(7.50) worked for the day not equal to total task hours(0) for the day" alt="warning icon" src="./tds3_files/warning.gif" style="border-width:0px;"></a>
+                                    </td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:Aqua;width:50px;"><span class="dateHeader">Thu</span>
+                                        <a id="ctl00_ContentPlaceHolder1_Err_7_7" tabindex="571" onclick="alert(&#39;Hours(7.50) worked for the day not equal to total task hours(0) for the day&#39;);" href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#"><img title="Hours(7.50) worked for the day not equal to total task hours(0) for the day" alt="warning icon" src="./tds3_files/warning.gif" style="border-width:0px;"></a>
+                                    </td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:Aqua;width:50px;"><span class="dateHeader">Fri</span>
+                                        <a id="ctl00_ContentPlaceHolder1_Err_7_8" tabindex="581" onclick="alert(&#39;Hours(7.50) worked for the day not equal to total task hours(0) for the day&#39;);" href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#"><img title="Hours(7.50) worked for the day not equal to total task hours(0) for the day" alt="warning icon" src="./tds3_files/warning.gif" style="border-width:0px;"></a>
+                                    </td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:#CCCCCC;width:50px;"><span class="dateHeader">Sat</span></td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:#CCCCCC;width:50px;"><span class="dateHeader">Sun</span></td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:#CCCCCC;width:50px;"><span class="dateHeader">Mon</span></td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:Aqua;width:50px;"><span class="dateHeader">Tue</span>
+                                        <a id="ctl00_ContentPlaceHolder1_Err_7_12" tabindex="621" onclick="alert(&#39;Hours(7.50) worked for the day not equal to total task hours(0) for the day&#39;);" href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#"><img title="Hours(7.50) worked for the day not equal to total task hours(0) for the day" alt="warning icon" src="./tds3_files/warning.gif" style="border-width:0px;"></a>
+                                    </td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:Aqua;width:50px;"><span class="dateHeader">Wed</span>
+                                        <a id="ctl00_ContentPlaceHolder1_Err_7_13" tabindex="631" onclick="alert(&#39;Hours(7.50) worked for the day not equal to total task hours(0) for the day&#39;);" href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#"><img title="Hours(7.50) worked for the day not equal to total task hours(0) for the day" alt="warning icon" src="./tds3_files/warning.gif" style="border-width:0px;"></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div id="ctl00_ContentPlaceHolder1_pnlTDSData" style="width:764px;">
+                            <table id="ctl00_ContentPlaceHolder1_TDSData" summary="TDS Data" border="0" style="width:764px;">
+                                <tbody>
+                                    <tr style="background-color:#CCCCCC;">
+                                        <td title="App Dev and Implemtn: Application Development and Implementation" colspan="15" style="font-weight:bold">App Dev and Implemtn: Application Development and Implementation</td>
+                                    </tr>
+                                    <tr style="background-color:#CCCCCC;">
+                                        <td style="width:50px;">&nbsp;</td>
+                                        <td colspan="14"><span id="ctl00_ContentPlaceHolder1_lblDescription0" title="ITS-2654: App Dev and Implemtn (Total hours: 0) " style="font-weight:bold">ITS-2654: App Dev and Implemtn (Total hours: 0) </span><a id="ctl00_ContentPlaceHolder1_SubTask0" title="Sub task for task App Dev and Implemtn and category Application Development and Implementation" onclick="return openSubTaskWindow(this,&#39;1264887&#39;);" href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#">eMPIRE 2 Core UI framework</a></td>
+                                    </tr>
+                                    <tr style="background-color:#CCCCCC;">
+                                        <td style="width:50px;"><a id="ctl00_ContentPlaceHolder1_Delete1264887" title="Delete task App Dev and Implemtn for category Application Development and Implementation" onclick="return deleteTask(&#39;1264887&#39;);" href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#" style="display:inline-block;width:50px;">Delete</a></td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr0td0" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID0day0" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID0day0" tabindex="502" title="Task Hours For Day 1 Thursday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr0td0&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr0td1" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID0day1" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID0day1" tabindex="512" title="Task Hours For Day 2 Friday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr0td1&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr0td2" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID0day2" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID0day2" tabindex="522" title="Task Hours For Day 3 Saturday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr0td2&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr0td3" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID0day3" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID0day3" tabindex="532" title="Task Hours For Day 4 Sunday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr0td3&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr0td4" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID0day4" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID0day4" tabindex="542" title="Task Hours For Day 5 Monday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr0td4&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr0td5" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID0day5" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID0day5" tabindex="552" title="Task Hours For Day 6 Tuesday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr0td5&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr0td6" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID0day6" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID0day6" tabindex="562" title="Task Hours For Day 7 Wednesday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr0td6&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr0td7" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID0day7" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID0day7" tabindex="572" title="Task Hours For Day 8 Thursday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr0td7&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr0td8" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID0day8" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID0day8" tabindex="582" title="Task Hours For Day 9 Friday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr0td8&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr0td9" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID0day9" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID0day9" tabindex="592" title="Task Hours For Day 10 Saturday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr0td9&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr0td10" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID0day10" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID0day10" tabindex="602" title="Task Hours For Day 11 Sunday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr0td10&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr0td11" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID0day11" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID0day11" tabindex="612" title="Task Hours For Day 12 Monday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr0td11&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr0td12" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID0day12" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID0day12" tabindex="622" title="Task Hours For Day 13 Tuesday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr0td12&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr0td13" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID0day13" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID0day13" tabindex="632" title="Task Hours For Day 14 Wednesday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr0td13&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                            <input type="hidden" name="ctl00$ContentPlaceHolder1$tdsID0" id="ctl00_ContentPlaceHolder1_tdsID0" value="1264887">
+                                        </td>
+                                    </tr>
+                                    <tr style="background-color:#CCCCCC;">
+                                        <td title="App Dev and Implemtn: Application Development and Implementation" colspan="15" style="font-weight:bold">App Dev and Implemtn: Application Development and Implementation</td>
+                                    </tr>
+                                    <tr style="background-color:#CCCCCC;">
+                                        <td style="width:50px;">&nbsp;</td>
+                                        <td colspan="14"><span id="ctl00_ContentPlaceHolder1_lblDescription1" title="ITS-2654: App Dev and Implemtn (Total hours: 0) " style="font-weight:bold">ITS-2654: App Dev and Implemtn (Total hours: 0) </span><a id="ctl00_ContentPlaceHolder1_SubTask1" title="Sub task for task App Dev and Implemtn and category Application Development and Implementation" onclick="return openSubTaskWindow(this,&#39;1264888&#39;);" href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#">RTC Management &amp; Administration</a></td>
+                                    </tr>
+                                    <tr style="background-color:#CCCCCC;">
+                                        <td style="width:50px;"><a id="ctl00_ContentPlaceHolder1_Delete1264888" title="Delete task App Dev and Implemtn for category Application Development and Implementation" onclick="return deleteTask(&#39;1264888&#39;);" href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#" style="display:inline-block;width:50px;">Delete</a></td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr1td0" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID1day0" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID1day0" tabindex="503" title="Task Hours For Day 1 Thursday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr1td0&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr1td1" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID1day1" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID1day1" tabindex="513" title="Task Hours For Day 2 Friday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr1td1&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr1td2" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID1day2" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID1day2" tabindex="523" title="Task Hours For Day 3 Saturday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr1td2&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr1td3" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID1day3" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID1day3" tabindex="533" title="Task Hours For Day 4 Sunday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr1td3&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr1td4" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID1day4" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID1day4" tabindex="543" title="Task Hours For Day 5 Monday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr1td4&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr1td5" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID1day5" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID1day5" tabindex="553" title="Task Hours For Day 6 Tuesday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr1td5&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr1td6" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID1day6" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID1day6" tabindex="563" title="Task Hours For Day 7 Wednesday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr1td6&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr1td7" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID1day7" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID1day7" tabindex="573" title="Task Hours For Day 8 Thursday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr1td7&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr1td8" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID1day8" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID1day8" tabindex="583" title="Task Hours For Day 9 Friday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr1td8&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr1td9" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID1day9" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID1day9" tabindex="593" title="Task Hours For Day 10 Saturday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr1td9&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr1td10" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID1day10" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID1day10" tabindex="603" title="Task Hours For Day 11 Sunday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr1td10&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr1td11" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID1day11" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID1day11" tabindex="613" title="Task Hours For Day 12 Monday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr1td11&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr1td12" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID1day12" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID1day12" tabindex="623" title="Task Hours For Day 13 Tuesday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr1td12&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr1td13" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID1day13" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID1day13" tabindex="633" title="Task Hours For Day 14 Wednesday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr1td13&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                            <input type="hidden" name="ctl00$ContentPlaceHolder1$tdsID1" id="ctl00_ContentPlaceHolder1_tdsID1" value="1264888">
+                                        </td>
+                                    </tr>
+                                    <tr style="background-color:#CCCCCC;">
+                                        <td title="App Dev and Implemtn: Application Development and Implementation" colspan="15" style="font-weight:bold">App Dev and Implemtn: Application Development and Implementation</td>
+                                    </tr>
+                                    <tr style="background-color:#CCCCCC;">
+                                        <td style="width:50px;">&nbsp;</td>
+                                        <td colspan="14"><span id="ctl00_ContentPlaceHolder1_lblDescription2" title="ITS-2654: App Dev and Implemtn (Total hours: 0) " style="font-weight:bold">ITS-2654: App Dev and Implemtn (Total hours: 0) </span><a id="ctl00_ContentPlaceHolder1_SubTask2" title="Sub task for task App Dev and Implemtn and category Application Development and Implementation" onclick="return openSubTaskWindow(this,&#39;1264889&#39;);" href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#">UI iFlow design work</a></td>
+                                    </tr>
+                                    <tr style="background-color:#CCCCCC;">
+                                        <td style="width:50px;"><a id="ctl00_ContentPlaceHolder1_Delete1264889" title="Delete task App Dev and Implemtn for category Application Development and Implementation" onclick="return deleteTask(&#39;1264889&#39;);" href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#" style="display:inline-block;width:50px;">Delete</a></td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr2td0" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID2day0" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID2day0" tabindex="504" title="Task Hours For Day 1 Thursday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr2td0&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr2td1" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID2day1" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID2day1" tabindex="514" title="Task Hours For Day 2 Friday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr2td1&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr2td2" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID2day2" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID2day2" tabindex="524" title="Task Hours For Day 3 Saturday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr2td2&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr2td3" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID2day3" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID2day3" tabindex="534" title="Task Hours For Day 4 Sunday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr2td3&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr2td4" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID2day4" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID2day4" tabindex="544" title="Task Hours For Day 5 Monday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr2td4&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr2td5" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID2day5" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID2day5" tabindex="554" title="Task Hours For Day 6 Tuesday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr2td5&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr2td6" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID2day6" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID2day6" tabindex="564" title="Task Hours For Day 7 Wednesday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr2td6&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr2td7" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID2day7" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID2day7" tabindex="574" title="Task Hours For Day 8 Thursday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr2td7&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr2td8" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID2day8" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID2day8" tabindex="584" title="Task Hours For Day 9 Friday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr2td8&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr2td9" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID2day9" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID2day9" tabindex="594" title="Task Hours For Day 10 Saturday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr2td9&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr2td10" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID2day10" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID2day10" tabindex="604" title="Task Hours For Day 11 Sunday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr2td10&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr2td11" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID2day11" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID2day11" tabindex="614" title="Task Hours For Day 12 Monday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr2td11&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr2td12" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID2day12" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID2day12" tabindex="624" title="Task Hours For Day 13 Tuesday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr2td12&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr2td13" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID2day13" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID2day13" tabindex="634" title="Task Hours For Day 14 Wednesday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr2td13&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                            <input type="hidden" name="ctl00$ContentPlaceHolder1$tdsID2" id="ctl00_ContentPlaceHolder1_tdsID2" value="1264889">
+                                        </td>
+                                    </tr>
+                                    <tr style="background-color:#CCCCCC;">
+                                        <td title="App Dev and Implemtn: Application Development and Implementation" colspan="15" style="font-weight:bold">App Dev and Implemtn: Application Development and Implementation</td>
+                                    </tr>
+                                    <tr style="background-color:#CCCCCC;">
+                                        <td style="width:50px;">&nbsp;</td>
+                                        <td colspan="14"><span id="ctl00_ContentPlaceHolder1_lblDescription3" title="ITS-2654: App Dev and Implemtn (Total hours: 0) " style="font-weight:bold">ITS-2654: App Dev and Implemtn (Total hours: 0) </span><a id="ctl00_ContentPlaceHolder1_SubTask3" title="Sub task for task App Dev and Implemtn and category Application Development and Implementation" onclick="return openSubTaskWindow(this,&#39;1264890&#39;);" href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#">UI eMPIRE design work</a></td>
+                                    </tr>
+                                    <tr style="background-color:#CCCCCC;">
+                                        <td style="width:50px;"><a id="ctl00_ContentPlaceHolder1_Delete1264890" title="Delete task App Dev and Implemtn for category Application Development and Implementation" onclick="return deleteTask(&#39;1264890&#39;);" href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#" style="display:inline-block;width:50px;">Delete</a></td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr3td0" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID3day0" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID3day0" tabindex="505" title="Task Hours For Day 1 Thursday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr3td0&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr3td1" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID3day1" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID3day1" tabindex="515" title="Task Hours For Day 2 Friday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr3td1&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr3td2" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID3day2" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID3day2" tabindex="525" title="Task Hours For Day 3 Saturday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr3td2&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr3td3" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID3day3" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID3day3" tabindex="535" title="Task Hours For Day 4 Sunday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr3td3&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr3td4" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID3day4" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID3day4" tabindex="545" title="Task Hours For Day 5 Monday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr3td4&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr3td5" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID3day5" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID3day5" tabindex="555" title="Task Hours For Day 6 Tuesday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr3td5&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr3td6" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID3day6" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID3day6" tabindex="565" title="Task Hours For Day 7 Wednesday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr3td6&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr3td7" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID3day7" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID3day7" tabindex="575" title="Task Hours For Day 8 Thursday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr3td7&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr3td8" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID3day8" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID3day8" tabindex="585" title="Task Hours For Day 9 Friday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr3td8&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr3td9" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID3day9" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID3day9" tabindex="595" title="Task Hours For Day 10 Saturday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr3td9&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr3td10" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID3day10" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID3day10" tabindex="605" title="Task Hours For Day 11 Sunday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr3td10&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr3td11" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID3day11" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID3day11" tabindex="615" title="Task Hours For Day 12 Monday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr3td11&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr3td12" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID3day12" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID3day12" tabindex="625" title="Task Hours For Day 13 Tuesday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr3td12&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr3td13" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID3day13" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID3day13" tabindex="635" title="Task Hours For Day 14 Wednesday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr3td13&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                            <input type="hidden" name="ctl00$ContentPlaceHolder1$tdsID3" id="ctl00_ContentPlaceHolder1_tdsID3" value="1264890">
+                                        </td>
+                                    </tr>
+                                    <tr style="background-color:#CCCCCC;">
+                                        <td title="App Dev and Implemtn: Application Development and Implementation" colspan="15" style="font-weight:bold">App Dev and Implemtn: Application Development and Implementation</td>
+                                    </tr>
+                                    <tr style="background-color:#CCCCCC;">
+                                        <td style="width:50px;">&nbsp;</td>
+                                        <td colspan="14"><span id="ctl00_ContentPlaceHolder1_lblDescription4" title="ITS-2654: App Dev and Implemtn (Total hours: 0) " style="font-weight:bold">ITS-2654: App Dev and Implemtn (Total hours: 0) </span><a id="ctl00_ContentPlaceHolder1_SubTask4" title="Sub task for task App Dev and Implemtn and category Application Development and Implementation" onclick="return openSubTaskWindow(this,&#39;1264891&#39;);" href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#">OTC-Online Tax Center</a></td>
+                                    </tr>
+                                    <tr style="background-color:#CCCCCC;">
+                                        <td style="width:50px;"><a id="ctl00_ContentPlaceHolder1_Delete1264891" title="Delete task App Dev and Implemtn for category Application Development and Implementation" onclick="return deleteTask(&#39;1264891&#39;);" href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#" style="display:inline-block;width:50px;">Delete</a></td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr4td0" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID4day0" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID4day0" tabindex="506" title="Task Hours For Day 1 Thursday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr4td0&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr4td1" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID4day1" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID4day1" tabindex="516" title="Task Hours For Day 2 Friday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr4td1&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr4td2" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID4day2" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID4day2" tabindex="526" title="Task Hours For Day 3 Saturday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr4td2&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr4td3" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID4day3" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID4day3" tabindex="536" title="Task Hours For Day 4 Sunday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr4td3&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr4td4" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID4day4" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID4day4" tabindex="546" title="Task Hours For Day 5 Monday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr4td4&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr4td5" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID4day5" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID4day5" tabindex="556" title="Task Hours For Day 6 Tuesday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr4td5&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr4td6" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID4day6" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID4day6" tabindex="566" title="Task Hours For Day 7 Wednesday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr4td6&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr4td7" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID4day7" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID4day7" tabindex="576" title="Task Hours For Day 8 Thursday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr4td7&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr4td8" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID4day8" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID4day8" tabindex="586" title="Task Hours For Day 9 Friday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr4td8&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr4td9" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID4day9" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID4day9" tabindex="596" title="Task Hours For Day 10 Saturday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr4td9&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr4td10" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID4day10" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID4day10" tabindex="606" title="Task Hours For Day 11 Sunday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr4td10&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr4td11" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID4day11" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID4day11" tabindex="616" title="Task Hours For Day 12 Monday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr4td11&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr4td12" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID4day12" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID4day12" tabindex="626" title="Task Hours For Day 13 Tuesday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr4td12&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr4td13" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID4day13" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID4day13" tabindex="636" title="Task Hours For Day 14 Wednesday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr4td13&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                            <input type="hidden" name="ctl00$ContentPlaceHolder1$tdsID4" id="ctl00_ContentPlaceHolder1_tdsID4" value="1264891">
+                                        </td>
+                                    </tr>
+                                    <tr style="background-color:#CCCCCC;">
+                                        <td title="App Dev and Implemtn: Application Development and Implementation" colspan="15" style="font-weight:bold">App Dev and Implemtn: Application Development and Implementation</td>
+                                    </tr>
+                                    <tr style="background-color:#CCCCCC;">
+                                        <td style="width:50px;">&nbsp;</td>
+                                        <td colspan="14"><span id="ctl00_ContentPlaceHolder1_lblDescription5" title="ITS-2654: App Dev and Implemtn (Total hours: 0) " style="font-weight:bold">ITS-2654: App Dev and Implemtn (Total hours: 0) </span><a id="ctl00_ContentPlaceHolder1_SubTask5" title="Sub task for task App Dev and Implemtn and category Application Development and Implementation" onclick="return openSubTaskWindow(this,&#39;1264892&#39;);" href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#">Waste Tire</a></td>
+                                    </tr>
+                                    <tr style="background-color:#CCCCCC;">
+                                        <td style="width:50px;"><a id="ctl00_ContentPlaceHolder1_Delete1264892" title="Delete task App Dev and Implemtn for category Application Development and Implementation" onclick="return deleteTask(&#39;1264892&#39;);" href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#" style="display:inline-block;width:50px;">Delete</a></td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr5td0" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID5day0" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID5day0" tabindex="507" title="Task Hours For Day 1 Thursday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr5td0&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr5td1" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID5day1" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID5day1" tabindex="517" title="Task Hours For Day 2 Friday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr5td1&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr5td2" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID5day2" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID5day2" tabindex="527" title="Task Hours For Day 3 Saturday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr5td2&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr5td3" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID5day3" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID5day3" tabindex="537" title="Task Hours For Day 4 Sunday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr5td3&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr5td4" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID5day4" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID5day4" tabindex="547" title="Task Hours For Day 5 Monday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr5td4&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr5td5" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID5day5" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID5day5" tabindex="557" title="Task Hours For Day 6 Tuesday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr5td5&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr5td6" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID5day6" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID5day6" tabindex="567" title="Task Hours For Day 7 Wednesday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr5td6&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr5td7" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID5day7" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID5day7" tabindex="577" title="Task Hours For Day 8 Thursday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr5td7&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr5td8" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID5day8" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID5day8" tabindex="587" title="Task Hours For Day 9 Friday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr5td8&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr5td9" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID5day9" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID5day9" tabindex="597" title="Task Hours For Day 10 Saturday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr5td9&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr5td10" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID5day10" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID5day10" tabindex="607" title="Task Hours For Day 11 Sunday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr5td10&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr5td11" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID5day11" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID5day11" tabindex="617" title="Task Hours For Day 12 Monday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr5td11&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr5td12" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID5day12" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID5day12" tabindex="627" title="Task Hours For Day 13 Tuesday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr5td12&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr5td13" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID5day13" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID5day13" tabindex="637" title="Task Hours For Day 14 Wednesday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr5td13&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                            <input type="hidden" name="ctl00$ContentPlaceHolder1$tdsID5" id="ctl00_ContentPlaceHolder1_tdsID5" value="1264892">
+                                        </td>
+                                    </tr>
+                                    <tr style="background-color:#CCCCCC;">
+                                        <td title="App Dev and Implemtn: Application Development and Implementation" colspan="15" style="font-weight:bold">App Dev and Implemtn: Application Development and Implementation</td>
+                                    </tr>
+                                    <tr style="background-color:#CCCCCC;">
+                                        <td style="width:50px;">&nbsp;</td>
+                                        <td colspan="14"><span id="ctl00_ContentPlaceHolder1_lblDescription6" title="ITS-2654: App Dev and Implemtn (Total hours: 0) " style="font-weight:bold">ITS-2654: App Dev and Implemtn (Total hours: 0) </span><a id="ctl00_ContentPlaceHolder1_SubTask6" title="Sub task for task App Dev and Implemtn and category Application Development and Implementation" onclick="return openSubTaskWindow(this,&#39;1264893&#39;);" href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#">Core DTF UI Templates and Libraries</a></td>
+                                    </tr>
+                                    <tr style="background-color:#CCCCCC;">
+                                        <td style="width:50px;"><a id="ctl00_ContentPlaceHolder1_Delete1264893" title="Delete task App Dev and Implemtn for category Application Development and Implementation" onclick="return deleteTask(&#39;1264893&#39;);" href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#" style="display:inline-block;width:50px;">Delete</a></td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr6td0" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID6day0" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID6day0" tabindex="508" title="Task Hours For Day 1 Thursday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr6td0&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr6td1" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID6day1" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID6day1" tabindex="518" title="Task Hours For Day 2 Friday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr6td1&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr6td2" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID6day2" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID6day2" tabindex="528" title="Task Hours For Day 3 Saturday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr6td2&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr6td3" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID6day3" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID6day3" tabindex="538" title="Task Hours For Day 4 Sunday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr6td3&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr6td4" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID6day4" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID6day4" tabindex="548" title="Task Hours For Day 5 Monday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr6td4&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr6td5" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID6day5" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID6day5" tabindex="558" title="Task Hours For Day 6 Tuesday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr6td5&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr6td6" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID6day6" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID6day6" tabindex="568" title="Task Hours For Day 7 Wednesday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr6td6&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr6td7" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID6day7" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID6day7" tabindex="578" title="Task Hours For Day 8 Thursday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr6td7&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr6td8" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID6day8" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID6day8" tabindex="588" title="Task Hours For Day 9 Friday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr6td8&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr6td9" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID6day9" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID6day9" tabindex="598" title="Task Hours For Day 10 Saturday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr6td9&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr6td10" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID6day10" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID6day10" tabindex="608" title="Task Hours For Day 11 Sunday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr6td10&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr6td11" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID6day11" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID6day11" tabindex="618" title="Task Hours For Day 12 Monday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr6td11&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr6td12" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID6day12" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID6day12" tabindex="628" title="Task Hours For Day 13 Tuesday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr6td12&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr6td13" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID6day13" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID6day13" tabindex="638" title="Task Hours For Day 14 Wednesday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr6td13&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                            <input type="hidden" name="ctl00$ContentPlaceHolder1$tdsID6" id="ctl00_ContentPlaceHolder1_tdsID6" value="1264893">
+                                        </td>
+                                    </tr>
+                                    <tr style="background-color:#CCCCCC;">
+                                        <td title="App Dev and Implemtn: Application Development and Implementation" colspan="15" style="font-weight:bold">App Dev and Implemtn: Application Development and Implementation</td>
+                                    </tr>
+                                    <tr style="background-color:#CCCCCC;">
+                                        <td style="width:50px;">&nbsp;</td>
+                                        <td colspan="14"><span id="ctl00_ContentPlaceHolder1_lblDescription7" title="ITS-2654: App Dev and Implemtn (Total hours: 0) " style="font-weight:bold">ITS-2654: App Dev and Implemtn (Total hours: 0) </span><a id="ctl00_ContentPlaceHolder1_SubTask7" title="Sub task for task App Dev and Implemtn and category Application Development and Implementation" onclick="return openSubTaskWindow(this,&#39;1264894&#39;);" href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#">Sales Tax Web</a></td>
+                                    </tr>
+                                    <tr style="background-color:#CCCCCC;">
+                                        <td style="width:50px;"><a id="ctl00_ContentPlaceHolder1_Delete1264894" title="Delete task App Dev and Implemtn for category Application Development and Implementation" onclick="return deleteTask(&#39;1264894&#39;);" href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#" style="display:inline-block;width:50px;">Delete</a></td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr7td0" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID7day0" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID7day0" tabindex="509" title="Task Hours For Day 1 Thursday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr7td0&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr7td1" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID7day1" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID7day1" tabindex="519" title="Task Hours For Day 2 Friday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr7td1&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr7td2" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID7day2" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID7day2" tabindex="529" title="Task Hours For Day 3 Saturday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr7td2&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr7td3" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID7day3" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID7day3" tabindex="539" title="Task Hours For Day 4 Sunday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr7td3&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr7td4" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID7day4" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID7day4" tabindex="549" title="Task Hours For Day 5 Monday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr7td4&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr7td5" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID7day5" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID7day5" tabindex="559" title="Task Hours For Day 6 Tuesday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr7td5&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr7td6" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID7day6" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID7day6" tabindex="569" title="Task Hours For Day 7 Wednesday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr7td6&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr7td7" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID7day7" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID7day7" tabindex="579" title="Task Hours For Day 8 Thursday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr7td7&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr7td8" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID7day8" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID7day8" tabindex="589" title="Task Hours For Day 9 Friday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr7td8&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr7td9" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID7day9" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID7day9" tabindex="599" title="Task Hours For Day 10 Saturday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr7td9&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr7td10" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID7day10" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID7day10" tabindex="609" title="Task Hours For Day 11 Sunday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr7td10&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr7td11" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID7day11" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID7day11" tabindex="619" title="Task Hours For Day 12 Monday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr7td11&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr7td12" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID7day12" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID7day12" tabindex="629" title="Task Hours For Day 13 Tuesday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr7td12&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr7td13" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID7day13" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID7day13" tabindex="639" title="Task Hours For Day 14 Wednesday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr7td13&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                            <input type="hidden" name="ctl00$ContentPlaceHolder1$tdsID7" id="ctl00_ContentPlaceHolder1_tdsID7" value="1264894">
+                                        </td>
+                                    </tr>
+                                    <tr style="background-color:#CCCCCC;">
+                                        <td title="App Dev and Implemtn: Application Development and Implementation" colspan="15" style="font-weight:bold">App Dev and Implemtn: Application Development and Implementation</td>
+                                    </tr>
+                                    <tr style="background-color:#CCCCCC;">
+                                        <td style="width:50px;">&nbsp;</td>
+                                        <td colspan="14"><span id="ctl00_ContentPlaceHolder1_lblDescription8" title="ITS-2654: App Dev and Implemtn (Total hours: 0) " style="font-weight:bold">ITS-2654: App Dev and Implemtn (Total hours: 0) </span><a id="ctl00_ContentPlaceHolder1_SubTask8" title="Sub task for task App Dev and Implemtn and category Application Development and Implementation" onclick="return openSubTaskWindow(this,&#39;1264895&#39;);" href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#">POA Web Application</a></td>
+                                    </tr>
+                                    <tr style="background-color:#CCCCCC;">
+                                        <td style="width:50px;"><a id="ctl00_ContentPlaceHolder1_Delete1264895" title="Delete task App Dev and Implemtn for category Application Development and Implementation" onclick="return deleteTask(&#39;1264895&#39;);" href="https://time02.lats.ny.gov/Timesheet/TDS.aspx#" style="display:inline-block;width:50px;">Delete</a></td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr8td0" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID8day0" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID8day0" tabindex="510" title="Task Hours For Day 1 Thursday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr8td0&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr8td1" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID8day1" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID8day1" tabindex="520" title="Task Hours For Day 2 Friday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr8td1&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr8td2" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID8day2" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID8day2" tabindex="530" title="Task Hours For Day 3 Saturday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr8td2&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr8td3" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID8day3" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID8day3" tabindex="540" title="Task Hours For Day 4 Sunday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr8td3&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr8td4" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID8day4" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID8day4" tabindex="550" title="Task Hours For Day 5 Monday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr8td4&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr8td5" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID8day5" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID8day5" tabindex="560" title="Task Hours For Day 6 Tuesday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr8td5&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr8td6" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID8day6" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID8day6" tabindex="570" title="Task Hours For Day 7 Wednesday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr8td6&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr8td7" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID8day7" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID8day7" tabindex="580" title="Task Hours For Day 8 Thursday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr8td7&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr8td8" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID8day8" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID8day8" tabindex="590" title="Task Hours For Day 9 Friday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr8td8&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr8td9" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID8day9" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID8day9" tabindex="600" title="Task Hours For Day 10 Saturday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr8td9&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr8td10" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID8day10" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID8day10" tabindex="610" title="Task Hours For Day 11 Sunday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr8td10&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr8td11" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID8day11" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID8day11" tabindex="620" title="Task Hours For Day 12 Monday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr8td11&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr8td12" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID8day12" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID8day12" tabindex="630" title="Task Hours For Day 13 Tuesday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr8td12&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                        </td>
+                                        <td id="ctl00_ContentPlaceHolder1_tr8td13" style="width:50px;">
+                                            <input name="ctl00$ContentPlaceHolder1$tdsID8day13" type="text" value="0" maxlength="5" id="ctl00_ContentPlaceHolder1_tdsID8day13" tabindex="640" title="Task Hours For Day 14 Wednesday" class="inputTagWhiteBackground" isvalid="Y" onfocus="select();" onchange="validateCharges(this,&#39;ctl00_ContentPlaceHolder1_tr8td13&#39;,&#39;N&#39;,&#39;0&#39;,&#39;N&#39;);" style="width:40px;">
+                                            <input type="hidden" name="ctl00$ContentPlaceHolder1$tdsID8" id="ctl00_ContentPlaceHolder1_tdsID8" value="1264895">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <input type="hidden" name="ctl00$ContentPlaceHolder1$NumberOfTasks" id="ctl00_ContentPlaceHolder1_NumberOfTasks" value="9">
+                        <table id="ctl00_ContentPlaceHolder1_FooterDisplay" summary="Format Layout" border="0" style="width:764px;">
+                            <tbody>
+                                <tr style="background-color:#CCCCCC;">
+                                    <td class="dateHeader" style="width:50px;">TDS Totals</td>
+                                    <td class="rowHeaderTS" align="right" style="width:50px;">0</td>
+                                    <td class="rowHeaderTS" align="right" style="width:50px;">0</td>
+                                    <td class="rowHeaderTS" align="right" style="width:50px;">0</td>
+                                    <td class="rowHeaderTS" align="right" style="width:50px;">0</td>
+                                    <td class="rowHeaderTS" align="right" style="width:50px;">0</td>
+                                    <td class="rowHeaderTS" align="right" style="width:50px;">0</td>
+                                    <td class="rowHeaderTS" align="right" style="width:50px;">0</td>
+                                    <td class="rowHeaderTS" align="right" style="width:50px;">0</td>
+                                    <td class="rowHeaderTS" align="right" style="width:50px;">0</td>
+                                    <td class="rowHeaderTS" align="right" style="width:50px;">0</td>
+                                    <td class="rowHeaderTS" align="right" style="width:50px;">0</td>
+                                    <td class="rowHeaderTS" align="right" style="width:50px;">0</td>
+                                    <td class="rowHeaderTS" align="right" style="width:50px;">0</td>
+                                    <td class="rowHeaderTS" align="right" style="width:50px;">0</td>
+                                </tr>
+                                <tr style="background-color:#CCCCCC;">
+                                    <td class="dateHeader" style="width:50px;">Work Totals</td>
+                                    <td class="rowHeaderTS" align="right" style="width:50px;">7.50</td>
+                                    <td class="rowHeaderTS" align="right" style="width:50px;">7.50</td>
+                                    <td class="rowHeaderTS" align="right" style="width:50px;">0</td>
+                                    <td class="rowHeaderTS" align="right" style="width:50px;">0</td>
+                                    <td class="rowHeaderTS" align="right" style="width:50px;">6.50</td>
+                                    <td class="rowHeaderTS" align="right" style="width:50px;">7.50</td>
+                                    <td class="rowHeaderTS" align="right" style="width:50px;">7.50</td>
+                                    <td class="rowHeaderTS" align="right" style="width:50px;">7.50</td>
+                                    <td class="rowHeaderTS" align="right" style="width:50px;">7.50</td>
+                                    <td class="rowHeaderTS" align="right" style="width:50px;">0</td>
+                                    <td class="rowHeaderTS" align="right" style="width:50px;">0</td>
+                                    <td class="rowHeaderTS" align="right" style="width:50px;">0</td>
+                                    <td class="rowHeaderTS" align="right" style="width:50px;">7.50</td>
+                                    <td class="rowHeaderTS" align="right" style="width:50px;">7.50</td>
+                                </tr>
+                                <tr>
+                                    <td class="dateHeader" style="background-color:#CCCCCC;width:50px;"><span style="display:inline-block;width:50px;">&nbsp;</span></td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:Aqua;width:50px;">5/18</td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:Aqua;width:50px;">5/19</td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:#CCCCCC;width:50px;">5/20</td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:#CCCCCC;width:50px;">5/21</td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:Aqua;width:50px;">5/22</td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:Aqua;width:50px;">5/23</td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:Aqua;width:50px;">5/24</td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:Aqua;width:50px;">5/25</td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:Aqua;width:50px;">5/26</td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:#CCCCCC;width:50px;">5/27</td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:#CCCCCC;width:50px;">5/28</td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:#CCCCCC;width:50px;">5/29</td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:Aqua;width:50px;">5/30</td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:Aqua;width:50px;">5/31</td>
+                                </tr>
+                                <tr>
+                                    <td class="dateHeader" style="background-color:#CCCCCC;width:50px;"></td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:Aqua;width:50px;"><span class="dateHeader">Thu</span></td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:Aqua;width:50px;"><span class="dateHeader">Fri</span></td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:#CCCCCC;width:50px;"><span class="dateHeader">Sat</span></td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:#CCCCCC;width:50px;"><span class="dateHeader">Sun</span></td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:Aqua;width:50px;"><span class="dateHeader">Mon</span></td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:Aqua;width:50px;"><span class="dateHeader">Tue</span></td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:Aqua;width:50px;"><span class="dateHeader">Wed</span></td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:Aqua;width:50px;"><span class="dateHeader">Thu</span></td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:Aqua;width:50px;"><span class="dateHeader">Fri</span></td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:#CCCCCC;width:50px;"><span class="dateHeader">Sat</span></td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:#CCCCCC;width:50px;"><span class="dateHeader">Sun</span></td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:#CCCCCC;width:50px;"><span class="dateHeader">Mon</span></td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:Aqua;width:50px;"><span class="dateHeader">Tue</span></td>
+                                    <td class="dateHeader" align="center" valign="middle" style="background-color:Aqua;width:50px;"><span class="dateHeader">Wed</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table style="width:764px" summary="Format Layout">
+                            <tbody>
+                                <tr>
+                                    <td style="text-align:left">
+                                        <input type="submit" name="ctl00$ContentPlaceHolder1$btnPrintBottom" value="Print" onclick="return printPage();" id="ctl00_ContentPlaceHolder1_btnPrintBottom" style="color:White;background-color:#0066B3;font-weight:bold;">
+                                    </td>
+                                    <td style="text-align:right">
+                                        <input type="submit" name="ctl00$ContentPlaceHolder1$btnSaveBottom" value="Save" onclick="return saveTDSData();" id="ctl00_ContentPlaceHolder1_btnSaveBottom" tabindex="1000" title="Save" style="color:White;background-color:#0066B3;font-weight:bold;">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!--Start building the unprocess modal popup -->
+                        <a id="ctl00_ContentPlaceHolder1_linkDummyUnprocess" href="javascript:__doPostBack(&#39;ctl00$ContentPlaceHolder1$linkDummyUnprocess&#39;,&#39;&#39;)"></a>
+                        <!-- Modal Popup - Unprocess TDS timesheet -->
+                        <!--End building the unprocess modal popup -->
+                        <div id="ModalPopupExtenderUnprocess_foregroundElement" style="display: none; position: fixed; z-index: 100001;">
+                            <div id="ctl00_ContentPlaceHolder1_PanelUnprocess1" class="modalPopup" style="width:450px;display: none">
+                                <div id="ctl00_ContentPlaceHolder1_PanelUnprocess2" class="modalPopupHeader">
+                                    <div>Unprocess TDS Timesheet</div>
+                                </div>
+                                <span id="UnprocessInfo">
+        This action will allow the TDS timesheet to be edited. The time distribution will be unlocked and can change while the primary timesheet remains locked and processed. <br><br>
+        <table id="ctl00_ContentPlaceHolder1_tblUnprocessInformation" border="0">
+                <tbody><tr id="ctl00_ContentPlaceHolder1_unprocessSupervisorRow">
+                    <td class="modalNotifyOptions">Notify Supervisor:</td><td><span class="modalCheckbox"><input id="ctl00_ContentPlaceHolder1_checkBoxSupervisor" type="checkbox" name="ctl00$ContentPlaceHolder1$checkBoxSupervisor" checked="checked"></span></td>
+                                </tr>
+                                <tr id="ctl00_ContentPlaceHolder1_unprocessEmployeeRow">
+                                    <td class="modalNotifyOptions">Notify Employee:</td>
+                                    <td><span class="modalCheckbox"><input id="ctl00_ContentPlaceHolder1_checkBoxEmployee" type="checkbox" name="ctl00$ContentPlaceHolder1$checkBoxEmployee" checked="checked"></span></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">Message:</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <textarea name="ctl00$ContentPlaceHolder1$textboxEmailMessage" rows="2" cols="50" id="ctl00_ContentPlaceHolder1_textboxEmailMessage" title="Text Field" style="color:#0066B3;background-color:White;font-size:Small;font-weight:bold;font-style:italic;height:200px;">The TDS timesheet corresponding to pay period 2017 - 4 (5/18/2017 to 5/31/2017) for MyFirstName J MyLastName has been unlocked. TDS entries may now be edited while the timesheet is still in a processed state. Please correct these TDS entries and submit them for approval.</textarea>
+                                    </td>
+                                </tr>
+                                </tbody>
+                                </table>
+                                </span>
+                                <p style="text-align: center;">
+                                    <input type="submit" name="ctl00$ContentPlaceHolder1$btnUnprocessTDSTimesheet" value="Unprocess TDS Timesheet" id="ctl00_ContentPlaceHolder1_btnUnprocessTDSTimesheet" title="Unprocess" style="color:White;background-color:#0066B3;font-weight:bold;">
+                                    <input type="submit" name="ctl00$ContentPlaceHolder1$btnCloseUnprocess" value="Cancel" id="ctl00_ContentPlaceHolder1_btnCloseUnprocess" title="Cancel" style="color:White;background-color:#0066B3;font-weight:bold;">
+                                </p>
+                            </div>
+                        </div>
+                        <div id="ModalPopupExtenderUnprocess_backgroundElement" class="modalBackground" style="display: none; position: fixed; left: 0px; top: 0px; z-index: 10000;"></div>
+                    </div>
+                    <!-- Modal Popup - Payment Desc -->
+                    <a id="ctl00_ContentPlaceHolder1_linkDummy" href="javascript:__doPostBack(&#39;ctl00$ContentPlaceHolder1$linkDummy&#39;,&#39;&#39;)"></a>
+                    <div id="ModalPopupExtenderCategory_foregroundElement" style="display: none; position: fixed; z-index: 100001;">
+                        <div id="ctl00_ContentPlaceHolder1_PanelCategoryDesc" class="modalPopup" style="display: none">
+                            <div id="ctl00_ContentPlaceHolder1_Panel1" class="modalPopupHeader">
+                                <div>Category</div>
+                            </div>
+                            <span id="descCategory"></span>
+                            <p style="text-align: center;">
+                                <input type="submit" name="ctl00$ContentPlaceHolder1$OKButtonCategory" value="Close" id="ctl00_ContentPlaceHolder1_OKButtonCategory" title="Close" style="color:White;background-color:#0066B3;font-weight:bold;">
+                            </p>
+                        </div>
+                    </div>
+                    <div id="ModalPopupExtenderCategory_backgroundElement" class="modalBackground" style="display: none; position: fixed; left: 0px; top: 0px; z-index: 10000;"></div>
+                    <div id="ModalPopupExtenderTask_foregroundElement" style="display: none; position: fixed; z-index: 100001;">
+                        <div id="ctl00_ContentPlaceHolder1_PanelTaskDesc" class="modalPopup" style="display: none">
+                            <div id="ctl00_ContentPlaceHolder1_Panel2" class="modalPopupHeader">
+                                <div>Task</div>
+                            </div>
+                            <span id="descTask"></span>
+                            <p style="text-align: center;">
+                                <input type="submit" name="ctl00$ContentPlaceHolder1$OKButtonTask" value="Close" id="ctl00_ContentPlaceHolder1_OKButtonTask" title="Close" style="color:White;background-color:#0066B3;font-weight:bold;">
+                            </p>
+                        </div>
+                    </div>
+                    <div id="ModalPopupExtenderTask_backgroundElement" class="modalBackground" style="display: none; position: fixed; left: 0px; top: 0px; z-index: 10000;"></div>
+                </div>
+            </div>
+            <div style="height:110px; clear:both;">
+                &nbsp;
+            </div>
+        </div>
+        <script type="text/javascript">
+        //<![CDATA[
+        showNotificationBar();
+        var ctl00_netMainMenu_Data = new Object();
+        ctl00_netMainMenu_Data.disappearAfter = 500;
+        ctl00_netMainMenu_Data.horizontalOffset = 0;
+        ctl00_netMainMenu_Data.verticalOffset = 0;
+        ctl00_netMainMenu_Data.hoverClass = 'ctl00_netMainMenu_14 dynamicHover';
+        ctl00_netMainMenu_Data.hoverHyperLinkClass = 'ctl00_netMainMenu_13 dynamicHover';
+        ctl00_netMainMenu_Data.staticHoverClass = 'ctl00_netMainMenu_12 staticHover';
+        ctl00_netMainMenu_Data.staticHoverHyperLinkClass = 'ctl00_netMainMenu_11 staticHover';
+        Sys.Application.add_init(function() {
+            $create(Sys.UI._UpdateProgress, {
+                "associatedUpdatePanelId": null,
+                "displayAfter": 10,
+                "dynamicLayout": false
+            }, null, null, $get("ctl00_ContentPlaceHolder1_UpdateProgress1"));
+        });
+        Sys.Application.add_init(function() {
+            $create(AjaxControlToolkit.TabPanel, {
+                "headerTab": $get("__tab_ctl00_ContentPlaceHolder1_Tabs_TabPanelBrowse")
+            }, null, {
+                "owner": "ctl00_ContentPlaceHolder1_Tabs"
+            }, $get("ctl00_ContentPlaceHolder1_Tabs_TabPanelBrowse"));
+        });
+        Sys.Application.add_init(function() {
+            $create(AjaxControlToolkit.TabPanel, {
+                "headerTab": $get("__tab_ctl00_ContentPlaceHolder1_Tabs_TabPanelSearch")
+            }, null, {
+                "owner": "ctl00_ContentPlaceHolder1_Tabs"
+            }, $get("ctl00_ContentPlaceHolder1_Tabs_TabPanelSearch"));
+        });
+        Sys.Application.add_init(function() {
+            $create(AjaxControlToolkit.TabContainer, {
+                "activeTabIndex": 0,
+                "clientStateField": $get("ctl00_ContentPlaceHolder1_Tabs_ClientState")
+            }, null, null, $get("ctl00_ContentPlaceHolder1_Tabs"));
+        });
+        Sys.Application.add_init(function() {
+            $create(AjaxControlToolkit.ModalPopupBehavior, {
+                "BackgroundCssClass": "modalBackground",
+                "CancelControlID": "ctl00_ContentPlaceHolder1_btnCloseUnprocess",
+                "DropShadow": true,
+                "PopupControlID": "ctl00_ContentPlaceHolder1_PanelUnprocess1",
+                "PopupDragHandleControlID": "ctl00_ContentPlaceHolder1_PanelUnprocess2",
+                "dynamicServicePath": "/Timesheet/TDS.aspx",
+                "id": "ModalPopupExtenderUnprocess"
+            }, null, null, $get("ctl00_ContentPlaceHolder1_linkDummyUnprocess"));
+        });
+        Sys.Application.add_init(function() {
+            $create(AjaxControlToolkit.ModalPopupBehavior, {
+                "BackgroundCssClass": "modalBackground",
+                "CancelControlID": "ctl00_ContentPlaceHolder1_OKButtonCategory",
+                "DropShadow": true,
+                "PopupControlID": "ctl00_ContentPlaceHolder1_PanelCategoryDesc",
+                "PopupDragHandleControlID": "ctl00_ContentPlaceHolder1_Panel1",
+                "dynamicServicePath": "/Timesheet/TDS.aspx",
+                "id": "ModalPopupExtenderCategory"
+            }, null, null, $get("ctl00_ContentPlaceHolder1_linkDummy"));
+        });
+        Sys.Application.add_init(function() {
+            $create(AjaxControlToolkit.ModalPopupBehavior, {
+                "BackgroundCssClass": "modalBackground",
+                "CancelControlID": "ctl00_ContentPlaceHolder1_OKButtonTask",
+                "DropShadow": true,
+                "PopupControlID": "ctl00_ContentPlaceHolder1_PanelTaskDesc",
+                "PopupDragHandleControlID": "ctl00_ContentPlaceHolder1_Panel2",
+                "dynamicServicePath": "/Timesheet/TDS.aspx",
+                "id": "ModalPopupExtenderTask"
+            }, null, null, $get("ctl00_ContentPlaceHolder1_linkDummy"));
+        });
+        //]]>
+        </script>
+    </form>
+    <div id="ctl00_trPageFooter" style="clear: both; text-align:center; font-size: 10px; width:100%; height: 110px; bottom:0; left:0;">
+        <br>
+        <br>
+        <br>
+        <br> Server: &nbsp;<span id="ctl00_lblServer">hr-App08</span>
+        <br> Copyright ©&nbsp;<span id="ctl00_lblCopyRightYear">2001 - 2017</span> CMA, Inc. All rights reserved.
+        <br> Licensed To&nbsp;<span id="ctl00_lblLicensedTo">NYS BSC TIME02</span>
+        <br> LATS
+        <sup>net</sup>&nbsp;Version:&nbsp;<span id="ctl00_lblVersion">9.2.10.98</span>
+    </div>
+    <div id="ctl00_trDiagnostics">
+        <span id="ctl00_lblTiming"></span>
+    </div>
+</body>
+<style type="text/css">
+#ctl00_ContentPlaceHolder1_pnlTDSData {
+    width: 782px !important;
+    height: auto !important;
+}
+
+td[colspan="14"] span {
+    font-size: 12px;
+    font-weight: normal !important;
+}
+
+#ctl00_ContentPlaceHolder1_TDSData tr:nth-child(2n+1) {
+    font-weight: normal;
+    font-size: 12px;
+}
+
+td[colspan="14"] a {
+    display: block;
+    font-size: 16px;
+    font-weight: bold;
+    color: #039;
+}
+
+tr[style="background-color:#CCCCCC;"] {
+    background-color: #fff !important;
+}
+
+tr[style="background-color:#CCCCCC;"] td {
+    border-top: 1px solid #aaa;
+}
+
+#ctl00_ContentPlaceHolder1_TDSData tbody tr td:nth-child(4),
+#ctl00_ContentPlaceHolder1_TDSData tbody tr td:nth-child(5),
+#ctl00_ContentPlaceHolder1_TDSData tbody tr td:nth-child(11),
+#ctl00_ContentPlaceHolder1_TDSData tbody tr td:nth-child(12),
+#ctl00_ContentPlaceHolder1_HeaderDisplay tbody tr td:nth-child(4),
+#ctl00_ContentPlaceHolder1_HeaderDisplay tbody tr td:nth-child(5),
+#ctl00_ContentPlaceHolder1_HeaderDisplay tbody tr td:nth-child(11),
+#ctl00_ContentPlaceHolder1_HeaderDisplay tbody tr td:nth-child(12),
+#ctl00_ContentPlaceHolder1_FooterDisplay tbody tr td:nth-child(4),
+#ctl00_ContentPlaceHolder1_FooterDisplay tbody tr td:nth-child(5),
+#ctl00_ContentPlaceHolder1_FooterDisplay tbody tr td:nth-child(11),
+#ctl00_ContentPlaceHolder1_FooterDisplay tbody tr td:nth-child(12) {
+    opacity: 0.25;
+}
+</style>
+
+</html>
