@@ -4,7 +4,7 @@
 // @include        https://oftlats.cma.com/*
 // @include        https://*.lats.ny.gov/*
 // @include        https://*.cma.com/*
-// @version        1.2.4
+// @version        1.2.5
 // @updated        2017-05-21
 // ==/UserScript==
 
@@ -82,7 +82,7 @@
         // Days:       R  F  M  T  W  R  F   M   T   W
         var dayNums = [0, 1, 4, 5, 6, 7, 8, 11, 12, 13];
         var periods = {
-                MorningIn: {
+                DayIn: {
                     label: 'Day in:',
                     val: '',
                     // ,alternates: ['4|7:30AM','11|7:30AM'] // Mondays
@@ -97,7 +97,7 @@
                     val: '12:30PM'
                     // ,alternates: ['4|12:00PM','11|12:00PM']
                 },
-                NightOut: {
+                DayOut: {
                     label: 'Day out:',
                     val: ''
                     // ,alternates: ['4|3:30PM','11|3:30PM']
@@ -183,11 +183,11 @@
             //         return false;
             //     }
 
-            //     dayObj.MorningIn = {
-            //         elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataMorningInDArr' + index),
+            //     dayObj.DayIn = {
+            //         elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataDayInDArr' + index),
             //     };
-            //     dayObj.MorningIn.value = dayObj.MorningIn.elem.value.trim();
-            //     dayObj.MorningIn.elem.addEventListener('keyup', onTimeInputKeyup);
+            //     dayObj.DayIn.value = dayObj.DayIn.elem.value.trim();
+            //     dayObj.DayIn.elem.addEventListener('keyup', onTimeInputKeyup);
 
             //     dayObj.LunchOut = {
             //         elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataLunchOutDArr' + index),
@@ -201,11 +201,11 @@
             //     dayObj.LunchIn.value = dayObj.LunchIn.elem.value.trim();
             //     dayObj.LunchIn.elem.addEventListener('keyup', onTimeInputKeyup);
 
-            //     dayObj.NightOut = {
-            //         elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataNightOutDArr' + index),
+            //     dayObj.DayOut = {
+            //         elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataDayOutDArr' + index),
             //     };
-            //     dayObj.NightOut.value = dayObj.NightOut.elem.value.trim();
-            //     dayObj.NightOut.elem.addEventListener('keyup', onTimeInputKeyup);
+            //     dayObj.DayOut.value = dayObj.DayOut.elem.value.trim();
+            //     dayObj.DayOut.elem.addEventListener('keyup', onTimeInputKeyup);
 
             //     dayObj.OTMeal = {
             //         elem: document.getElementById('ctl00_ContentPlaceHolder1_TSDataOTMealDArr' + index),
@@ -773,12 +773,12 @@
             var totalTime;
 
             // All four times recorded
-            if (dayObj.MorningIn.value && dayObj.LunchOut.value && dayObj.LunchIn.value && dayObj.NightOut.value) {
+            if (dayObj.DayIn.value && dayObj.LunchOut.value && dayObj.LunchIn.value && dayObj.DayOut.value) {
                 // First half of the day
-                reportedTimeWorked += (new Date('01/01/2016 ' + dayObj.LunchOut.value).getTime() - new Date('01/01/2016 ' + dayObj.MorningIn.value).getTime());
+                reportedTimeWorked += (new Date('01/01/2016 ' + dayObj.LunchOut.value).getTime() - new Date('01/01/2016 ' + dayObj.DayIn.value).getTime());
 
                 // Second half of the day
-                reportedTimeWorked += (new Date('01/01/2016 ' + dayObj.NightOut.value).getTime() - new Date('01/01/2016 ' + dayObj.LunchIn.value).getTime());
+                reportedTimeWorked += (new Date('01/01/2016 ' + dayObj.DayOut.value).getTime() - new Date('01/01/2016 ' + dayObj.LunchIn.value).getTime());
 
                 // Convert to seconds
                 reportedTimeWorked = reportedTimeWorked / 1000;
@@ -869,7 +869,7 @@
             var local = storage.get('periods');
 
             // Update cache with stored value
-            if (local && typeof local === 'object' && local.hasOwnProperty('MorningIn')) {
+            if (local && typeof local === 'object' && local.hasOwnProperty('DayIn')) {
                 periods = local;
             }
             // Nothing valid was stored yet, so add the default
