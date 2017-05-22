@@ -4,8 +4,8 @@
 // @include        https://oftlats.cma.com/*
 // @include        https://*.lats.ny.gov/*
 // @include        https://*.cma.com/*
-// @version        1.2.3
-// @updated        2016-08-29
+// @version        1.2.4
+// @updated        2017-05-21
 // ==/UserScript==
 
 (function () {
@@ -744,7 +744,7 @@
         function onTimeInputKeyup (evt) {
             var target = evt.target;
             var fullId = target.id;
-            var pieces = /ctl00_ContentPlaceHolder1_TSData(\w+)DArr(\d+)/.exec(fullId);
+            var pieces = /ctl00_ContentPlaceHolder1_TSData(\w+)(\d+)/.exec(fullId);
             var fieldName = pieces[1];
             var dayIndex = pieces[2];
             var dayObj;
@@ -1058,7 +1058,7 @@
 
                     // Make sure we have a value (i.e. field wasn't blank)
                     if (val) {
-                        id = 'ctl00_ContentPlaceHolder1_TSData' + j + 'DArr' + dayNums[i];
+                        id = 'ctl00_ContentPlaceHolder1_TSData' + j + dayNums[i];
 
                         // Apply value
                         try {
@@ -1075,13 +1075,15 @@
             // var dayNum = dayNums[day]; // Suffix of the element ID
             var id;
             var j;
+            var elem;
 
             // Loop through stored values
             for (j in periods) {
-                id = 'ctl00_ContentPlaceHolder1_TSData' + j + 'DArr' + day;
+                id = 'ctl00_ContentPlaceHolder1_TSData' + j + day;
+                elem = document.getElementById(id);
 
                 // Check for a value
-                if (document.getElementById(id).value.trim().length) {
+                if (elem && elem.value && elem.value.trim().length) {
                     numEmpty++;
                 }
             }
