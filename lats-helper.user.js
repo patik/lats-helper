@@ -2,10 +2,10 @@
 // @name           LATS Helper
 // @namespace      https://chrome.google.com/webstore/detail/lats-helper/jmkgmheopekejeiondjdokbdckkeikeh?hl=en
 // @include        https://oftlats.cma.com/*
-// @include        https://*.lats.ny.gov/*
+// @include        https://*lats*.gov/*
 // @include        https://*.cma.com/*
-// @version        1.2.5
-// @updated        2017-05-21
+// @version        1.2.6
+// @updated        2018-12-11
 // ==/UserScript==
 
 (function () {
