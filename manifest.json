@@ -7,7 +7,7 @@
         {
             "matches": [
                 "https://*.cma.com/*",
-                "https://*.lats.ny.gov/*"
+                "https://*lats*.gov/*"
             ],
             "js": ["lats-helper.user.js"],
             "run_at": "document_end"
