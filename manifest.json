@@ -1,13 +1,13 @@
 {
     "manifest_version": 2,
     "name": "LATS Helper",
-    "version": "1.2.5",
+    "version": "1.2.6",
     "description": "Makes filling in your LATS timesheet and TDS easier",
     "content_scripts": [
         {
             "matches": [
                 "https://*.cma.com/*",
-                "https://*.lats.ny.gov/*"
+                "https://*lats*.gov/*"
             ],
             "js": ["lats-helper.user.js"],
             "run_at": "document_end"
